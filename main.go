@@ -5,6 +5,7 @@ import (
 
 	"testlake/app"
 	"testlake/dao"
+	_ "testlake/docs"
 
 	"github.com/joho/godotenv"
 )

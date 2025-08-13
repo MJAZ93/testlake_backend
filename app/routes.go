@@ -8,24 +8,42 @@ import (
 )
 
 func PublicRoutes(r *gin.RouterGroup) {
-	userService := service.UserService{
-		Route:      "user",
-		Controller: controller.UserController{},
+	// Create public sub-group
+	// Authentication endpoints (public)
+	authService := service.AuthService{
+		Route:      "auth",
+		Controller: controller.AuthController{},
 	}
-	
-	userService.CreateUser(r, "create")
-	userService.LoginUser(r, "login")
+
+	authService.SignUp(r, "signup")
+	authService.SignIn(r, "signin")
+	authService.SignOut(r, "signout")
+	authService.ForgotPassword(r, "forgot-password")
+	authService.ResetPassword(r, "reset-password")
+	authService.VerifyEmail(r, "verify-email")
 }
 
 func PrivateRoutes(r *gin.RouterGroup) {
+	// Create private sub-group
+
+	// Authentication endpoints (require JWT)
+	authService := service.AuthService{
+		Route:      "auth",
+		Controller: controller.AuthController{},
+	}
+
+	authService.RefreshToken(r, "refresh")
+
+	// User Management endpoints
 	userService := service.UserService{
-		Route:      "user",
+		Route:      "users",
 		Controller: controller.UserController{},
 	}
-	
-	userService.GetUser(r, "details")
-	userService.ListUsers(r, "list")
-	userService.UpdateUser(r, "update")
-	userService.DeleteUser(r, "delete")
-	userService.UpdateUserStatus(r, "status")
+
+	userService.GetProfile(r, "profile")
+	userService.UpdateProfile(r, "profile")
+	userService.DeleteAccount(r, "account")
+	userService.GetDashboard(r, "dashboard")
+	userService.GetNotifications(r, "notifications")
+	userService.MarkNotificationRead(r, "notifications")
 }

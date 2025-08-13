@@ -29,22 +29,22 @@ import (
 
 func ServeApplication() {
 	router := gin.Default()
-	
+
 	router.Use(middleware.DefaultAuthMiddleware())
-	
+
 	Swagger(router)
-	
+
 	baseRoute := router.Group("/api/v1")
-	
-	publicRoutes := baseRoute.Group("/public")
+
+	publicRoutes := baseRoute.Group("")
 	PublicRoutes(publicRoutes)
-	
-	privateRoutes := baseRoute.Group("/private")
+
+	privateRoutes := baseRoute.Group("")
 	privateRoutes.Use(middleware.JWTAuthMiddleware())
 	PrivateRoutes(privateRoutes)
-	
+
 	router.NoRoute(utils.HandleNoRoute())
-	
+
 	ip := os.Getenv("IP")
 	port := os.Getenv("PORT")
 	router.Run(ip + ":" + port)

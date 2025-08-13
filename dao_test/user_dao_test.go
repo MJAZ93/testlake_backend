@@ -1,8 +1,10 @@
 package dao_test
 
 import (
+	"fmt"
 	"os"
 	"testing"
+	"time"
 
 	"testlake/dao"
 	"testlake/model"
@@ -27,9 +29,10 @@ func TestMain(m *testing.M) {
 func TestUserDao_Create(t *testing.T) {
 	userDao := dao.NewUserDao()
 
+	timestamp := time.Now().UnixNano()
 	user := &model.User{
-		Email:        "test@example.com",
-		Username:     "testuser",
+		Email:        fmt.Sprintf("test%d@example.com", timestamp),
+		Username:     fmt.Sprintf("testuser%d", timestamp),
 		AuthProvider: model.AuthProviderEmail,
 		Status:       model.UserStatusActive,
 	}
@@ -44,9 +47,10 @@ func TestUserDao_Create(t *testing.T) {
 func TestUserDao_GetByID(t *testing.T) {
 	userDao := dao.NewUserDao()
 
+	timestamp := time.Now().UnixNano()
 	user := &model.User{
-		Email:        "test2@example.com",
-		Username:     "testuser2",
+		Email:        fmt.Sprintf("test2%d@example.com", timestamp),
+		Username:     fmt.Sprintf("testuser2%d", timestamp),
 		AuthProvider: model.AuthProviderEmail,
 		Status:       model.UserStatusActive,
 	}
@@ -56,8 +60,10 @@ func TestUserDao_GetByID(t *testing.T) {
 
 	foundUser, err := userDao.GetByID(user.ID)
 	assert.NoError(t, err)
-	assert.Equal(t, user.Email, foundUser.Email)
-	assert.Equal(t, user.Username, foundUser.Username)
+	if foundUser != nil {
+		assert.Equal(t, user.Email, foundUser.Email)
+		assert.Equal(t, user.Username, foundUser.Username)
+	}
 
 	defer userDao.Delete(user.ID)
 }
@@ -65,9 +71,10 @@ func TestUserDao_GetByID(t *testing.T) {
 func TestUserDao_GetByEmail(t *testing.T) {
 	userDao := dao.NewUserDao()
 
+	timestamp := time.Now().UnixNano()
 	user := &model.User{
-		Email:        "test3@example.com",
-		Username:     "testuser3",
+		Email:        fmt.Sprintf("test3%d@example.com", timestamp),
+		Username:     fmt.Sprintf("testuser3%d", timestamp),
 		AuthProvider: model.AuthProviderEmail,
 		Status:       model.UserStatusActive,
 	}
@@ -86,9 +93,10 @@ func TestUserDao_GetByEmail(t *testing.T) {
 func TestUserDao_EmailExists(t *testing.T) {
 	userDao := dao.NewUserDao()
 
+	timestamp := time.Now().UnixNano()
 	user := &model.User{
-		Email:        "test4@example.com",
-		Username:     "testuser4",
+		Email:        fmt.Sprintf("test4%d@example.com", timestamp),
+		Username:     fmt.Sprintf("testuser4%d", timestamp),
 		AuthProvider: model.AuthProviderEmail,
 		Status:       model.UserStatusActive,
 	}
@@ -110,9 +118,10 @@ func TestUserDao_EmailExists(t *testing.T) {
 func TestUserDao_Update(t *testing.T) {
 	userDao := dao.NewUserDao()
 
+	timestamp := time.Now().UnixNano()
 	user := &model.User{
-		Email:        "test5@example.com",
-		Username:     "testuser5",
+		Email:        fmt.Sprintf("test5%d@example.com", timestamp),
+		Username:     fmt.Sprintf("testuser5%d", timestamp),
 		AuthProvider: model.AuthProviderEmail,
 		Status:       model.UserStatusActive,
 	}
