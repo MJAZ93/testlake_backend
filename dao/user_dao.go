@@ -64,6 +64,10 @@ func (dao *UserDao) GetAll(page int) ([]model.User, int64, error) {
 	return users, total, nil
 }
 
+func (dao *UserDao) UpdateEmailVerified(userID uuid.UUID, verified bool) error {
+	return Database.Model(&model.User{}).Where("id = ?", userID).Update("is_email_verified", verified).Error
+}
+
 func (dao *UserDao) Update(user *model.User) error {
 	return Database.Save(user).Error
 }

@@ -2,6 +2,7 @@ package controller
 
 import (
 	"errors"
+	"fmt"
 	"net/http"
 
 	"testlake/dao"
@@ -212,6 +213,19 @@ func (controller AuthController) RefreshToken(context *gin.Context) {
 	context.JSON(http.StatusOK, response)
 }
 
+// Helper method to render template-based error pages
+func (controller AuthController) renderTemplateError(context *gin.Context, statusCode int, title, heading, message string) {
+	htmlContent, err := utils.RenderEmailVerificationError(title, heading, message)
+	if err != nil {
+		// Final fallback to plain text if template fails
+		context.String(statusCode, fmt.Sprintf("%s: %s", heading, message))
+		return
+	}
+
+	context.Header("Content-Type", "text/html; charset=utf-8")
+	context.String(statusCode, htmlContent)
+}
+
 // ForgotPassword initiates password reset process
 func (controller AuthController) ForgotPassword(context *gin.Context) {
 	var request auth.ForgotPasswordRequest
@@ -269,21 +283,73 @@ func (controller AuthController) ResetPassword(context *gin.Context) {
 
 // VerifyEmail verifies user email with verification token
 func (controller AuthController) VerifyEmail(context *gin.Context) {
-	token := context.Param("token")
-	if token == "" {
-		utils.ReportBadRequest(context, "Verification token required")
+	tokenStr := context.Param("token")
+	if tokenStr == "" {
+		controller.renderTemplateError(context, http.StatusBadRequest, "Invalid Link", "Invalid verification link", "The verification token is missing.")
 		return
 	}
 
-	// TODO: Implement email verification token validation
-	// For now, this is a placeholder implementation
-
-	response := inout.BaseResponse{
-		ErrorCode:        0,
-		ErrorDescription: "Email verified successfully",
+	// Get token from database
+	tokenDao := dao.NewEmailVerificationDao()
+	token, err := tokenDao.GetByToken(tokenStr)
+	if err != nil {
+		if errors.Is(err, gorm.ErrRecordNotFound) {
+			controller.renderTemplateError(context, http.StatusNotFound, "Invalid Link", "Invalid verification link", "The verification token is invalid or has expired.")
+			return
+		}
+		controller.renderTemplateError(context, http.StatusInternalServerError, "Verification Failed", "Verification failed", "An error occurred while processing your verification.")
+		return
 	}
 
-	context.JSON(http.StatusOK, response)
+	// Check if token is valid (not used and not expired)
+	if !token.IsValid() {
+		if token.IsUsed {
+			controller.renderTemplateError(context, http.StatusBadRequest, "Already Verified", "Email already verified", "This email address has already been verified.")
+			return
+		}
+		if token.IsExpired() {
+			controller.renderTemplateError(context, http.StatusBadRequest, "Link Expired", "Verification link expired", "This verification link has expired. Please request a new one.")
+			return
+		}
+	}
+
+	// Check if user's email is already verified
+	userDao := dao.NewUserDao()
+	user, err := userDao.GetByID(token.UserID)
+	if err != nil {
+		controller.renderTemplateError(context, http.StatusInternalServerError, "Verification Failed", "Verification failed", "User account not found.")
+		return
+	}
+
+	if user.IsEmailVerified {
+		controller.renderTemplateError(context, http.StatusBadRequest, "Already Verified", "Email already verified", "This email address has already been verified.")
+		return
+	}
+
+	// Update user's email verification status
+	if err := userDao.UpdateEmailVerified(user.ID, true); err != nil {
+		controller.renderTemplateError(context, http.StatusInternalServerError, "Verification Failed", "Verification failed", "Failed to update verification status.")
+		return
+	}
+
+	// Mark token as used
+	if err := tokenDao.MarkAsUsed(tokenStr); err != nil {
+		// Log error but don't fail the verification since user is already verified
+		controller.renderTemplateError(context, http.StatusInternalServerError, "Verification Failed", "Verification failed", "Failed to update token status.")
+		return
+	}
+
+	// Render success page
+	baseURL := utils.GetBaseURL()
+	successHTML, err := utils.RenderEmailVerifiedSuccess(baseURL)
+	if err != nil {
+		// Fallback to error template if success template fails
+		controller.renderTemplateError(context, http.StatusOK, "Email Verified", "Email Verified Successfully!", "Your email has been verified. You can now use all features of TestLake.")
+		return
+	}
+
+	context.Header("Content-Type", "text/html; charset=utf-8")
+	context.String(http.StatusOK, successHTML)
 }
 
 // ResendEmailConfirmation resends email confirmation to user

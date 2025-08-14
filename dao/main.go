@@ -50,6 +50,7 @@ func Connect() {
 		&model.SchemaField{},
 		&model.TestData{},
 		&model.TestDataRequest{},
+		&model.EmailVerificationToken{},
 	)
 	if err != nil {
 		log.Fatal("Failed to run database migrations:", err)

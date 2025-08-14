@@ -8,6 +8,9 @@ import (
 	"os"
 	"path/filepath"
 	"strconv"
+	"testlake/dao"
+	"testlake/model"
+	"time"
 
 	"github.com/google/uuid"
 	"gopkg.in/gomail.v2"
@@ -35,6 +38,12 @@ type EmailTemplateData struct {
 	BaseURL  string
 }
 
+type ErrorTemplateData struct {
+	Title   string
+	Heading string
+	Message string
+}
+
 func NewEmailService() *EmailService {
 	host := os.Getenv("SMTP_HOST")
 	portStr := os.Getenv("SMTP_PORT")
@@ -58,12 +67,28 @@ func NewEmailService() *EmailService {
 }
 
 func (e *EmailService) SendEmailConfirmation(email, username string, userID uuid.UUID) error {
-	token := uuid.New().String()
+	// Generate new token
+	tokenStr := uuid.New().String()
+
+	// Create token record in database
+	tokenDao := dao.NewEmailVerificationDao()
+	token := &model.EmailVerificationToken{
+		UserID:    userID,
+		Token:     tokenStr,
+		ExpiresAt: time.Now().Add(24 * time.Hour), // 24 hours expiry
+		IsUsed:    false,
+	}
+
+	if err := tokenDao.Create(token); err != nil {
+		e.logError("Failed to create email verification token", err, email)
+		return fmt.Errorf("failed to create verification token: %w", err)
+	}
+
 	subject := "Welcome to TestLake - Please Confirm Your Email"
 
 	data := EmailTemplateData{
 		Username: username,
-		Token:    token,
+		Token:    tokenStr,
 		BaseURL:  e.getBaseURL(),
 	}
 
@@ -77,12 +102,35 @@ func (e *EmailService) SendEmailConfirmation(email, username string, userID uuid
 }
 
 func (e *EmailService) ResendEmailConfirmation(email, username string, userID uuid.UUID) error {
-	token := uuid.New().String()
+	tokenDao := dao.NewEmailVerificationDao()
+
+	// Invalidate any existing tokens for this user
+	if err := tokenDao.DeleteTokensForUser(userID); err != nil {
+		e.logError("Failed to delete existing tokens", err, email)
+		return fmt.Errorf("failed to cleanup existing tokens: %w", err)
+	}
+
+	// Generate new token
+	tokenStr := uuid.New().String()
+
+	// Create new token record
+	token := &model.EmailVerificationToken{
+		UserID:    userID,
+		Token:     tokenStr,
+		ExpiresAt: time.Now().Add(24 * time.Hour), // 24 hours expiry
+		IsUsed:    false,
+	}
+
+	if err := tokenDao.Create(token); err != nil {
+		e.logError("Failed to create email verification token", err, email)
+		return fmt.Errorf("failed to create verification token: %w", err)
+	}
+
 	subject := "TestLake - Email Confirmation Resent"
 
 	data := EmailTemplateData{
 		Username: username,
-		Token:    token,
+		Token:    tokenStr,
 		BaseURL:  e.getBaseURL(),
 	}
 
@@ -149,6 +197,43 @@ func (e *EmailService) logError(message string, err error, email string) {
 
 	// Also log to console for immediate visibility
 	log.Printf("[EMAIL ERROR] %s | Email: %s | Error: %v", message, email, err)
+}
+
+func RenderEmailVerifiedSuccess(baseURL string) (string, error) {
+	emailService := NewEmailService()
+
+	data := EmailTemplateData{
+		BaseURL: baseURL,
+	}
+
+	body, err := emailService.loadTemplate("email_verified_success.html", data)
+	if err != nil {
+		return "", fmt.Errorf("failed to load success template: %w", err)
+	}
+
+	return body, nil
+}
+
+func RenderEmailVerificationError(title, heading, message string) (string, error) {
+	templatePath := filepath.Join("templates", "email_verification_error.html")
+
+	tmpl, err := template.ParseFiles(templatePath)
+	if err != nil {
+		return "", fmt.Errorf("failed to parse error template: %w", err)
+	}
+
+	data := ErrorTemplateData{
+		Title:   title,
+		Heading: heading,
+		Message: message,
+	}
+
+	var buf bytes.Buffer
+	if err := tmpl.Execute(&buf, data); err != nil {
+		return "", fmt.Errorf("failed to execute error template: %w", err)
+	}
+
+	return buf.String(), nil
 }
 
 func (e *EmailService) getBaseURL() string {
