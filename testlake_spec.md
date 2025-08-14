@@ -278,6 +278,7 @@ POST   /api/v1/auth/refresh
 POST   /api/v1/auth/forgot-password
 POST   /api/v1/auth/reset-password
 GET    /api/v1/auth/verify-email/{token}
+POST   /api/v1/auth/resend-email-confirmation
 ```
 
 ### User Management

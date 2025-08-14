@@ -83,6 +83,40 @@ const docTemplate = `{
                 }
             }
         },
+        "/api/v1/auth/resend-email-confirmation": {
+            "post": {
+                "description": "Resend email confirmation to user",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Authentication"
+                ],
+                "summary": "Resend email confirmation",
+                "parameters": [
+                    {
+                        "description": "Email to resend confirmation",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/auth.ResendEmailConfirmationRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/inout.BaseResponse"
+                        }
+                    }
+                }
+            }
+        },
         "/api/v1/auth/reset-password": {
             "post": {
                 "description": "Reset password with valid reset token",
@@ -561,6 +595,17 @@ const docTemplate = `{
                     "type": "integer"
                 },
                 "error_description": {
+                    "type": "string"
+                }
+            }
+        },
+        "auth.ResendEmailConfirmationRequest": {
+            "type": "object",
+            "required": [
+                "email"
+            ],
+            "properties": {
+                "email": {
                     "type": "string"
                 }
             }

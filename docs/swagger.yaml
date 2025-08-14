@@ -49,6 +49,13 @@ definitions:
       error_description:
         type: string
     type: object
+  auth.ResendEmailConfirmationRequest:
+    properties:
+      email:
+        type: string
+    required:
+    - email
+    type: object
   auth.ResetPasswordRequest:
     properties:
       new_password:
@@ -293,6 +300,28 @@ paths:
       security:
       - BearerAuth: []
       summary: Refresh JWT token
+      tags:
+      - Authentication
+  /api/v1/auth/resend-email-confirmation:
+    post:
+      consumes:
+      - application/json
+      description: Resend email confirmation to user
+      parameters:
+      - description: Email to resend confirmation
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/auth.ResendEmailConfirmationRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/inout.BaseResponse'
+      summary: Resend email confirmation
       tags:
       - Authentication
   /api/v1/auth/reset-password:

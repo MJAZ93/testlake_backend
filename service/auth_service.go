@@ -103,3 +103,16 @@ func (s AuthService) ResetPassword(r *gin.RouterGroup, route string) {
 func (s AuthService) VerifyEmail(r *gin.RouterGroup, route string) {
 	r.GET("/"+s.Route+"/"+route+"/:token", s.Controller.VerifyEmail)
 }
+
+// ResendEmailConfirmation godoc
+// @Summary Resend email confirmation
+// @Description Resend email confirmation to user
+// @Tags Authentication
+// @Accept json
+// @Produce json
+// @Param request body auth.ResendEmailConfirmationRequest true "Email to resend confirmation"
+// @Success 200 {object} inout.BaseResponse
+// @Router /api/v1/auth/resend-email-confirmation [POST]
+func (s AuthService) ResendEmailConfirmation(r *gin.RouterGroup, route string) {
+	r.POST("/"+s.Route+"/"+route, s.Controller.ResendEmailConfirmation)
+}

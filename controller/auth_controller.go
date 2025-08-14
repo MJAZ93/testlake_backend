@@ -72,6 +72,13 @@ func (controller AuthController) SignUp(context *gin.Context) {
 		return
 	}
 
+	// Send email confirmation
+	if err := utils.SendEmailConfirmation(newUser.Email, newUser.Username, newUser.ID); err != nil {
+		// Log error but don't fail registration
+		// In production, you might want to use a proper logger
+		// log.Printf("Failed to send confirmation email: %v", err)
+	}
+
 	// Generate JWT token
 	token, err := utils.GenerateJWT(newUser.ID, newUser.Email, newUser.Username)
 	if err != nil {
@@ -274,6 +281,51 @@ func (controller AuthController) VerifyEmail(context *gin.Context) {
 	response := inout.BaseResponse{
 		ErrorCode:        0,
 		ErrorDescription: "Email verified successfully",
+	}
+
+	context.JSON(http.StatusOK, response)
+}
+
+// ResendEmailConfirmation resends email confirmation to user
+func (controller AuthController) ResendEmailConfirmation(context *gin.Context) {
+	var request auth.ResendEmailConfirmationRequest
+	if err := context.ShouldBindJSON(&request); err != nil {
+		utils.ReportBadRequest(context, "Invalid request data")
+		return
+	}
+
+	userDao := dao.NewUserDao()
+	foundUser, err := userDao.GetByEmail(request.Email)
+	if err != nil {
+		if errors.Is(err, gorm.ErrRecordNotFound) {
+			// For security, don't reveal if email exists
+			response := inout.BaseResponse{
+				ErrorCode:        0,
+				ErrorDescription: "If the email exists and is not verified, a confirmation email will be sent",
+			}
+			context.JSON(http.StatusOK, response)
+			return
+		} else {
+			utils.ReportInternalServerError(context, "Database error")
+			return
+		}
+	}
+
+	// Check if email is already verified
+	if foundUser.IsEmailVerified {
+		utils.ReportBadRequest(context, "Email is already verified")
+		return
+	}
+
+	// Send email confirmation
+	if err := utils.ResendEmailConfirmation(foundUser.Email, foundUser.Username, foundUser.ID); err != nil {
+		utils.ReportInternalServerError(context, "Failed to send confirmation email")
+		return
+	}
+
+	response := inout.BaseResponse{
+		ErrorCode:        0,
+		ErrorDescription: "Confirmation email sent successfully",
 	}
 
 	context.JSON(http.StatusOK, response)

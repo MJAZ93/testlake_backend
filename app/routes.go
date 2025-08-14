@@ -21,6 +21,7 @@ func PublicRoutes(r *gin.RouterGroup) {
 	authService.ForgotPassword(r, "forgot-password")
 	authService.ResetPassword(r, "reset-password")
 	authService.VerifyEmail(r, "verify-email")
+	authService.ResendEmailConfirmation(r, "resend-email-confirmation")
 }
 
 func PrivateRoutes(r *gin.RouterGroup) {

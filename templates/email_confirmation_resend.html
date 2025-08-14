@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Email Confirmation Resent - TestLake</title>
+</head>
+<body style="font-family: Arial, sans-serif; line-height: 1.6; color: #333;">
+    <div style="max-width: 600px; margin: 0 auto; padding: 20px;">
+        <h2 style="color: #2c3e50;">Email Confirmation Resent</h2>
+
+        <p>Hello {{.Username}},</p>
+
+        <p>You requested to resend your email confirmation. Please confirm your email address by clicking the button below:</p>
+
+        <div style="text-align: center; margin: 30px 0;">
+            <a href="{{.BaseURL}}/api/v1/auth/verify-email/{{.Token}}"
+               style="background-color: #3498db; color: white; padding: 12px 24px; text-decoration: none; border-radius: 5px; display: inline-block;">
+                Confirm Email Address
+            </a>
+        </div>
+
+        <p>If the button doesn't work, you can also copy and paste the following link into your browser:</p>
+        <p style="word-break: break-all; color: #666;">{{.BaseURL}}/api/v1/auth/verify-email/{{.Token}}</p>
+
+        <p>This verification link will expire in 24 hours for security reasons.</p>
+
+        <p>If you didn't request this email, please ignore it.</p>
+
+        <hr style="border: none; border-top: 1px solid #eee; margin: 30px 0;">
+
+        <p style="font-size: 14px; color: #666;">
+            Best regards,<br>
+            The TestLake Team
+        </p>
+    </div>
+</body>
+</html>
