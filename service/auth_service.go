@@ -45,6 +45,7 @@ func (s AuthService) SignIn(r *gin.RouterGroup, route string) {
 // @Tags Authentication
 // @Accept json
 // @Produce json
+// @Param Authorization header string true "Bearer token" format(Bearer {token})
 // @Success 200 {object} inout.BaseResponse
 // @Router /api/v1/auth/signout [POST]
 func (s AuthService) SignOut(r *gin.RouterGroup, route string) {
@@ -57,6 +58,7 @@ func (s AuthService) SignOut(r *gin.RouterGroup, route string) {
 // @Tags Authentication
 // @Accept json
 // @Produce json
+// @Param Authorization header string true "Bearer token" format(Bearer {token})
 // @Security BearerAuth
 // @Success 200 {object} auth.RefreshTokenOut
 // @Failure 401 {object} inout.BaseResponse
@@ -84,6 +86,7 @@ func (s AuthService) ForgotPassword(r *gin.RouterGroup, route string) {
 // @Tags Authentication
 // @Accept json
 // @Produce json
+// @Param Authorization header string true "Bearer token" format(Bearer {token})
 // @Param request body auth.ResetPasswordRequest true "Password reset data"
 // @Success 200 {object} inout.BaseResponse
 // @Router /api/v1/auth/reset-password [POST]

@@ -67,6 +67,16 @@ const docTemplate = `{
                     "Authentication"
                 ],
                 "summary": "Refresh JWT token",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "format": "Bearer {token}",
+                        "description": "Bearer token",
+                        "name": "Authorization",
+                        "in": "header",
+                        "required": true
+                    }
+                ],
                 "responses": {
                     "200": {
                         "description": "OK",

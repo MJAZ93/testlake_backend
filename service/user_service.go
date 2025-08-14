@@ -18,6 +18,7 @@ type UserService struct {
 // @Accept json
 // @Produce json
 // @Security BearerAuth
+// @Param Authorization header string true "Bearer token" format(Bearer {token})
 // @Success 200 {object} user.UserOut
 // @Failure 401 {object} inout.BaseResponse
 // @Router /api/v1/users/profile [GET]
@@ -32,6 +33,7 @@ func (s UserService) GetProfile(r *gin.RouterGroup, route string) {
 // @Accept json
 // @Produce json
 // @Security BearerAuth
+// @Param Authorization header string true "Bearer token" format(Bearer {token})
 // @Param user body user.UpdateUserRequest true "User profile data"
 // @Success 200 {object} user.UserOut
 // @Failure 400 {object} inout.BaseResponse
@@ -48,6 +50,7 @@ func (s UserService) UpdateProfile(r *gin.RouterGroup, route string) {
 // @Accept json
 // @Produce json
 // @Security BearerAuth
+// @Param Authorization header string true "Bearer token" format(Bearer {token})
 // @Success 200 {object} inout.BaseResponse
 // @Failure 401 {object} inout.BaseResponse
 // @Router /api/v1/users/account [DELETE]
@@ -62,6 +65,7 @@ func (s UserService) DeleteAccount(r *gin.RouterGroup, route string) {
 // @Accept json
 // @Produce json
 // @Security BearerAuth
+// @Param Authorization header string true "Bearer token" format(Bearer {token})
 // @Success 200 {object} user.DashboardOut
 // @Failure 401 {object} inout.BaseResponse
 // @Router /api/v1/users/dashboard [GET]
@@ -76,6 +80,7 @@ func (s UserService) GetDashboard(r *gin.RouterGroup, route string) {
 // @Accept json
 // @Produce json
 // @Security BearerAuth
+// @Param Authorization header string true "Bearer token" format(Bearer {token})
 // @Success 200 {object} user.NotificationsOut
 // @Failure 401 {object} inout.BaseResponse
 // @Router /api/v1/users/notifications [GET]
@@ -91,6 +96,7 @@ func (s UserService) GetNotifications(r *gin.RouterGroup, route string) {
 // @Produce json
 // @Security BearerAuth
 // @Param id path string true "Notification ID"
+// @Param Authorization header string true "Bearer token" format(Bearer {token})
 // @Success 200 {object} inout.BaseResponse
 // @Failure 400 {object} inout.BaseResponse
 // @Failure 401 {object} inout.BaseResponse

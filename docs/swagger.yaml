@@ -286,6 +286,13 @@ paths:
       consumes:
       - application/json
       description: Generate a new JWT token from valid existing token
+      parameters:
+      - description: Bearer token
+        format: Bearer {token}
+        in: header
+        name: Authorization
+        required: true
+        type: string
       produces:
       - application/json
       responses:
