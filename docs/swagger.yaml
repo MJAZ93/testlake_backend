@@ -1,0 +1,554 @@
+definitions:
+  auth.AuthData:
+    properties:
+      token:
+        type: string
+      user:
+        $ref: '#/definitions/auth.AuthUser'
+    type: object
+  auth.AuthUser:
+    properties:
+      auth_provider:
+        $ref: '#/definitions/model.AuthProvider'
+      avatar_url:
+        type: string
+      created_at:
+        type: string
+      email:
+        type: string
+      first_name:
+        type: string
+      id:
+        type: string
+      is_email_verified:
+        type: boolean
+      last_login_at:
+        type: string
+      last_name:
+        type: string
+      status:
+        $ref: '#/definitions/model.UserStatus'
+      updated_at:
+        type: string
+      username:
+        type: string
+    type: object
+  auth.ForgotPasswordRequest:
+    properties:
+      email:
+        type: string
+    required:
+    - email
+    type: object
+  auth.RefreshTokenOut:
+    properties:
+      data:
+        $ref: '#/definitions/auth.TokenData'
+      error_code:
+        type: integer
+      error_description:
+        type: string
+    type: object
+  auth.ResetPasswordRequest:
+    properties:
+      new_password:
+        minLength: 6
+        type: string
+      token:
+        type: string
+    required:
+    - new_password
+    - token
+    type: object
+  auth.SignInOut:
+    properties:
+      data:
+        $ref: '#/definitions/auth.AuthData'
+      error_code:
+        type: integer
+      error_description:
+        type: string
+    type: object
+  auth.SignInRequest:
+    properties:
+      email:
+        type: string
+      password:
+        type: string
+    required:
+    - email
+    - password
+    type: object
+  auth.SignUpOut:
+    properties:
+      data:
+        $ref: '#/definitions/auth.AuthData'
+      error_code:
+        type: integer
+      error_description:
+        type: string
+    type: object
+  auth.SignUpRequest:
+    properties:
+      auth_provider:
+        $ref: '#/definitions/model.AuthProvider'
+      email:
+        type: string
+      first_name:
+        type: string
+      last_name:
+        type: string
+      password:
+        minLength: 6
+        type: string
+      username:
+        maxLength: 100
+        minLength: 3
+        type: string
+    required:
+    - auth_provider
+    - email
+    - password
+    - username
+    type: object
+  auth.TokenData:
+    properties:
+      token:
+        type: string
+    type: object
+  inout.BaseResponse:
+    properties:
+      error_code:
+        type: integer
+      error_description:
+        type: string
+    type: object
+  model.AuthProvider:
+    enum:
+    - email
+    - gmail
+    - apple
+    type: string
+    x-enum-varnames:
+    - AuthProviderEmail
+    - AuthProviderGmail
+    - AuthProviderApple
+  model.UserStatus:
+    enum:
+    - active
+    - suspended
+    - inactive
+    type: string
+    x-enum-varnames:
+    - UserStatusActive
+    - UserStatusSuspended
+    - UserStatusInactive
+  user.ActivityItem:
+    properties:
+      description:
+        type: string
+      id:
+        type: string
+      timestamp:
+        type: string
+      type:
+        type: string
+    type: object
+  user.DashboardData:
+    properties:
+      organization_count:
+        type: integer
+      personal_projects:
+        type: integer
+      recent_activity:
+        items:
+          $ref: '#/definitions/user.ActivityItem'
+        type: array
+      user:
+        $ref: '#/definitions/user.User'
+    type: object
+  user.DashboardOut:
+    properties:
+      data:
+        $ref: '#/definitions/user.DashboardData'
+      error_code:
+        type: integer
+      error_description:
+        type: string
+    type: object
+  user.Notification:
+    properties:
+      created_at:
+        type: string
+      id:
+        type: string
+      is_read:
+        type: boolean
+      message:
+        type: string
+      read_at:
+        type: string
+      title:
+        type: string
+      type:
+        type: string
+    type: object
+  user.NotificationsOut:
+    properties:
+      data:
+        items:
+          $ref: '#/definitions/user.Notification'
+        type: array
+      error_code:
+        type: integer
+      error_description:
+        type: string
+    type: object
+  user.UpdateUserRequest:
+    properties:
+      avatar_url:
+        type: string
+      first_name:
+        type: string
+      last_name:
+        type: string
+    type: object
+  user.User:
+    properties:
+      auth_provider:
+        $ref: '#/definitions/model.AuthProvider'
+      avatar_url:
+        type: string
+      created_at:
+        type: string
+      email:
+        type: string
+      first_name:
+        type: string
+      id:
+        type: string
+      is_email_verified:
+        type: boolean
+      last_login_at:
+        type: string
+      last_name:
+        type: string
+      status:
+        $ref: '#/definitions/model.UserStatus'
+      updated_at:
+        type: string
+      username:
+        type: string
+    type: object
+  user.UserOut:
+    properties:
+      data:
+        $ref: '#/definitions/user.User'
+      error_code:
+        type: integer
+      error_description:
+        type: string
+    type: object
+info:
+  contact: {}
+paths:
+  /api/v1/auth/forgot-password:
+    post:
+      consumes:
+      - application/json
+      description: Send password reset email to user
+      parameters:
+      - description: Email for password reset
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/auth.ForgotPasswordRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/inout.BaseResponse'
+      summary: Request password reset
+      tags:
+      - Authentication
+  /api/v1/auth/refresh:
+    post:
+      consumes:
+      - application/json
+      description: Generate a new JWT token from valid existing token
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/auth.RefreshTokenOut'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/inout.BaseResponse'
+      security:
+      - BearerAuth: []
+      summary: Refresh JWT token
+      tags:
+      - Authentication
+  /api/v1/auth/reset-password:
+    post:
+      consumes:
+      - application/json
+      description: Reset password with valid reset token
+      parameters:
+      - description: Password reset data
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/auth.ResetPasswordRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/inout.BaseResponse'
+      summary: Reset user password
+      tags:
+      - Authentication
+  /api/v1/auth/signin:
+    post:
+      consumes:
+      - application/json
+      description: Authenticate user with email and password, returns JWT token
+      parameters:
+      - description: Login credentials
+        in: body
+        name: credentials
+        required: true
+        schema:
+          $ref: '#/definitions/auth.SignInRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/auth.SignInOut'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/inout.BaseResponse'
+      summary: User login
+      tags:
+      - Authentication
+  /api/v1/auth/signout:
+    post:
+      consumes:
+      - application/json
+      description: Sign out current user (invalidate JWT token)
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/inout.BaseResponse'
+      summary: User logout
+      tags:
+      - Authentication
+  /api/v1/auth/signup:
+    post:
+      consumes:
+      - application/json
+      description: Create a new user account with email and password
+      parameters:
+      - description: Registration data
+        in: body
+        name: user
+        required: true
+        schema:
+          $ref: '#/definitions/auth.SignUpRequest'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/auth.SignUpOut'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/inout.BaseResponse'
+      summary: User registration
+      tags:
+      - Authentication
+  /api/v1/auth/verify-email/{token}:
+    get:
+      consumes:
+      - application/json
+      description: Verify user email with verification token
+      parameters:
+      - description: Email verification token
+        in: path
+        name: token
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/inout.BaseResponse'
+      summary: Verify email address
+      tags:
+      - Authentication
+  /api/v1/users/account:
+    delete:
+      consumes:
+      - application/json
+      description: Delete current user's account permanently
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/inout.BaseResponse'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/inout.BaseResponse'
+      security:
+      - BearerAuth: []
+      summary: Delete user account
+      tags:
+      - User Management
+  /api/v1/users/dashboard:
+    get:
+      consumes:
+      - application/json
+      description: Get user dashboard with overview of projects and activities
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/user.DashboardOut'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/inout.BaseResponse'
+      security:
+      - BearerAuth: []
+      summary: Get user dashboard
+      tags:
+      - User Management
+  /api/v1/users/notifications:
+    get:
+      consumes:
+      - application/json
+      description: Get list of user notifications
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/user.NotificationsOut'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/inout.BaseResponse'
+      security:
+      - BearerAuth: []
+      summary: Get user notifications
+      tags:
+      - User Management
+  /api/v1/users/notifications/{id}/read:
+    put:
+      consumes:
+      - application/json
+      description: Mark a specific notification as read
+      parameters:
+      - description: Notification ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/inout.BaseResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/inout.BaseResponse'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/inout.BaseResponse'
+      security:
+      - BearerAuth: []
+      summary: Mark notification as read
+      tags:
+      - User Management
+  /api/v1/users/profile:
+    get:
+      consumes:
+      - application/json
+      description: Get current user's profile information
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/user.UserOut'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/inout.BaseResponse'
+      security:
+      - BearerAuth: []
+      summary: Get user profile
+      tags:
+      - User Management
+    put:
+      consumes:
+      - application/json
+      description: Update current user's profile information
+      parameters:
+      - description: User profile data
+        in: body
+        name: user
+        required: true
+        schema:
+          $ref: '#/definitions/user.UpdateUserRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/user.UserOut'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/inout.BaseResponse'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/inout.BaseResponse'
+      security:
+      - BearerAuth: []
+      summary: Update user profile
+      tags:
+      - User Management
+swagger: "2.0"

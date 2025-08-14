@@ -1,0 +1,1093 @@
+
+2025/08/13 17:30:24 [32m/Users/afonso.junior/Documents/local/testlake/backend/test_lake/dao/main.go:36
+[0m[33m[6.705ms] [34;1m[rows:1][0m SELECT count(*) FROM information_schema.tables WHERE table_schema = CURRENT_SCHEMA() AND table_name = 'users' AND table_type = 'BASE TABLE'
+
+2025/08/13 17:30:24 [32m/Users/afonso.junior/Documents/local/testlake/backend/test_lake/dao/main.go:36
+[0m[33m[0.334ms] [34;1m[rows:1][0m SELECT CURRENT_DATABASE()
+
+2025/08/13 17:30:24 [32m/Users/afonso.junior/Documents/local/testlake/backend/test_lake/dao/main.go:36
+[0m[33m[14.063ms] [34;1m[rows:-][0m SELECT c.column_name, c.is_nullable = 'YES', c.udt_name, c.character_maximum_length, c.numeric_precision, c.numeric_precision_radix, c.numeric_scale, c.datetime_precision, 8 * typlen, c.column_default, pd.description, c.identity_increment FROM information_schema.columns AS c JOIN pg_type AS pgt ON c.udt_name = pgt.typname LEFT JOIN pg_catalog.pg_description as pd ON pd.objsubid = c.ordinal_position AND pd.objoid = (SELECT oid FROM pg_catalog.pg_class WHERE relname = c.table_name AND relnamespace = (SELECT oid FROM pg_catalog.pg_namespace WHERE nspname = c.table_schema)) where table_catalog = 'testlake' AND table_schema = CURRENT_SCHEMA() AND table_name = 'users'
+
+2025/08/13 17:30:24 [32m/Users/afonso.junior/Documents/local/testlake/backend/test_lake/dao/main.go:36
+[0m[33m[0.669ms] [34;1m[rows:-][0m SELECT * FROM "users" LIMIT 5
+
+2025/08/13 17:30:24 [32m/Users/afonso.junior/Documents/local/testlake/backend/test_lake/dao/main.go:36
+[0m[33m[12.107ms] [34;1m[rows:-][0m SELECT constraint_name FROM information_schema.table_constraints tc JOIN information_schema.constraint_column_usage AS ccu USING (constraint_schema, constraint_catalog, table_name, constraint_name) JOIN information_schema.columns AS c ON c.table_schema = tc.constraint_schema AND tc.table_name = c.table_name AND ccu.column_name = c.column_name WHERE constraint_type IN ('PRIMARY KEY', 'UNIQUE') AND c.table_catalog = 'testlake' AND c.table_schema = CURRENT_SCHEMA() AND c.table_name = 'users' AND constraint_type = 'UNIQUE'
+
+2025/08/13 17:30:24 [32m/Users/afonso.junior/Documents/local/testlake/backend/test_lake/dao/main.go:36
+[0m[33m[9.714ms] [34;1m[rows:-][0m SELECT c.column_name, constraint_name, constraint_type FROM information_schema.table_constraints tc JOIN information_schema.constraint_column_usage AS ccu USING (constraint_schema, constraint_catalog, table_name, constraint_name) JOIN information_schema.columns AS c ON c.table_schema = tc.constraint_schema AND tc.table_name = c.table_name AND ccu.column_name = c.column_name WHERE constraint_type IN ('PRIMARY KEY', 'UNIQUE') AND c.table_catalog = 'testlake' AND c.table_schema = CURRENT_SCHEMA() AND c.table_name = 'users'
+
+2025/08/13 17:30:24 [32m/Users/afonso.junior/Documents/local/testlake/backend/test_lake/dao/main.go:36
+[0m[33m[0.554ms] [34;1m[rows:-][0m SELECT a.attname as column_name, format_type(a.atttypid, a.atttypmod) AS data_type
+		FROM pg_attribute a JOIN pg_class b ON a.attrelid = b.oid AND relnamespace = (SELECT oid FROM pg_catalog.pg_namespace WHERE nspname = CURRENT_SCHEMA())
+		WHERE a.attnum > 0 -- hide internal columns
+		AND NOT a.attisdropped -- hide deleted columns
+		AND b.relname = 'users'
+
+2025/08/13 17:30:24 [32m/Users/afonso.junior/Documents/local/testlake/backend/test_lake/dao/main.go:36
+[0m[33m[1.921ms] [34;1m[rows:0][0m SELECT description FROM pg_catalog.pg_description WHERE objsubid = (SELECT ordinal_position FROM information_schema.columns WHERE table_schema = CURRENT_SCHEMA() AND table_name = 'users' AND column_name = 'id') AND objoid = (SELECT oid FROM pg_catalog.pg_class WHERE relname = 'users' AND relnamespace = (SELECT oid FROM pg_catalog.pg_namespace WHERE nspname = CURRENT_SCHEMA()))
+
+2025/08/13 17:30:24 [32m/Users/afonso.junior/Documents/local/testlake/backend/test_lake/dao/main.go:36
+[0m[33m[1.426ms] [34;1m[rows:0][0m SELECT description FROM pg_catalog.pg_description WHERE objsubid = (SELECT ordinal_position FROM information_schema.columns WHERE table_schema = CURRENT_SCHEMA() AND table_name = 'users' AND column_name = 'email') AND objoid = (SELECT oid FROM pg_catalog.pg_class WHERE relname = 'users' AND relnamespace = (SELECT oid FROM pg_catalog.pg_namespace WHERE nspname = CURRENT_SCHEMA()))
+
+2025/08/13 17:30:24 [32m/Users/afonso.junior/Documents/local/testlake/backend/test_lake/dao/main.go:36
+[0m[33m[1.309ms] [34;1m[rows:0][0m SELECT description FROM pg_catalog.pg_description WHERE objsubid = (SELECT ordinal_position FROM information_schema.columns WHERE table_schema = CURRENT_SCHEMA() AND table_name = 'users' AND column_name = 'username') AND objoid = (SELECT oid FROM pg_catalog.pg_class WHERE relname = 'users' AND relnamespace = (SELECT oid FROM pg_catalog.pg_namespace WHERE nspname = CURRENT_SCHEMA()))
+
+2025/08/13 17:30:24 [32m/Users/afonso.junior/Documents/local/testlake/backend/test_lake/dao/main.go:36
+[0m[33m[1.254ms] [34;1m[rows:0][0m SELECT description FROM pg_catalog.pg_description WHERE objsubid = (SELECT ordinal_position FROM information_schema.columns WHERE table_schema = CURRENT_SCHEMA() AND table_name = 'users' AND column_name = 'first_name') AND objoid = (SELECT oid FROM pg_catalog.pg_class WHERE relname = 'users' AND relnamespace = (SELECT oid FROM pg_catalog.pg_namespace WHERE nspname = CURRENT_SCHEMA()))
+
+2025/08/13 17:30:24 [32m/Users/afonso.junior/Documents/local/testlake/backend/test_lake/dao/main.go:36
+[0m[33m[1.168ms] [34;1m[rows:0][0m SELECT description FROM pg_catalog.pg_description WHERE objsubid = (SELECT ordinal_position FROM information_schema.columns WHERE table_schema = CURRENT_SCHEMA() AND table_name = 'users' AND column_name = 'last_name') AND objoid = (SELECT oid FROM pg_catalog.pg_class WHERE relname = 'users' AND relnamespace = (SELECT oid FROM pg_catalog.pg_namespace WHERE nspname = CURRENT_SCHEMA()))
+
+2025/08/13 17:30:24 [32m/Users/afonso.junior/Documents/local/testlake/backend/test_lake/dao/main.go:36
+[0m[33m[1.289ms] [34;1m[rows:0][0m SELECT description FROM pg_catalog.pg_description WHERE objsubid = (SELECT ordinal_position FROM information_schema.columns WHERE table_schema = CURRENT_SCHEMA() AND table_name = 'users' AND column_name = 'avatar_url') AND objoid = (SELECT oid FROM pg_catalog.pg_class WHERE relname = 'users' AND relnamespace = (SELECT oid FROM pg_catalog.pg_namespace WHERE nspname = CURRENT_SCHEMA()))
+
+2025/08/13 17:30:24 [32m/Users/afonso.junior/Documents/local/testlake/backend/test_lake/dao/main.go:36
+[0m[33m[0.182ms] [34;1m[rows:0][0m SELECT description FROM pg_catalog.pg_description WHERE objsubid = (SELECT ordinal_position FROM information_schema.columns WHERE table_schema = CURRENT_SCHEMA() AND table_name = 'users' AND column_name = 'auth_provider') AND objoid = (SELECT oid FROM pg_catalog.pg_class WHERE relname = 'users' AND relnamespace = (SELECT oid FROM pg_catalog.pg_namespace WHERE nspname = CURRENT_SCHEMA()))
+
+2025/08/13 17:30:24 [32m/Users/afonso.junior/Documents/local/testlake/backend/test_lake/dao/main.go:36
+[0m[33m[0.165ms] [34;1m[rows:0][0m SELECT description FROM pg_catalog.pg_description WHERE objsubid = (SELECT ordinal_position FROM information_schema.columns WHERE table_schema = CURRENT_SCHEMA() AND table_name = 'users' AND column_name = 'auth_provider_id') AND objoid = (SELECT oid FROM pg_catalog.pg_class WHERE relname = 'users' AND relnamespace = (SELECT oid FROM pg_catalog.pg_namespace WHERE nspname = CURRENT_SCHEMA()))
+
+2025/08/13 17:30:24 [32m/Users/afonso.junior/Documents/local/testlake/backend/test_lake/dao/main.go:36
+[0m[33m[0.163ms] [34;1m[rows:0][0m SELECT description FROM pg_catalog.pg_description WHERE objsubid = (SELECT ordinal_position FROM information_schema.columns WHERE table_schema = CURRENT_SCHEMA() AND table_name = 'users' AND column_name = 'password_hash') AND objoid = (SELECT oid FROM pg_catalog.pg_class WHERE relname = 'users' AND relnamespace = (SELECT oid FROM pg_catalog.pg_namespace WHERE nspname = CURRENT_SCHEMA()))
+
+2025/08/13 17:30:24 [32m/Users/afonso.junior/Documents/local/testlake/backend/test_lake/dao/main.go:36
+[0m[33m[0.165ms] [34;1m[rows:0][0m SELECT description FROM pg_catalog.pg_description WHERE objsubid = (SELECT ordinal_position FROM information_schema.columns WHERE table_schema = CURRENT_SCHEMA() AND table_name = 'users' AND column_name = 'is_email_verified') AND objoid = (SELECT oid FROM pg_catalog.pg_class WHERE relname = 'users' AND relnamespace = (SELECT oid FROM pg_catalog.pg_namespace WHERE nspname = CURRENT_SCHEMA()))
+
+2025/08/13 17:30:24 [32m/Users/afonso.junior/Documents/local/testlake/backend/test_lake/dao/main.go:36
+[0m[33m[0.160ms] [34;1m[rows:0][0m SELECT description FROM pg_catalog.pg_description WHERE objsubid = (SELECT ordinal_position FROM information_schema.columns WHERE table_schema = CURRENT_SCHEMA() AND table_name = 'users' AND column_name = 'created_at') AND objoid = (SELECT oid FROM pg_catalog.pg_class WHERE relname = 'users' AND relnamespace = (SELECT oid FROM pg_catalog.pg_namespace WHERE nspname = CURRENT_SCHEMA()))
+
+2025/08/13 17:30:24 [32m/Users/afonso.junior/Documents/local/testlake/backend/test_lake/dao/main.go:36
+[0m[33m[0.298ms] [34;1m[rows:0][0m SELECT description FROM pg_catalog.pg_description WHERE objsubid = (SELECT ordinal_position FROM information_schema.columns WHERE table_schema = CURRENT_SCHEMA() AND table_name = 'users' AND column_name = 'updated_at') AND objoid = (SELECT oid FROM pg_catalog.pg_class WHERE relname = 'users' AND relnamespace = (SELECT oid FROM pg_catalog.pg_namespace WHERE nspname = CURRENT_SCHEMA()))
+
+2025/08/13 17:30:24 [32m/Users/afonso.junior/Documents/local/testlake/backend/test_lake/dao/main.go:36
+[0m[33m[0.205ms] [34;1m[rows:0][0m SELECT description FROM pg_catalog.pg_description WHERE objsubid = (SELECT ordinal_position FROM information_schema.columns WHERE table_schema = CURRENT_SCHEMA() AND table_name = 'users' AND column_name = 'last_login_at') AND objoid = (SELECT oid FROM pg_catalog.pg_class WHERE relname = 'users' AND relnamespace = (SELECT oid FROM pg_catalog.pg_namespace WHERE nspname = CURRENT_SCHEMA()))
+
+2025/08/13 17:30:24 [32m/Users/afonso.junior/Documents/local/testlake/backend/test_lake/dao/main.go:36
+[0m[33m[0.179ms] [34;1m[rows:0][0m SELECT description FROM pg_catalog.pg_description WHERE objsubid = (SELECT ordinal_position FROM information_schema.columns WHERE table_schema = CURRENT_SCHEMA() AND table_name = 'users' AND column_name = 'status') AND objoid = (SELECT oid FROM pg_catalog.pg_class WHERE relname = 'users' AND relnamespace = (SELECT oid FROM pg_catalog.pg_namespace WHERE nspname = CURRENT_SCHEMA()))
+
+2025/08/13 17:30:24 [32m/Users/afonso.junior/Documents/local/testlake/backend/test_lake/dao/main.go:36
+[0m[33m[0.179ms] [34;1m[rows:0][0m SELECT description FROM pg_catalog.pg_description WHERE objsubid = (SELECT ordinal_position FROM information_schema.columns WHERE table_schema = CURRENT_SCHEMA() AND table_name = 'users' AND column_name = 'deleted_at') AND objoid = (SELECT oid FROM pg_catalog.pg_class WHERE relname = 'users' AND relnamespace = (SELECT oid FROM pg_catalog.pg_namespace WHERE nspname = CURRENT_SCHEMA()))
+
+2025/08/13 17:30:24 [32m/Users/afonso.junior/Documents/local/testlake/backend/test_lake/dao/main.go:36
+[0m[33m[1.608ms] [34;1m[rows:1][0m SELECT count(*) FROM pg_indexes WHERE tablename = 'users' AND indexname = 'idx_users_email' AND schemaname = CURRENT_SCHEMA()
+
+2025/08/13 17:30:24 [32m/Users/afonso.junior/Documents/local/testlake/backend/test_lake/dao/main.go:36
+[0m[33m[0.484ms] [34;1m[rows:1][0m SELECT count(*) FROM pg_indexes WHERE tablename = 'users' AND indexname = 'idx_users_username' AND schemaname = CURRENT_SCHEMA()
+
+2025/08/13 17:30:24 [32m/Users/afonso.junior/Documents/local/testlake/backend/test_lake/dao/main.go:36
+[0m[33m[0.476ms] [34;1m[rows:1][0m SELECT count(*) FROM pg_indexes WHERE tablename = 'users' AND indexname = 'idx_users_deleted_at' AND schemaname = CURRENT_SCHEMA()
+
+2025/08/13 17:30:24 [32m/Users/afonso.junior/Documents/local/testlake/backend/test_lake/dao/main.go:36
+[0m[33m[0.527ms] [34;1m[rows:1][0m SELECT count(*) FROM information_schema.tables WHERE table_schema = CURRENT_SCHEMA() AND table_name = 'organizations' AND table_type = 'BASE TABLE'
+
+2025/08/13 17:30:24 [32m/Users/afonso.junior/Documents/local/testlake/backend/test_lake/dao/main.go:36
+[0m[33m[0.106ms] [34;1m[rows:1][0m SELECT CURRENT_DATABASE()
+
+2025/08/13 17:30:24 [32m/Users/afonso.junior/Documents/local/testlake/backend/test_lake/dao/main.go:36
+[0m[33m[3.963ms] [34;1m[rows:-][0m SELECT c.column_name, c.is_nullable = 'YES', c.udt_name, c.character_maximum_length, c.numeric_precision, c.numeric_precision_radix, c.numeric_scale, c.datetime_precision, 8 * typlen, c.column_default, pd.description, c.identity_increment FROM information_schema.columns AS c JOIN pg_type AS pgt ON c.udt_name = pgt.typname LEFT JOIN pg_catalog.pg_description as pd ON pd.objsubid = c.ordinal_position AND pd.objoid = (SELECT oid FROM pg_catalog.pg_class WHERE relname = c.table_name AND relnamespace = (SELECT oid FROM pg_catalog.pg_namespace WHERE nspname = c.table_schema)) where table_catalog = 'testlake' AND table_schema = CURRENT_SCHEMA() AND table_name = 'organizations'
+
+2025/08/13 17:30:24 [32m/Users/afonso.junior/Documents/local/testlake/backend/test_lake/dao/main.go:36
+[0m[33m[0.377ms] [34;1m[rows:-][0m SELECT * FROM "organizations" LIMIT 5
+
+2025/08/13 17:30:24 [32m/Users/afonso.junior/Documents/local/testlake/backend/test_lake/dao/main.go:36
+[0m[33m[5.853ms] [34;1m[rows:-][0m SELECT constraint_name FROM information_schema.table_constraints tc JOIN information_schema.constraint_column_usage AS ccu USING (constraint_schema, constraint_catalog, table_name, constraint_name) JOIN information_schema.columns AS c ON c.table_schema = tc.constraint_schema AND tc.table_name = c.table_name AND ccu.column_name = c.column_name WHERE constraint_type IN ('PRIMARY KEY', 'UNIQUE') AND c.table_catalog = 'testlake' AND c.table_schema = CURRENT_SCHEMA() AND c.table_name = 'organizations' AND constraint_type = 'UNIQUE'
+
+2025/08/13 17:30:24 [32m/Users/afonso.junior/Documents/local/testlake/backend/test_lake/dao/main.go:36
+[0m[33m[4.637ms] [34;1m[rows:-][0m SELECT c.column_name, constraint_name, constraint_type FROM information_schema.table_constraints tc JOIN information_schema.constraint_column_usage AS ccu USING (constraint_schema, constraint_catalog, table_name, constraint_name) JOIN information_schema.columns AS c ON c.table_schema = tc.constraint_schema AND tc.table_name = c.table_name AND ccu.column_name = c.column_name WHERE constraint_type IN ('PRIMARY KEY', 'UNIQUE') AND c.table_catalog = 'testlake' AND c.table_schema = CURRENT_SCHEMA() AND c.table_name = 'organizations'
+
+2025/08/13 17:30:24 [32m/Users/afonso.junior/Documents/local/testlake/backend/test_lake/dao/main.go:36
+[0m[33m[0.231ms] [34;1m[rows:-][0m SELECT a.attname as column_name, format_type(a.atttypid, a.atttypmod) AS data_type
+		FROM pg_attribute a JOIN pg_class b ON a.attrelid = b.oid AND relnamespace = (SELECT oid FROM pg_catalog.pg_namespace WHERE nspname = CURRENT_SCHEMA())
+		WHERE a.attnum > 0 -- hide internal columns
+		AND NOT a.attisdropped -- hide deleted columns
+		AND b.relname = 'organizations'
+
+2025/08/13 17:30:24 [32m/Users/afonso.junior/Documents/local/testlake/backend/test_lake/dao/main.go:36
+[0m[33m[0.246ms] [34;1m[rows:0][0m SELECT description FROM pg_catalog.pg_description WHERE objsubid = (SELECT ordinal_position FROM information_schema.columns WHERE table_schema = CURRENT_SCHEMA() AND table_name = 'organizations' AND column_name = 'id') AND objoid = (SELECT oid FROM pg_catalog.pg_class WHERE relname = 'organizations' AND relnamespace = (SELECT oid FROM pg_catalog.pg_namespace WHERE nspname = CURRENT_SCHEMA()))
+
+2025/08/13 17:30:24 [32m/Users/afonso.junior/Documents/local/testlake/backend/test_lake/dao/main.go:36
+[0m[33m[0.205ms] [34;1m[rows:0][0m SELECT description FROM pg_catalog.pg_description WHERE objsubid = (SELECT ordinal_position FROM information_schema.columns WHERE table_schema = CURRENT_SCHEMA() AND table_name = 'organizations' AND column_name = 'name') AND objoid = (SELECT oid FROM pg_catalog.pg_class WHERE relname = 'organizations' AND relnamespace = (SELECT oid FROM pg_catalog.pg_namespace WHERE nspname = CURRENT_SCHEMA()))
+
+2025/08/13 17:30:24 [32m/Users/afonso.junior/Documents/local/testlake/backend/test_lake/dao/main.go:36
+[0m[33m[0.165ms] [34;1m[rows:0][0m SELECT description FROM pg_catalog.pg_description WHERE objsubid = (SELECT ordinal_position FROM information_schema.columns WHERE table_schema = CURRENT_SCHEMA() AND table_name = 'organizations' AND column_name = 'slug') AND objoid = (SELECT oid FROM pg_catalog.pg_class WHERE relname = 'organizations' AND relnamespace = (SELECT oid FROM pg_catalog.pg_namespace WHERE nspname = CURRENT_SCHEMA()))
+
+2025/08/13 17:30:24 [32m/Users/afonso.junior/Documents/local/testlake/backend/test_lake/dao/main.go:36
+[0m[33m[0.152ms] [34;1m[rows:0][0m SELECT description FROM pg_catalog.pg_description WHERE objsubid = (SELECT ordinal_position FROM information_schema.columns WHERE table_schema = CURRENT_SCHEMA() AND table_name = 'organizations' AND column_name = 'description') AND objoid = (SELECT oid FROM pg_catalog.pg_class WHERE relname = 'organizations' AND relnamespace = (SELECT oid FROM pg_catalog.pg_namespace WHERE nspname = CURRENT_SCHEMA()))
+
+2025/08/13 17:30:24 [32m/Users/afonso.junior/Documents/local/testlake/backend/test_lake/dao/main.go:36
+[0m[33m[0.151ms] [34;1m[rows:0][0m SELECT description FROM pg_catalog.pg_description WHERE objsubid = (SELECT ordinal_position FROM information_schema.columns WHERE table_schema = CURRENT_SCHEMA() AND table_name = 'organizations' AND column_name = 'logo_url') AND objoid = (SELECT oid FROM pg_catalog.pg_class WHERE relname = 'organizations' AND relnamespace = (SELECT oid FROM pg_catalog.pg_namespace WHERE nspname = CURRENT_SCHEMA()))
+
+2025/08/13 17:30:24 [32m/Users/afonso.junior/Documents/local/testlake/backend/test_lake/dao/main.go:36
+[0m[33m[0.164ms] [34;1m[rows:0][0m SELECT description FROM pg_catalog.pg_description WHERE objsubid = (SELECT ordinal_position FROM information_schema.columns WHERE table_schema = CURRENT_SCHEMA() AND table_name = 'organizations' AND column_name = 'plan_type') AND objoid = (SELECT oid FROM pg_catalog.pg_class WHERE relname = 'organizations' AND relnamespace = (SELECT oid FROM pg_catalog.pg_namespace WHERE nspname = CURRENT_SCHEMA()))
+
+2025/08/13 17:30:24 [32m/Users/afonso.junior/Documents/local/testlake/backend/test_lake/dao/main.go:36
+[0m[33m[0.150ms] [34;1m[rows:0][0m SELECT description FROM pg_catalog.pg_description WHERE objsubid = (SELECT ordinal_position FROM information_schema.columns WHERE table_schema = CURRENT_SCHEMA() AND table_name = 'organizations' AND column_name = 'max_users') AND objoid = (SELECT oid FROM pg_catalog.pg_class WHERE relname = 'organizations' AND relnamespace = (SELECT oid FROM pg_catalog.pg_namespace WHERE nspname = CURRENT_SCHEMA()))
+
+2025/08/13 17:30:24 [32m/Users/afonso.junior/Documents/local/testlake/backend/test_lake/dao/main.go:36
+[0m[33m[0.142ms] [34;1m[rows:0][0m SELECT description FROM pg_catalog.pg_description WHERE objsubid = (SELECT ordinal_position FROM information_schema.columns WHERE table_schema = CURRENT_SCHEMA() AND table_name = 'organizations' AND column_name = 'max_projects') AND objoid = (SELECT oid FROM pg_catalog.pg_class WHERE relname = 'organizations' AND relnamespace = (SELECT oid FROM pg_catalog.pg_namespace WHERE nspname = CURRENT_SCHEMA()))
+
+2025/08/13 17:30:24 [32m/Users/afonso.junior/Documents/local/testlake/backend/test_lake/dao/main.go:36
+[0m[33m[0.141ms] [34;1m[rows:0][0m SELECT description FROM pg_catalog.pg_description WHERE objsubid = (SELECT ordinal_position FROM information_schema.columns WHERE table_schema = CURRENT_SCHEMA() AND table_name = 'organizations' AND column_name = 'created_by') AND objoid = (SELECT oid FROM pg_catalog.pg_class WHERE relname = 'organizations' AND relnamespace = (SELECT oid FROM pg_catalog.pg_namespace WHERE nspname = CURRENT_SCHEMA()))
+
+2025/08/13 17:30:24 [32m/Users/afonso.junior/Documents/local/testlake/backend/test_lake/dao/main.go:36
+[0m[33m[0.148ms] [34;1m[rows:0][0m SELECT description FROM pg_catalog.pg_description WHERE objsubid = (SELECT ordinal_position FROM information_schema.columns WHERE table_schema = CURRENT_SCHEMA() AND table_name = 'organizations' AND column_name = 'created_at') AND objoid = (SELECT oid FROM pg_catalog.pg_class WHERE relname = 'organizations' AND relnamespace = (SELECT oid FROM pg_catalog.pg_namespace WHERE nspname = CURRENT_SCHEMA()))
+
+2025/08/13 17:30:24 [32m/Users/afonso.junior/Documents/local/testlake/backend/test_lake/dao/main.go:36
+[0m[33m[0.138ms] [34;1m[rows:0][0m SELECT description FROM pg_catalog.pg_description WHERE objsubid = (SELECT ordinal_position FROM information_schema.columns WHERE table_schema = CURRENT_SCHEMA() AND table_name = 'organizations' AND column_name = 'updated_at') AND objoid = (SELECT oid FROM pg_catalog.pg_class WHERE relname = 'organizations' AND relnamespace = (SELECT oid FROM pg_catalog.pg_namespace WHERE nspname = CURRENT_SCHEMA()))
+
+2025/08/13 17:30:24 [32m/Users/afonso.junior/Documents/local/testlake/backend/test_lake/dao/main.go:36
+[0m[33m[0.151ms] [34;1m[rows:0][0m SELECT description FROM pg_catalog.pg_description WHERE objsubid = (SELECT ordinal_position FROM information_schema.columns WHERE table_schema = CURRENT_SCHEMA() AND table_name = 'organizations' AND column_name = 'status') AND objoid = (SELECT oid FROM pg_catalog.pg_class WHERE relname = 'organizations' AND relnamespace = (SELECT oid FROM pg_catalog.pg_namespace WHERE nspname = CURRENT_SCHEMA()))
+
+2025/08/13 17:30:24 [32m/Users/afonso.junior/Documents/local/testlake/backend/test_lake/dao/main.go:36
+[0m[33m[0.142ms] [34;1m[rows:0][0m SELECT description FROM pg_catalog.pg_description WHERE objsubid = (SELECT ordinal_position FROM information_schema.columns WHERE table_schema = CURRENT_SCHEMA() AND table_name = 'organizations' AND column_name = 'deleted_at') AND objoid = (SELECT oid FROM pg_catalog.pg_class WHERE relname = 'organizations' AND relnamespace = (SELECT oid FROM pg_catalog.pg_namespace WHERE nspname = CURRENT_SCHEMA()))
+
+2025/08/13 17:30:24 [32m/Users/afonso.junior/Documents/local/testlake/backend/test_lake/dao/main.go:36
+[0m[33m[0.782ms] [34;1m[rows:1][0m SELECT count(*) FROM INFORMATION_SCHEMA.table_constraints WHERE table_schema = CURRENT_SCHEMA() AND table_name = 'organizations' AND constraint_name = 'fk_organizations_creator'
+
+2025/08/13 17:30:24 [32m/Users/afonso.junior/Documents/local/testlake/backend/test_lake/dao/main.go:36
+[0m[33m[0.391ms] [34;1m[rows:1][0m SELECT count(*) FROM pg_indexes WHERE tablename = 'organizations' AND indexname = 'idx_organizations_deleted_at' AND schemaname = CURRENT_SCHEMA()
+
+2025/08/13 17:30:24 [32m/Users/afonso.junior/Documents/local/testlake/backend/test_lake/dao/main.go:36
+[0m[33m[0.369ms] [34;1m[rows:1][0m SELECT count(*) FROM pg_indexes WHERE tablename = 'organizations' AND indexname = 'idx_organizations_slug' AND schemaname = CURRENT_SCHEMA()
+
+2025/08/13 17:30:24 [32m/Users/afonso.junior/Documents/local/testlake/backend/test_lake/dao/main.go:36
+[0m[33m[0.309ms] [34;1m[rows:1][0m SELECT count(*) FROM information_schema.tables WHERE table_schema = CURRENT_SCHEMA() AND table_name = 'projects' AND table_type = 'BASE TABLE'
+
+2025/08/13 17:30:24 [32m/Users/afonso.junior/Documents/local/testlake/backend/test_lake/dao/main.go:36
+[0m[33m[0.089ms] [34;1m[rows:1][0m SELECT CURRENT_DATABASE()
+
+2025/08/13 17:30:24 [32m/Users/afonso.junior/Documents/local/testlake/backend/test_lake/dao/main.go:36
+[0m[33m[2.837ms] [34;1m[rows:-][0m SELECT c.column_name, c.is_nullable = 'YES', c.udt_name, c.character_maximum_length, c.numeric_precision, c.numeric_precision_radix, c.numeric_scale, c.datetime_precision, 8 * typlen, c.column_default, pd.description, c.identity_increment FROM information_schema.columns AS c JOIN pg_type AS pgt ON c.udt_name = pgt.typname LEFT JOIN pg_catalog.pg_description as pd ON pd.objsubid = c.ordinal_position AND pd.objoid = (SELECT oid FROM pg_catalog.pg_class WHERE relname = c.table_name AND relnamespace = (SELECT oid FROM pg_catalog.pg_namespace WHERE nspname = c.table_schema)) where table_catalog = 'testlake' AND table_schema = CURRENT_SCHEMA() AND table_name = 'projects'
+
+2025/08/13 17:30:24 [32m/Users/afonso.junior/Documents/local/testlake/backend/test_lake/dao/main.go:36
+[0m[33m[0.285ms] [34;1m[rows:-][0m SELECT * FROM "projects" LIMIT 5
+
+2025/08/13 17:30:24 [32m/Users/afonso.junior/Documents/local/testlake/backend/test_lake/dao/main.go:36
+[0m[33m[3.957ms] [34;1m[rows:-][0m SELECT constraint_name FROM information_schema.table_constraints tc JOIN information_schema.constraint_column_usage AS ccu USING (constraint_schema, constraint_catalog, table_name, constraint_name) JOIN information_schema.columns AS c ON c.table_schema = tc.constraint_schema AND tc.table_name = c.table_name AND ccu.column_name = c.column_name WHERE constraint_type IN ('PRIMARY KEY', 'UNIQUE') AND c.table_catalog = 'testlake' AND c.table_schema = CURRENT_SCHEMA() AND c.table_name = 'projects' AND constraint_type = 'UNIQUE'
+
+2025/08/13 17:30:24 [32m/Users/afonso.junior/Documents/local/testlake/backend/test_lake/dao/main.go:36
+[0m[33m[3.769ms] [34;1m[rows:-][0m SELECT c.column_name, constraint_name, constraint_type FROM information_schema.table_constraints tc JOIN information_schema.constraint_column_usage AS ccu USING (constraint_schema, constraint_catalog, table_name, constraint_name) JOIN information_schema.columns AS c ON c.table_schema = tc.constraint_schema AND tc.table_name = c.table_name AND ccu.column_name = c.column_name WHERE constraint_type IN ('PRIMARY KEY', 'UNIQUE') AND c.table_catalog = 'testlake' AND c.table_schema = CURRENT_SCHEMA() AND c.table_name = 'projects'
+
+2025/08/13 17:30:24 [32m/Users/afonso.junior/Documents/local/testlake/backend/test_lake/dao/main.go:36
+[0m[33m[0.294ms] [34;1m[rows:-][0m SELECT a.attname as column_name, format_type(a.atttypid, a.atttypmod) AS data_type
+		FROM pg_attribute a JOIN pg_class b ON a.attrelid = b.oid AND relnamespace = (SELECT oid FROM pg_catalog.pg_namespace WHERE nspname = CURRENT_SCHEMA())
+		WHERE a.attnum > 0 -- hide internal columns
+		AND NOT a.attisdropped -- hide deleted columns
+		AND b.relname = 'projects'
+
+2025/08/13 17:30:24 [32m/Users/afonso.junior/Documents/local/testlake/backend/test_lake/dao/main.go:36
+[0m[33m[0.208ms] [34;1m[rows:0][0m SELECT description FROM pg_catalog.pg_description WHERE objsubid = (SELECT ordinal_position FROM information_schema.columns WHERE table_schema = CURRENT_SCHEMA() AND table_name = 'projects' AND column_name = 'id') AND objoid = (SELECT oid FROM pg_catalog.pg_class WHERE relname = 'projects' AND relnamespace = (SELECT oid FROM pg_catalog.pg_namespace WHERE nspname = CURRENT_SCHEMA()))
+
+2025/08/13 17:30:24 [32m/Users/afonso.junior/Documents/local/testlake/backend/test_lake/dao/main.go:36
+[0m[33m[0.104ms] [34;1m[rows:0][0m SELECT description FROM pg_catalog.pg_description WHERE objsubid = (SELECT ordinal_position FROM information_schema.columns WHERE table_schema = CURRENT_SCHEMA() AND table_name = 'projects' AND column_name = 'name') AND objoid = (SELECT oid FROM pg_catalog.pg_class WHERE relname = 'projects' AND relnamespace = (SELECT oid FROM pg_catalog.pg_namespace WHERE nspname = CURRENT_SCHEMA()))
+
+2025/08/13 17:30:24 [32m/Users/afonso.junior/Documents/local/testlake/backend/test_lake/dao/main.go:36
+[0m[33m[0.109ms] [34;1m[rows:0][0m SELECT description FROM pg_catalog.pg_description WHERE objsubid = (SELECT ordinal_position FROM information_schema.columns WHERE table_schema = CURRENT_SCHEMA() AND table_name = 'projects' AND column_name = 'description') AND objoid = (SELECT oid FROM pg_catalog.pg_class WHERE relname = 'projects' AND relnamespace = (SELECT oid FROM pg_catalog.pg_namespace WHERE nspname = CURRENT_SCHEMA()))
+
+2025/08/13 17:30:24 [32m/Users/afonso.junior/Documents/local/testlake/backend/test_lake/dao/main.go:36
+[0m[33m[0.110ms] [34;1m[rows:0][0m SELECT description FROM pg_catalog.pg_description WHERE objsubid = (SELECT ordinal_position FROM information_schema.columns WHERE table_schema = CURRENT_SCHEMA() AND table_name = 'projects' AND column_name = 'organization_id') AND objoid = (SELECT oid FROM pg_catalog.pg_class WHERE relname = 'projects' AND relnamespace = (SELECT oid FROM pg_catalog.pg_namespace WHERE nspname = CURRENT_SCHEMA()))
+
+2025/08/13 17:30:24 [32m/Users/afonso.junior/Documents/local/testlake/backend/test_lake/dao/main.go:36
+[0m[33m[0.107ms] [34;1m[rows:0][0m SELECT description FROM pg_catalog.pg_description WHERE objsubid = (SELECT ordinal_position FROM information_schema.columns WHERE table_schema = CURRENT_SCHEMA() AND table_name = 'projects' AND column_name = 'user_id') AND objoid = (SELECT oid FROM pg_catalog.pg_class WHERE relname = 'projects' AND relnamespace = (SELECT oid FROM pg_catalog.pg_namespace WHERE nspname = CURRENT_SCHEMA()))
+
+2025/08/13 17:30:24 [32m/Users/afonso.junior/Documents/local/testlake/backend/test_lake/dao/main.go:36
+[0m[33m[0.112ms] [34;1m[rows:0][0m SELECT description FROM pg_catalog.pg_description WHERE objsubid = (SELECT ordinal_position FROM information_schema.columns WHERE table_schema = CURRENT_SCHEMA() AND table_name = 'projects' AND column_name = 'is_personal') AND objoid = (SELECT oid FROM pg_catalog.pg_class WHERE relname = 'projects' AND relnamespace = (SELECT oid FROM pg_catalog.pg_namespace WHERE nspname = CURRENT_SCHEMA()))
+
+2025/08/13 17:30:24 [32m/Users/afonso.junior/Documents/local/testlake/backend/test_lake/dao/main.go:36
+[0m[33m[0.120ms] [34;1m[rows:0][0m SELECT description FROM pg_catalog.pg_description WHERE objsubid = (SELECT ordinal_position FROM information_schema.columns WHERE table_schema = CURRENT_SCHEMA() AND table_name = 'projects' AND column_name = 'created_by') AND objoid = (SELECT oid FROM pg_catalog.pg_class WHERE relname = 'projects' AND relnamespace = (SELECT oid FROM pg_catalog.pg_namespace WHERE nspname = CURRENT_SCHEMA()))
+
+2025/08/13 17:30:24 [32m/Users/afonso.junior/Documents/local/testlake/backend/test_lake/dao/main.go:36
+[0m[33m[0.126ms] [34;1m[rows:0][0m SELECT description FROM pg_catalog.pg_description WHERE objsubid = (SELECT ordinal_position FROM information_schema.columns WHERE table_schema = CURRENT_SCHEMA() AND table_name = 'projects' AND column_name = 'created_at') AND objoid = (SELECT oid FROM pg_catalog.pg_class WHERE relname = 'projects' AND relnamespace = (SELECT oid FROM pg_catalog.pg_namespace WHERE nspname = CURRENT_SCHEMA()))
+
+2025/08/13 17:30:24 [32m/Users/afonso.junior/Documents/local/testlake/backend/test_lake/dao/main.go:36
+[0m[33m[0.165ms] [34;1m[rows:0][0m SELECT description FROM pg_catalog.pg_description WHERE objsubid = (SELECT ordinal_position FROM information_schema.columns WHERE table_schema = CURRENT_SCHEMA() AND table_name = 'projects' AND column_name = 'updated_at') AND objoid = (SELECT oid FROM pg_catalog.pg_class WHERE relname = 'projects' AND relnamespace = (SELECT oid FROM pg_catalog.pg_namespace WHERE nspname = CURRENT_SCHEMA()))
+
+2025/08/13 17:30:24 [32m/Users/afonso.junior/Documents/local/testlake/backend/test_lake/dao/main.go:36
+[0m[33m[0.120ms] [34;1m[rows:0][0m SELECT description FROM pg_catalog.pg_description WHERE objsubid = (SELECT ordinal_position FROM information_schema.columns WHERE table_schema = CURRENT_SCHEMA() AND table_name = 'projects' AND column_name = 'status') AND objoid = (SELECT oid FROM pg_catalog.pg_class WHERE relname = 'projects' AND relnamespace = (SELECT oid FROM pg_catalog.pg_namespace WHERE nspname = CURRENT_SCHEMA()))
+
+2025/08/13 17:30:24 [32m/Users/afonso.junior/Documents/local/testlake/backend/test_lake/dao/main.go:36
+[0m[33m[0.147ms] [34;1m[rows:0][0m SELECT description FROM pg_catalog.pg_description WHERE objsubid = (SELECT ordinal_position FROM information_schema.columns WHERE table_schema = CURRENT_SCHEMA() AND table_name = 'projects' AND column_name = 'deleted_at') AND objoid = (SELECT oid FROM pg_catalog.pg_class WHERE relname = 'projects' AND relnamespace = (SELECT oid FROM pg_catalog.pg_namespace WHERE nspname = CURRENT_SCHEMA()))
+
+2025/08/13 17:30:24 [32m/Users/afonso.junior/Documents/local/testlake/backend/test_lake/dao/main.go:36
+[0m[33m[0.452ms] [34;1m[rows:1][0m SELECT count(*) FROM INFORMATION_SCHEMA.table_constraints WHERE table_schema = CURRENT_SCHEMA() AND table_name = 'projects' AND constraint_name = 'fk_projects_user'
+
+2025/08/13 17:30:24 [32m/Users/afonso.junior/Documents/local/testlake/backend/test_lake/dao/main.go:36
+[0m[33m[0.460ms] [34;1m[rows:1][0m SELECT count(*) FROM INFORMATION_SCHEMA.table_constraints WHERE table_schema = CURRENT_SCHEMA() AND table_name = 'projects' AND constraint_name = 'fk_projects_creator'
+
+2025/08/13 17:30:24 [32m/Users/afonso.junior/Documents/local/testlake/backend/test_lake/dao/main.go:36
+[0m[33m[0.402ms] [34;1m[rows:1][0m SELECT count(*) FROM INFORMATION_SCHEMA.table_constraints WHERE table_schema = CURRENT_SCHEMA() AND table_name = 'projects' AND constraint_name = 'fk_projects_organization'
+
+2025/08/13 17:30:24 [32m/Users/afonso.junior/Documents/local/testlake/backend/test_lake/dao/main.go:36
+[0m[33m[0.298ms] [34;1m[rows:1][0m SELECT count(*) FROM pg_indexes WHERE tablename = 'projects' AND indexname = 'idx_projects_deleted_at' AND schemaname = CURRENT_SCHEMA()
+
+2025/08/13 17:30:24 [32m/Users/afonso.junior/Documents/local/testlake/backend/test_lake/dao/main.go:36
+[0m[33m[0.245ms] [34;1m[rows:1][0m SELECT count(*) FROM information_schema.tables WHERE table_schema = CURRENT_SCHEMA() AND table_name = 'teams' AND table_type = 'BASE TABLE'
+
+2025/08/13 17:30:24 [32m/Users/afonso.junior/Documents/local/testlake/backend/test_lake/dao/main.go:36
+[0m[33m[0.075ms] [34;1m[rows:1][0m SELECT CURRENT_DATABASE()
+
+2025/08/13 17:30:24 [32m/Users/afonso.junior/Documents/local/testlake/backend/test_lake/dao/main.go:36
+[0m[33m[2.534ms] [34;1m[rows:-][0m SELECT c.column_name, c.is_nullable = 'YES', c.udt_name, c.character_maximum_length, c.numeric_precision, c.numeric_precision_radix, c.numeric_scale, c.datetime_precision, 8 * typlen, c.column_default, pd.description, c.identity_increment FROM information_schema.columns AS c JOIN pg_type AS pgt ON c.udt_name = pgt.typname LEFT JOIN pg_catalog.pg_description as pd ON pd.objsubid = c.ordinal_position AND pd.objoid = (SELECT oid FROM pg_catalog.pg_class WHERE relname = c.table_name AND relnamespace = (SELECT oid FROM pg_catalog.pg_namespace WHERE nspname = c.table_schema)) where table_catalog = 'testlake' AND table_schema = CURRENT_SCHEMA() AND table_name = 'teams'
+
+2025/08/13 17:30:24 [32m/Users/afonso.junior/Documents/local/testlake/backend/test_lake/dao/main.go:36
+[0m[33m[0.220ms] [34;1m[rows:-][0m SELECT * FROM "teams" LIMIT 5
+
+2025/08/13 17:30:24 [32m/Users/afonso.junior/Documents/local/testlake/backend/test_lake/dao/main.go:36
+[0m[33m[3.010ms] [34;1m[rows:-][0m SELECT constraint_name FROM information_schema.table_constraints tc JOIN information_schema.constraint_column_usage AS ccu USING (constraint_schema, constraint_catalog, table_name, constraint_name) JOIN information_schema.columns AS c ON c.table_schema = tc.constraint_schema AND tc.table_name = c.table_name AND ccu.column_name = c.column_name WHERE constraint_type IN ('PRIMARY KEY', 'UNIQUE') AND c.table_catalog = 'testlake' AND c.table_schema = CURRENT_SCHEMA() AND c.table_name = 'teams' AND constraint_type = 'UNIQUE'
+
+2025/08/13 17:30:24 [32m/Users/afonso.junior/Documents/local/testlake/backend/test_lake/dao/main.go:36
+[0m[33m[2.862ms] [34;1m[rows:-][0m SELECT c.column_name, constraint_name, constraint_type FROM information_schema.table_constraints tc JOIN information_schema.constraint_column_usage AS ccu USING (constraint_schema, constraint_catalog, table_name, constraint_name) JOIN information_schema.columns AS c ON c.table_schema = tc.constraint_schema AND tc.table_name = c.table_name AND ccu.column_name = c.column_name WHERE constraint_type IN ('PRIMARY KEY', 'UNIQUE') AND c.table_catalog = 'testlake' AND c.table_schema = CURRENT_SCHEMA() AND c.table_name = 'teams'
+
+2025/08/13 17:30:24 [32m/Users/afonso.junior/Documents/local/testlake/backend/test_lake/dao/main.go:36
+[0m[33m[0.177ms] [34;1m[rows:-][0m SELECT a.attname as column_name, format_type(a.atttypid, a.atttypmod) AS data_type
+		FROM pg_attribute a JOIN pg_class b ON a.attrelid = b.oid AND relnamespace = (SELECT oid FROM pg_catalog.pg_namespace WHERE nspname = CURRENT_SCHEMA())
+		WHERE a.attnum > 0 -- hide internal columns
+		AND NOT a.attisdropped -- hide deleted columns
+		AND b.relname = 'teams'
+
+2025/08/13 17:30:24 [32m/Users/afonso.junior/Documents/local/testlake/backend/test_lake/dao/main.go:36
+[0m[33m[0.153ms] [34;1m[rows:0][0m SELECT description FROM pg_catalog.pg_description WHERE objsubid = (SELECT ordinal_position FROM information_schema.columns WHERE table_schema = CURRENT_SCHEMA() AND table_name = 'teams' AND column_name = 'id') AND objoid = (SELECT oid FROM pg_catalog.pg_class WHERE relname = 'teams' AND relnamespace = (SELECT oid FROM pg_catalog.pg_namespace WHERE nspname = CURRENT_SCHEMA()))
+
+2025/08/13 17:30:24 [32m/Users/afonso.junior/Documents/local/testlake/backend/test_lake/dao/main.go:36
+[0m[33m[0.113ms] [34;1m[rows:0][0m SELECT description FROM pg_catalog.pg_description WHERE objsubid = (SELECT ordinal_position FROM information_schema.columns WHERE table_schema = CURRENT_SCHEMA() AND table_name = 'teams' AND column_name = 'name') AND objoid = (SELECT oid FROM pg_catalog.pg_class WHERE relname = 'teams' AND relnamespace = (SELECT oid FROM pg_catalog.pg_namespace WHERE nspname = CURRENT_SCHEMA()))
+
+2025/08/13 17:30:24 [32m/Users/afonso.junior/Documents/local/testlake/backend/test_lake/dao/main.go:36
+[0m[33m[0.114ms] [34;1m[rows:0][0m SELECT description FROM pg_catalog.pg_description WHERE objsubid = (SELECT ordinal_position FROM information_schema.columns WHERE table_schema = CURRENT_SCHEMA() AND table_name = 'teams' AND column_name = 'description') AND objoid = (SELECT oid FROM pg_catalog.pg_class WHERE relname = 'teams' AND relnamespace = (SELECT oid FROM pg_catalog.pg_namespace WHERE nspname = CURRENT_SCHEMA()))
+
+2025/08/13 17:30:24 [32m/Users/afonso.junior/Documents/local/testlake/backend/test_lake/dao/main.go:36
+[0m[33m[0.115ms] [34;1m[rows:0][0m SELECT description FROM pg_catalog.pg_description WHERE objsubid = (SELECT ordinal_position FROM information_schema.columns WHERE table_schema = CURRENT_SCHEMA() AND table_name = 'teams' AND column_name = 'organization_id') AND objoid = (SELECT oid FROM pg_catalog.pg_class WHERE relname = 'teams' AND relnamespace = (SELECT oid FROM pg_catalog.pg_namespace WHERE nspname = CURRENT_SCHEMA()))
+
+2025/08/13 17:30:24 [32m/Users/afonso.junior/Documents/local/testlake/backend/test_lake/dao/main.go:36
+[0m[33m[0.115ms] [34;1m[rows:0][0m SELECT description FROM pg_catalog.pg_description WHERE objsubid = (SELECT ordinal_position FROM information_schema.columns WHERE table_schema = CURRENT_SCHEMA() AND table_name = 'teams' AND column_name = 'created_by') AND objoid = (SELECT oid FROM pg_catalog.pg_class WHERE relname = 'teams' AND relnamespace = (SELECT oid FROM pg_catalog.pg_namespace WHERE nspname = CURRENT_SCHEMA()))
+
+2025/08/13 17:30:24 [32m/Users/afonso.junior/Documents/local/testlake/backend/test_lake/dao/main.go:36
+[0m[33m[0.115ms] [34;1m[rows:0][0m SELECT description FROM pg_catalog.pg_description WHERE objsubid = (SELECT ordinal_position FROM information_schema.columns WHERE table_schema = CURRENT_SCHEMA() AND table_name = 'teams' AND column_name = 'created_at') AND objoid = (SELECT oid FROM pg_catalog.pg_class WHERE relname = 'teams' AND relnamespace = (SELECT oid FROM pg_catalog.pg_namespace WHERE nspname = CURRENT_SCHEMA()))
+
+2025/08/13 17:30:24 [32m/Users/afonso.junior/Documents/local/testlake/backend/test_lake/dao/main.go:36
+[0m[33m[0.113ms] [34;1m[rows:0][0m SELECT description FROM pg_catalog.pg_description WHERE objsubid = (SELECT ordinal_position FROM information_schema.columns WHERE table_schema = CURRENT_SCHEMA() AND table_name = 'teams' AND column_name = 'updated_at') AND objoid = (SELECT oid FROM pg_catalog.pg_class WHERE relname = 'teams' AND relnamespace = (SELECT oid FROM pg_catalog.pg_namespace WHERE nspname = CURRENT_SCHEMA()))
+
+2025/08/13 17:30:24 [32m/Users/afonso.junior/Documents/local/testlake/backend/test_lake/dao/main.go:36
+[0m[33m[0.115ms] [34;1m[rows:0][0m SELECT description FROM pg_catalog.pg_description WHERE objsubid = (SELECT ordinal_position FROM information_schema.columns WHERE table_schema = CURRENT_SCHEMA() AND table_name = 'teams' AND column_name = 'deleted_at') AND objoid = (SELECT oid FROM pg_catalog.pg_class WHERE relname = 'teams' AND relnamespace = (SELECT oid FROM pg_catalog.pg_namespace WHERE nspname = CURRENT_SCHEMA()))
+
+2025/08/13 17:30:24 [32m/Users/afonso.junior/Documents/local/testlake/backend/test_lake/dao/main.go:36
+[0m[33m[0.442ms] [34;1m[rows:1][0m SELECT count(*) FROM INFORMATION_SCHEMA.table_constraints WHERE table_schema = CURRENT_SCHEMA() AND table_name = 'teams' AND constraint_name = 'fk_teams_creator'
+
+2025/08/13 17:30:24 [32m/Users/afonso.junior/Documents/local/testlake/backend/test_lake/dao/main.go:36
+[0m[33m[0.379ms] [34;1m[rows:1][0m SELECT count(*) FROM INFORMATION_SCHEMA.table_constraints WHERE table_schema = CURRENT_SCHEMA() AND table_name = 'teams' AND constraint_name = 'fk_teams_organization'
+
+2025/08/13 17:30:24 [32m/Users/afonso.junior/Documents/local/testlake/backend/test_lake/dao/main.go:36
+[0m[33m[0.111ms] [34;1m[rows:1][0m SELECT count(*) FROM pg_indexes WHERE tablename = 'teams' AND indexname = 'idx_teams_deleted_at' AND schemaname = CURRENT_SCHEMA()
+
+2025/08/13 17:30:24 [32m/Users/afonso.junior/Documents/local/testlake/backend/test_lake/dao/main.go:36
+[0m[33m[0.235ms] [34;1m[rows:1][0m SELECT count(*) FROM information_schema.tables WHERE table_schema = CURRENT_SCHEMA() AND table_name = 'team_members' AND table_type = 'BASE TABLE'
+
+2025/08/13 17:30:24 [32m/Users/afonso.junior/Documents/local/testlake/backend/test_lake/dao/main.go:36
+[0m[33m[0.068ms] [34;1m[rows:1][0m SELECT CURRENT_DATABASE()
+
+2025/08/13 17:30:24 [32m/Users/afonso.junior/Documents/local/testlake/backend/test_lake/dao/main.go:36
+[0m[33m[2.565ms] [34;1m[rows:-][0m SELECT c.column_name, c.is_nullable = 'YES', c.udt_name, c.character_maximum_length, c.numeric_precision, c.numeric_precision_radix, c.numeric_scale, c.datetime_precision, 8 * typlen, c.column_default, pd.description, c.identity_increment FROM information_schema.columns AS c JOIN pg_type AS pgt ON c.udt_name = pgt.typname LEFT JOIN pg_catalog.pg_description as pd ON pd.objsubid = c.ordinal_position AND pd.objoid = (SELECT oid FROM pg_catalog.pg_class WHERE relname = c.table_name AND relnamespace = (SELECT oid FROM pg_catalog.pg_namespace WHERE nspname = c.table_schema)) where table_catalog = 'testlake' AND table_schema = CURRENT_SCHEMA() AND table_name = 'team_members'
+
+2025/08/13 17:30:24 [32m/Users/afonso.junior/Documents/local/testlake/backend/test_lake/dao/main.go:36
+[0m[33m[0.171ms] [34;1m[rows:-][0m SELECT * FROM "team_members" LIMIT 5
+
+2025/08/13 17:30:24 [32m/Users/afonso.junior/Documents/local/testlake/backend/test_lake/dao/main.go:36
+[0m[33m[2.993ms] [34;1m[rows:-][0m SELECT constraint_name FROM information_schema.table_constraints tc JOIN information_schema.constraint_column_usage AS ccu USING (constraint_schema, constraint_catalog, table_name, constraint_name) JOIN information_schema.columns AS c ON c.table_schema = tc.constraint_schema AND tc.table_name = c.table_name AND ccu.column_name = c.column_name WHERE constraint_type IN ('PRIMARY KEY', 'UNIQUE') AND c.table_catalog = 'testlake' AND c.table_schema = CURRENT_SCHEMA() AND c.table_name = 'team_members' AND constraint_type = 'UNIQUE'
+
+2025/08/13 17:30:24 [32m/Users/afonso.junior/Documents/local/testlake/backend/test_lake/dao/main.go:36
+[0m[33m[2.481ms] [34;1m[rows:-][0m SELECT c.column_name, constraint_name, constraint_type FROM information_schema.table_constraints tc JOIN information_schema.constraint_column_usage AS ccu USING (constraint_schema, constraint_catalog, table_name, constraint_name) JOIN information_schema.columns AS c ON c.table_schema = tc.constraint_schema AND tc.table_name = c.table_name AND ccu.column_name = c.column_name WHERE constraint_type IN ('PRIMARY KEY', 'UNIQUE') AND c.table_catalog = 'testlake' AND c.table_schema = CURRENT_SCHEMA() AND c.table_name = 'team_members'
+
+2025/08/13 17:30:24 [32m/Users/afonso.junior/Documents/local/testlake/backend/test_lake/dao/main.go:36
+[0m[33m[0.139ms] [34;1m[rows:-][0m SELECT a.attname as column_name, format_type(a.atttypid, a.atttypmod) AS data_type
+		FROM pg_attribute a JOIN pg_class b ON a.attrelid = b.oid AND relnamespace = (SELECT oid FROM pg_catalog.pg_namespace WHERE nspname = CURRENT_SCHEMA())
+		WHERE a.attnum > 0 -- hide internal columns
+		AND NOT a.attisdropped -- hide deleted columns
+		AND b.relname = 'team_members'
+
+2025/08/13 17:30:24 [32m/Users/afonso.junior/Documents/local/testlake/backend/test_lake/dao/main.go:36
+[0m[33m[0.114ms] [34;1m[rows:0][0m SELECT description FROM pg_catalog.pg_description WHERE objsubid = (SELECT ordinal_position FROM information_schema.columns WHERE table_schema = CURRENT_SCHEMA() AND table_name = 'team_members' AND column_name = 'id') AND objoid = (SELECT oid FROM pg_catalog.pg_class WHERE relname = 'team_members' AND relnamespace = (SELECT oid FROM pg_catalog.pg_namespace WHERE nspname = CURRENT_SCHEMA()))
+
+2025/08/13 17:30:24 [32m/Users/afonso.junior/Documents/local/testlake/backend/test_lake/dao/main.go:36
+[0m[33m[0.096ms] [34;1m[rows:0][0m SELECT description FROM pg_catalog.pg_description WHERE objsubid = (SELECT ordinal_position FROM information_schema.columns WHERE table_schema = CURRENT_SCHEMA() AND table_name = 'team_members' AND column_name = 'team_id') AND objoid = (SELECT oid FROM pg_catalog.pg_class WHERE relname = 'team_members' AND relnamespace = (SELECT oid FROM pg_catalog.pg_namespace WHERE nspname = CURRENT_SCHEMA()))
+
+2025/08/13 17:30:24 [32m/Users/afonso.junior/Documents/local/testlake/backend/test_lake/dao/main.go:36
+[0m[33m[0.085ms] [34;1m[rows:0][0m SELECT description FROM pg_catalog.pg_description WHERE objsubid = (SELECT ordinal_position FROM information_schema.columns WHERE table_schema = CURRENT_SCHEMA() AND table_name = 'team_members' AND column_name = 'user_id') AND objoid = (SELECT oid FROM pg_catalog.pg_class WHERE relname = 'team_members' AND relnamespace = (SELECT oid FROM pg_catalog.pg_namespace WHERE nspname = CURRENT_SCHEMA()))
+
+2025/08/13 17:30:24 [32m/Users/afonso.junior/Documents/local/testlake/backend/test_lake/dao/main.go:36
+[0m[33m[0.097ms] [34;1m[rows:0][0m SELECT description FROM pg_catalog.pg_description WHERE objsubid = (SELECT ordinal_position FROM information_schema.columns WHERE table_schema = CURRENT_SCHEMA() AND table_name = 'team_members' AND column_name = 'role') AND objoid = (SELECT oid FROM pg_catalog.pg_class WHERE relname = 'team_members' AND relnamespace = (SELECT oid FROM pg_catalog.pg_namespace WHERE nspname = CURRENT_SCHEMA()))
+
+2025/08/13 17:30:24 [32m/Users/afonso.junior/Documents/local/testlake/backend/test_lake/dao/main.go:36
+[0m[33m[0.086ms] [34;1m[rows:0][0m SELECT description FROM pg_catalog.pg_description WHERE objsubid = (SELECT ordinal_position FROM information_schema.columns WHERE table_schema = CURRENT_SCHEMA() AND table_name = 'team_members' AND column_name = 'added_by') AND objoid = (SELECT oid FROM pg_catalog.pg_class WHERE relname = 'team_members' AND relnamespace = (SELECT oid FROM pg_catalog.pg_namespace WHERE nspname = CURRENT_SCHEMA()))
+
+2025/08/13 17:30:24 [32m/Users/afonso.junior/Documents/local/testlake/backend/test_lake/dao/main.go:36
+[0m[33m[0.092ms] [34;1m[rows:0][0m SELECT description FROM pg_catalog.pg_description WHERE objsubid = (SELECT ordinal_position FROM information_schema.columns WHERE table_schema = CURRENT_SCHEMA() AND table_name = 'team_members' AND column_name = 'added_at') AND objoid = (SELECT oid FROM pg_catalog.pg_class WHERE relname = 'team_members' AND relnamespace = (SELECT oid FROM pg_catalog.pg_namespace WHERE nspname = CURRENT_SCHEMA()))
+
+2025/08/13 17:30:24 [32m/Users/afonso.junior/Documents/local/testlake/backend/test_lake/dao/main.go:36
+[0m[33m[0.112ms] [34;1m[rows:1][0m SELECT count(*) FROM INFORMATION_SCHEMA.table_constraints WHERE table_schema = CURRENT_SCHEMA() AND table_name = 'team_members' AND constraint_name = 'fk_team_members_team'
+
+2025/08/13 17:30:24 [32m/Users/afonso.junior/Documents/local/testlake/backend/test_lake/dao/main.go:36
+[0m[33m[0.099ms] [34;1m[rows:1][0m SELECT count(*) FROM INFORMATION_SCHEMA.table_constraints WHERE table_schema = CURRENT_SCHEMA() AND table_name = 'team_members' AND constraint_name = 'fk_team_members_user'
+
+2025/08/13 17:30:24 [32m/Users/afonso.junior/Documents/local/testlake/backend/test_lake/dao/main.go:36
+[0m[33m[0.095ms] [34;1m[rows:1][0m SELECT count(*) FROM INFORMATION_SCHEMA.table_constraints WHERE table_schema = CURRENT_SCHEMA() AND table_name = 'team_members' AND constraint_name = 'fk_team_members_added_by_user'
+
+2025/08/13 17:30:24 [32m/Users/afonso.junior/Documents/local/testlake/backend/test_lake/dao/main.go:36
+[0m[33m[0.194ms] [34;1m[rows:1][0m SELECT count(*) FROM information_schema.tables WHERE table_schema = CURRENT_SCHEMA() AND table_name = 'project_accesses' AND table_type = 'BASE TABLE'
+
+2025/08/13 17:30:24 [32m/Users/afonso.junior/Documents/local/testlake/backend/test_lake/dao/main.go:36
+[0m[33m[0.050ms] [34;1m[rows:1][0m SELECT CURRENT_DATABASE()
+
+2025/08/13 17:30:24 [32m/Users/afonso.junior/Documents/local/testlake/backend/test_lake/dao/main.go:36
+[0m[33m[1.959ms] [34;1m[rows:-][0m SELECT c.column_name, c.is_nullable = 'YES', c.udt_name, c.character_maximum_length, c.numeric_precision, c.numeric_precision_radix, c.numeric_scale, c.datetime_precision, 8 * typlen, c.column_default, pd.description, c.identity_increment FROM information_schema.columns AS c JOIN pg_type AS pgt ON c.udt_name = pgt.typname LEFT JOIN pg_catalog.pg_description as pd ON pd.objsubid = c.ordinal_position AND pd.objoid = (SELECT oid FROM pg_catalog.pg_class WHERE relname = c.table_name AND relnamespace = (SELECT oid FROM pg_catalog.pg_namespace WHERE nspname = c.table_schema)) where table_catalog = 'testlake' AND table_schema = CURRENT_SCHEMA() AND table_name = 'project_accesses'
+
+2025/08/13 17:30:24 [32m/Users/afonso.junior/Documents/local/testlake/backend/test_lake/dao/main.go:36
+[0m[33m[0.236ms] [34;1m[rows:-][0m SELECT * FROM "project_accesses" LIMIT 5
+
+2025/08/13 17:30:24 [32m/Users/afonso.junior/Documents/local/testlake/backend/test_lake/dao/main.go:36
+[0m[33m[2.473ms] [34;1m[rows:-][0m SELECT constraint_name FROM information_schema.table_constraints tc JOIN information_schema.constraint_column_usage AS ccu USING (constraint_schema, constraint_catalog, table_name, constraint_name) JOIN information_schema.columns AS c ON c.table_schema = tc.constraint_schema AND tc.table_name = c.table_name AND ccu.column_name = c.column_name WHERE constraint_type IN ('PRIMARY KEY', 'UNIQUE') AND c.table_catalog = 'testlake' AND c.table_schema = CURRENT_SCHEMA() AND c.table_name = 'project_accesses' AND constraint_type = 'UNIQUE'
+
+2025/08/13 17:30:24 [32m/Users/afonso.junior/Documents/local/testlake/backend/test_lake/dao/main.go:36
+[0m[33m[2.411ms] [34;1m[rows:-][0m SELECT c.column_name, constraint_name, constraint_type FROM information_schema.table_constraints tc JOIN information_schema.constraint_column_usage AS ccu USING (constraint_schema, constraint_catalog, table_name, constraint_name) JOIN information_schema.columns AS c ON c.table_schema = tc.constraint_schema AND tc.table_name = c.table_name AND ccu.column_name = c.column_name WHERE constraint_type IN ('PRIMARY KEY', 'UNIQUE') AND c.table_catalog = 'testlake' AND c.table_schema = CURRENT_SCHEMA() AND c.table_name = 'project_accesses'
+
+2025/08/13 17:30:24 [32m/Users/afonso.junior/Documents/local/testlake/backend/test_lake/dao/main.go:36
+[0m[33m[0.134ms] [34;1m[rows:-][0m SELECT a.attname as column_name, format_type(a.atttypid, a.atttypmod) AS data_type
+		FROM pg_attribute a JOIN pg_class b ON a.attrelid = b.oid AND relnamespace = (SELECT oid FROM pg_catalog.pg_namespace WHERE nspname = CURRENT_SCHEMA())
+		WHERE a.attnum > 0 -- hide internal columns
+		AND NOT a.attisdropped -- hide deleted columns
+		AND b.relname = 'project_accesses'
+
+2025/08/13 17:30:24 [32m/Users/afonso.junior/Documents/local/testlake/backend/test_lake/dao/main.go:36
+[0m[33m[0.104ms] [34;1m[rows:0][0m SELECT description FROM pg_catalog.pg_description WHERE objsubid = (SELECT ordinal_position FROM information_schema.columns WHERE table_schema = CURRENT_SCHEMA() AND table_name = 'project_accesses' AND column_name = 'id') AND objoid = (SELECT oid FROM pg_catalog.pg_class WHERE relname = 'project_accesses' AND relnamespace = (SELECT oid FROM pg_catalog.pg_namespace WHERE nspname = CURRENT_SCHEMA()))
+
+2025/08/13 17:30:24 [32m/Users/afonso.junior/Documents/local/testlake/backend/test_lake/dao/main.go:36
+[0m[33m[0.104ms] [34;1m[rows:0][0m SELECT description FROM pg_catalog.pg_description WHERE objsubid = (SELECT ordinal_position FROM information_schema.columns WHERE table_schema = CURRENT_SCHEMA() AND table_name = 'project_accesses' AND column_name = 'project_id') AND objoid = (SELECT oid FROM pg_catalog.pg_class WHERE relname = 'project_accesses' AND relnamespace = (SELECT oid FROM pg_catalog.pg_namespace WHERE nspname = CURRENT_SCHEMA()))
+
+2025/08/13 17:30:24 [32m/Users/afonso.junior/Documents/local/testlake/backend/test_lake/dao/main.go:36
+[0m[33m[0.124ms] [34;1m[rows:0][0m SELECT description FROM pg_catalog.pg_description WHERE objsubid = (SELECT ordinal_position FROM information_schema.columns WHERE table_schema = CURRENT_SCHEMA() AND table_name = 'project_accesses' AND column_name = 'team_id') AND objoid = (SELECT oid FROM pg_catalog.pg_class WHERE relname = 'project_accesses' AND relnamespace = (SELECT oid FROM pg_catalog.pg_namespace WHERE nspname = CURRENT_SCHEMA()))
+
+2025/08/13 17:30:24 [32m/Users/afonso.junior/Documents/local/testlake/backend/test_lake/dao/main.go:36
+[0m[33m[0.099ms] [34;1m[rows:0][0m SELECT description FROM pg_catalog.pg_description WHERE objsubid = (SELECT ordinal_position FROM information_schema.columns WHERE table_schema = CURRENT_SCHEMA() AND table_name = 'project_accesses' AND column_name = 'user_id') AND objoid = (SELECT oid FROM pg_catalog.pg_class WHERE relname = 'project_accesses' AND relnamespace = (SELECT oid FROM pg_catalog.pg_namespace WHERE nspname = CURRENT_SCHEMA()))
+
+2025/08/13 17:30:24 [32m/Users/afonso.junior/Documents/local/testlake/backend/test_lake/dao/main.go:36
+[0m[33m[0.096ms] [34;1m[rows:0][0m SELECT description FROM pg_catalog.pg_description WHERE objsubid = (SELECT ordinal_position FROM information_schema.columns WHERE table_schema = CURRENT_SCHEMA() AND table_name = 'project_accesses' AND column_name = 'permission') AND objoid = (SELECT oid FROM pg_catalog.pg_class WHERE relname = 'project_accesses' AND relnamespace = (SELECT oid FROM pg_catalog.pg_namespace WHERE nspname = CURRENT_SCHEMA()))
+
+2025/08/13 17:30:24 [32m/Users/afonso.junior/Documents/local/testlake/backend/test_lake/dao/main.go:36
+[0m[33m[0.093ms] [34;1m[rows:0][0m SELECT description FROM pg_catalog.pg_description WHERE objsubid = (SELECT ordinal_position FROM information_schema.columns WHERE table_schema = CURRENT_SCHEMA() AND table_name = 'project_accesses' AND column_name = 'granted_by') AND objoid = (SELECT oid FROM pg_catalog.pg_class WHERE relname = 'project_accesses' AND relnamespace = (SELECT oid FROM pg_catalog.pg_namespace WHERE nspname = CURRENT_SCHEMA()))
+
+2025/08/13 17:30:24 [32m/Users/afonso.junior/Documents/local/testlake/backend/test_lake/dao/main.go:36
+[0m[33m[0.089ms] [34;1m[rows:0][0m SELECT description FROM pg_catalog.pg_description WHERE objsubid = (SELECT ordinal_position FROM information_schema.columns WHERE table_schema = CURRENT_SCHEMA() AND table_name = 'project_accesses' AND column_name = 'granted_at') AND objoid = (SELECT oid FROM pg_catalog.pg_class WHERE relname = 'project_accesses' AND relnamespace = (SELECT oid FROM pg_catalog.pg_namespace WHERE nspname = CURRENT_SCHEMA()))
+
+2025/08/13 17:30:24 [32m/Users/afonso.junior/Documents/local/testlake/backend/test_lake/dao/main.go:36
+[0m[33m[0.088ms] [34;1m[rows:0][0m SELECT description FROM pg_catalog.pg_description WHERE objsubid = (SELECT ordinal_position FROM information_schema.columns WHERE table_schema = CURRENT_SCHEMA() AND table_name = 'project_accesses' AND column_name = 'deleted_at') AND objoid = (SELECT oid FROM pg_catalog.pg_class WHERE relname = 'project_accesses' AND relnamespace = (SELECT oid FROM pg_catalog.pg_namespace WHERE nspname = CURRENT_SCHEMA()))
+
+2025/08/13 17:30:24 [32m/Users/afonso.junior/Documents/local/testlake/backend/test_lake/dao/main.go:36
+[0m[33m[0.105ms] [34;1m[rows:1][0m SELECT count(*) FROM INFORMATION_SCHEMA.table_constraints WHERE table_schema = CURRENT_SCHEMA() AND table_name = 'project_accesses' AND constraint_name = 'fk_project_accesses_project'
+
+2025/08/13 17:30:24 [32m/Users/afonso.junior/Documents/local/testlake/backend/test_lake/dao/main.go:36
+[0m[33m[0.091ms] [34;1m[rows:1][0m SELECT count(*) FROM INFORMATION_SCHEMA.table_constraints WHERE table_schema = CURRENT_SCHEMA() AND table_name = 'project_accesses' AND constraint_name = 'fk_project_accesses_team'
+
+2025/08/13 17:30:24 [32m/Users/afonso.junior/Documents/local/testlake/backend/test_lake/dao/main.go:36
+[0m[33m[0.093ms] [34;1m[rows:1][0m SELECT count(*) FROM INFORMATION_SCHEMA.table_constraints WHERE table_schema = CURRENT_SCHEMA() AND table_name = 'project_accesses' AND constraint_name = 'fk_project_accesses_user'
+
+2025/08/13 17:30:24 [32m/Users/afonso.junior/Documents/local/testlake/backend/test_lake/dao/main.go:36
+[0m[33m[0.098ms] [34;1m[rows:1][0m SELECT count(*) FROM INFORMATION_SCHEMA.table_constraints WHERE table_schema = CURRENT_SCHEMA() AND table_name = 'project_accesses' AND constraint_name = 'fk_project_accesses_granted_by_user'
+
+2025/08/13 17:30:24 [32m/Users/afonso.junior/Documents/local/testlake/backend/test_lake/dao/main.go:36
+[0m[33m[0.094ms] [34;1m[rows:1][0m SELECT count(*) FROM pg_indexes WHERE tablename = 'project_accesses' AND indexname = 'idx_project_accesses_deleted_at' AND schemaname = CURRENT_SCHEMA()
+
+2025/08/13 17:30:24 [32m/Users/afonso.junior/Documents/local/testlake/backend/test_lake/dao/main.go:36
+[0m[33m[0.078ms] [34;1m[rows:1][0m SELECT count(*) FROM information_schema.tables WHERE table_schema = CURRENT_SCHEMA() AND table_name = 'environments' AND table_type = 'BASE TABLE'
+
+2025/08/13 17:30:24 [32m/Users/afonso.junior/Documents/local/testlake/backend/test_lake/dao/main.go:36
+[0m[33m[0.064ms] [34;1m[rows:1][0m SELECT CURRENT_DATABASE()
+
+2025/08/13 17:30:24 [32m/Users/afonso.junior/Documents/local/testlake/backend/test_lake/dao/main.go:36
+[0m[33m[0.527ms] [34;1m[rows:-][0m SELECT c.column_name, c.is_nullable = 'YES', c.udt_name, c.character_maximum_length, c.numeric_precision, c.numeric_precision_radix, c.numeric_scale, c.datetime_precision, 8 * typlen, c.column_default, pd.description, c.identity_increment FROM information_schema.columns AS c JOIN pg_type AS pgt ON c.udt_name = pgt.typname LEFT JOIN pg_catalog.pg_description as pd ON pd.objsubid = c.ordinal_position AND pd.objoid = (SELECT oid FROM pg_catalog.pg_class WHERE relname = c.table_name AND relnamespace = (SELECT oid FROM pg_catalog.pg_namespace WHERE nspname = c.table_schema)) where table_catalog = 'testlake' AND table_schema = CURRENT_SCHEMA() AND table_name = 'environments'
+
+2025/08/13 17:30:24 [32m/Users/afonso.junior/Documents/local/testlake/backend/test_lake/dao/main.go:36
+[0m[33m[0.169ms] [34;1m[rows:-][0m SELECT * FROM "environments" LIMIT 5
+
+2025/08/13 17:30:24 [32m/Users/afonso.junior/Documents/local/testlake/backend/test_lake/dao/main.go:36
+[0m[33m[0.575ms] [34;1m[rows:-][0m SELECT constraint_name FROM information_schema.table_constraints tc JOIN information_schema.constraint_column_usage AS ccu USING (constraint_schema, constraint_catalog, table_name, constraint_name) JOIN information_schema.columns AS c ON c.table_schema = tc.constraint_schema AND tc.table_name = c.table_name AND ccu.column_name = c.column_name WHERE constraint_type IN ('PRIMARY KEY', 'UNIQUE') AND c.table_catalog = 'testlake' AND c.table_schema = CURRENT_SCHEMA() AND c.table_name = 'environments' AND constraint_type = 'UNIQUE'
+
+2025/08/13 17:30:24 [32m/Users/afonso.junior/Documents/local/testlake/backend/test_lake/dao/main.go:36
+[0m[33m[0.564ms] [34;1m[rows:-][0m SELECT c.column_name, constraint_name, constraint_type FROM information_schema.table_constraints tc JOIN information_schema.constraint_column_usage AS ccu USING (constraint_schema, constraint_catalog, table_name, constraint_name) JOIN information_schema.columns AS c ON c.table_schema = tc.constraint_schema AND tc.table_name = c.table_name AND ccu.column_name = c.column_name WHERE constraint_type IN ('PRIMARY KEY', 'UNIQUE') AND c.table_catalog = 'testlake' AND c.table_schema = CURRENT_SCHEMA() AND c.table_name = 'environments'
+
+2025/08/13 17:30:24 [32m/Users/afonso.junior/Documents/local/testlake/backend/test_lake/dao/main.go:36
+[0m[33m[0.067ms] [34;1m[rows:-][0m SELECT a.attname as column_name, format_type(a.atttypid, a.atttypmod) AS data_type
+		FROM pg_attribute a JOIN pg_class b ON a.attrelid = b.oid AND relnamespace = (SELECT oid FROM pg_catalog.pg_namespace WHERE nspname = CURRENT_SCHEMA())
+		WHERE a.attnum > 0 -- hide internal columns
+		AND NOT a.attisdropped -- hide deleted columns
+		AND b.relname = 'environments'
+
+2025/08/13 17:30:24 [32m/Users/afonso.junior/Documents/local/testlake/backend/test_lake/dao/main.go:36
+[0m[33m[0.094ms] [34;1m[rows:0][0m SELECT description FROM pg_catalog.pg_description WHERE objsubid = (SELECT ordinal_position FROM information_schema.columns WHERE table_schema = CURRENT_SCHEMA() AND table_name = 'environments' AND column_name = 'id') AND objoid = (SELECT oid FROM pg_catalog.pg_class WHERE relname = 'environments' AND relnamespace = (SELECT oid FROM pg_catalog.pg_namespace WHERE nspname = CURRENT_SCHEMA()))
+
+2025/08/13 17:30:24 [32m/Users/afonso.junior/Documents/local/testlake/backend/test_lake/dao/main.go:36
+[0m[33m[0.089ms] [34;1m[rows:0][0m SELECT description FROM pg_catalog.pg_description WHERE objsubid = (SELECT ordinal_position FROM information_schema.columns WHERE table_schema = CURRENT_SCHEMA() AND table_name = 'environments' AND column_name = 'name') AND objoid = (SELECT oid FROM pg_catalog.pg_class WHERE relname = 'environments' AND relnamespace = (SELECT oid FROM pg_catalog.pg_namespace WHERE nspname = CURRENT_SCHEMA()))
+
+2025/08/13 17:30:24 [32m/Users/afonso.junior/Documents/local/testlake/backend/test_lake/dao/main.go:36
+[0m[33m[0.089ms] [34;1m[rows:0][0m SELECT description FROM pg_catalog.pg_description WHERE objsubid = (SELECT ordinal_position FROM information_schema.columns WHERE table_schema = CURRENT_SCHEMA() AND table_name = 'environments' AND column_name = 'slug') AND objoid = (SELECT oid FROM pg_catalog.pg_class WHERE relname = 'environments' AND relnamespace = (SELECT oid FROM pg_catalog.pg_namespace WHERE nspname = CURRENT_SCHEMA()))
+
+2025/08/13 17:30:24 [32m/Users/afonso.junior/Documents/local/testlake/backend/test_lake/dao/main.go:36
+[0m[33m[0.093ms] [34;1m[rows:0][0m SELECT description FROM pg_catalog.pg_description WHERE objsubid = (SELECT ordinal_position FROM information_schema.columns WHERE table_schema = CURRENT_SCHEMA() AND table_name = 'environments' AND column_name = 'description') AND objoid = (SELECT oid FROM pg_catalog.pg_class WHERE relname = 'environments' AND relnamespace = (SELECT oid FROM pg_catalog.pg_namespace WHERE nspname = CURRENT_SCHEMA()))
+
+2025/08/13 17:30:24 [32m/Users/afonso.junior/Documents/local/testlake/backend/test_lake/dao/main.go:36
+[0m[33m[0.095ms] [34;1m[rows:0][0m SELECT description FROM pg_catalog.pg_description WHERE objsubid = (SELECT ordinal_position FROM information_schema.columns WHERE table_schema = CURRENT_SCHEMA() AND table_name = 'environments' AND column_name = 'color') AND objoid = (SELECT oid FROM pg_catalog.pg_class WHERE relname = 'environments' AND relnamespace = (SELECT oid FROM pg_catalog.pg_namespace WHERE nspname = CURRENT_SCHEMA()))
+
+2025/08/13 17:30:24 [32m/Users/afonso.junior/Documents/local/testlake/backend/test_lake/dao/main.go:36
+[0m[33m[0.093ms] [34;1m[rows:0][0m SELECT description FROM pg_catalog.pg_description WHERE objsubid = (SELECT ordinal_position FROM information_schema.columns WHERE table_schema = CURRENT_SCHEMA() AND table_name = 'environments' AND column_name = 'project_id') AND objoid = (SELECT oid FROM pg_catalog.pg_class WHERE relname = 'environments' AND relnamespace = (SELECT oid FROM pg_catalog.pg_namespace WHERE nspname = CURRENT_SCHEMA()))
+
+2025/08/13 17:30:24 [32m/Users/afonso.junior/Documents/local/testlake/backend/test_lake/dao/main.go:36
+[0m[33m[0.089ms] [34;1m[rows:0][0m SELECT description FROM pg_catalog.pg_description WHERE objsubid = (SELECT ordinal_position FROM information_schema.columns WHERE table_schema = CURRENT_SCHEMA() AND table_name = 'environments' AND column_name = 'is_default') AND objoid = (SELECT oid FROM pg_catalog.pg_class WHERE relname = 'environments' AND relnamespace = (SELECT oid FROM pg_catalog.pg_namespace WHERE nspname = CURRENT_SCHEMA()))
+
+2025/08/13 17:30:24 [32m/Users/afonso.junior/Documents/local/testlake/backend/test_lake/dao/main.go:36
+[0m[33m[0.097ms] [34;1m[rows:0][0m SELECT description FROM pg_catalog.pg_description WHERE objsubid = (SELECT ordinal_position FROM information_schema.columns WHERE table_schema = CURRENT_SCHEMA() AND table_name = 'environments' AND column_name = 'created_by') AND objoid = (SELECT oid FROM pg_catalog.pg_class WHERE relname = 'environments' AND relnamespace = (SELECT oid FROM pg_catalog.pg_namespace WHERE nspname = CURRENT_SCHEMA()))
+
+2025/08/13 17:30:24 [32m/Users/afonso.junior/Documents/local/testlake/backend/test_lake/dao/main.go:36
+[0m[33m[0.087ms] [34;1m[rows:0][0m SELECT description FROM pg_catalog.pg_description WHERE objsubid = (SELECT ordinal_position FROM information_schema.columns WHERE table_schema = CURRENT_SCHEMA() AND table_name = 'environments' AND column_name = 'created_at') AND objoid = (SELECT oid FROM pg_catalog.pg_class WHERE relname = 'environments' AND relnamespace = (SELECT oid FROM pg_catalog.pg_namespace WHERE nspname = CURRENT_SCHEMA()))
+
+2025/08/13 17:30:24 [32m/Users/afonso.junior/Documents/local/testlake/backend/test_lake/dao/main.go:36
+[0m[33m[0.085ms] [34;1m[rows:0][0m SELECT description FROM pg_catalog.pg_description WHERE objsubid = (SELECT ordinal_position FROM information_schema.columns WHERE table_schema = CURRENT_SCHEMA() AND table_name = 'environments' AND column_name = 'updated_at') AND objoid = (SELECT oid FROM pg_catalog.pg_class WHERE relname = 'environments' AND relnamespace = (SELECT oid FROM pg_catalog.pg_namespace WHERE nspname = CURRENT_SCHEMA()))
+
+2025/08/13 17:30:24 [32m/Users/afonso.junior/Documents/local/testlake/backend/test_lake/dao/main.go:36
+[0m[33m[0.092ms] [34;1m[rows:0][0m SELECT description FROM pg_catalog.pg_description WHERE objsubid = (SELECT ordinal_position FROM information_schema.columns WHERE table_schema = CURRENT_SCHEMA() AND table_name = 'environments' AND column_name = 'status') AND objoid = (SELECT oid FROM pg_catalog.pg_class WHERE relname = 'environments' AND relnamespace = (SELECT oid FROM pg_catalog.pg_namespace WHERE nspname = CURRENT_SCHEMA()))
+
+2025/08/13 17:30:24 [32m/Users/afonso.junior/Documents/local/testlake/backend/test_lake/dao/main.go:36
+[0m[33m[0.091ms] [34;1m[rows:0][0m SELECT description FROM pg_catalog.pg_description WHERE objsubid = (SELECT ordinal_position FROM information_schema.columns WHERE table_schema = CURRENT_SCHEMA() AND table_name = 'environments' AND column_name = 'deleted_at') AND objoid = (SELECT oid FROM pg_catalog.pg_class WHERE relname = 'environments' AND relnamespace = (SELECT oid FROM pg_catalog.pg_namespace WHERE nspname = CURRENT_SCHEMA()))
+
+2025/08/13 17:30:24 [32m/Users/afonso.junior/Documents/local/testlake/backend/test_lake/dao/main.go:36
+[0m[33m[0.100ms] [34;1m[rows:1][0m SELECT count(*) FROM INFORMATION_SCHEMA.table_constraints WHERE table_schema = CURRENT_SCHEMA() AND table_name = 'environments' AND constraint_name = 'fk_environments_creator'
+
+2025/08/13 17:30:24 [32m/Users/afonso.junior/Documents/local/testlake/backend/test_lake/dao/main.go:36
+[0m[33m[0.099ms] [34;1m[rows:1][0m SELECT count(*) FROM INFORMATION_SCHEMA.table_constraints WHERE table_schema = CURRENT_SCHEMA() AND table_name = 'environments' AND constraint_name = 'fk_environments_project'
+
+2025/08/13 17:30:24 [32m/Users/afonso.junior/Documents/local/testlake/backend/test_lake/dao/main.go:36
+[0m[33m[0.089ms] [34;1m[rows:1][0m SELECT count(*) FROM pg_indexes WHERE tablename = 'environments' AND indexname = 'idx_environments_deleted_at' AND schemaname = CURRENT_SCHEMA()
+
+2025/08/13 17:30:24 [32m/Users/afonso.junior/Documents/local/testlake/backend/test_lake/dao/main.go:36
+[0m[33m[0.077ms] [34;1m[rows:1][0m SELECT count(*) FROM information_schema.tables WHERE table_schema = CURRENT_SCHEMA() AND table_name = 'features' AND table_type = 'BASE TABLE'
+
+2025/08/13 17:30:24 [32m/Users/afonso.junior/Documents/local/testlake/backend/test_lake/dao/main.go:36
+[0m[33m[0.056ms] [34;1m[rows:1][0m SELECT CURRENT_DATABASE()
+
+2025/08/13 17:30:24 [32m/Users/afonso.junior/Documents/local/testlake/backend/test_lake/dao/main.go:36
+[0m[33m[0.382ms] [34;1m[rows:-][0m SELECT c.column_name, c.is_nullable = 'YES', c.udt_name, c.character_maximum_length, c.numeric_precision, c.numeric_precision_radix, c.numeric_scale, c.datetime_precision, 8 * typlen, c.column_default, pd.description, c.identity_increment FROM information_schema.columns AS c JOIN pg_type AS pgt ON c.udt_name = pgt.typname LEFT JOIN pg_catalog.pg_description as pd ON pd.objsubid = c.ordinal_position AND pd.objoid = (SELECT oid FROM pg_catalog.pg_class WHERE relname = c.table_name AND relnamespace = (SELECT oid FROM pg_catalog.pg_namespace WHERE nspname = c.table_schema)) where table_catalog = 'testlake' AND table_schema = CURRENT_SCHEMA() AND table_name = 'features'
+
+2025/08/13 17:30:24 [32m/Users/afonso.junior/Documents/local/testlake/backend/test_lake/dao/main.go:36
+[0m[33m[0.157ms] [34;1m[rows:-][0m SELECT * FROM "features" LIMIT 5
+
+2025/08/13 17:30:24 [32m/Users/afonso.junior/Documents/local/testlake/backend/test_lake/dao/main.go:36
+[0m[33m[0.403ms] [34;1m[rows:-][0m SELECT constraint_name FROM information_schema.table_constraints tc JOIN information_schema.constraint_column_usage AS ccu USING (constraint_schema, constraint_catalog, table_name, constraint_name) JOIN information_schema.columns AS c ON c.table_schema = tc.constraint_schema AND tc.table_name = c.table_name AND ccu.column_name = c.column_name WHERE constraint_type IN ('PRIMARY KEY', 'UNIQUE') AND c.table_catalog = 'testlake' AND c.table_schema = CURRENT_SCHEMA() AND c.table_name = 'features' AND constraint_type = 'UNIQUE'
+
+2025/08/13 17:30:24 [32m/Users/afonso.junior/Documents/local/testlake/backend/test_lake/dao/main.go:36
+[0m[33m[0.395ms] [34;1m[rows:-][0m SELECT c.column_name, constraint_name, constraint_type FROM information_schema.table_constraints tc JOIN information_schema.constraint_column_usage AS ccu USING (constraint_schema, constraint_catalog, table_name, constraint_name) JOIN information_schema.columns AS c ON c.table_schema = tc.constraint_schema AND tc.table_name = c.table_name AND ccu.column_name = c.column_name WHERE constraint_type IN ('PRIMARY KEY', 'UNIQUE') AND c.table_catalog = 'testlake' AND c.table_schema = CURRENT_SCHEMA() AND c.table_name = 'features'
+
+2025/08/13 17:30:24 [32m/Users/afonso.junior/Documents/local/testlake/backend/test_lake/dao/main.go:36
+[0m[33m[0.061ms] [34;1m[rows:-][0m SELECT a.attname as column_name, format_type(a.atttypid, a.atttypmod) AS data_type
+		FROM pg_attribute a JOIN pg_class b ON a.attrelid = b.oid AND relnamespace = (SELECT oid FROM pg_catalog.pg_namespace WHERE nspname = CURRENT_SCHEMA())
+		WHERE a.attnum > 0 -- hide internal columns
+		AND NOT a.attisdropped -- hide deleted columns
+		AND b.relname = 'features'
+
+2025/08/13 17:30:24 [32m/Users/afonso.junior/Documents/local/testlake/backend/test_lake/dao/main.go:36
+[0m[33m[0.086ms] [34;1m[rows:0][0m SELECT description FROM pg_catalog.pg_description WHERE objsubid = (SELECT ordinal_position FROM information_schema.columns WHERE table_schema = CURRENT_SCHEMA() AND table_name = 'features' AND column_name = 'id') AND objoid = (SELECT oid FROM pg_catalog.pg_class WHERE relname = 'features' AND relnamespace = (SELECT oid FROM pg_catalog.pg_namespace WHERE nspname = CURRENT_SCHEMA()))
+
+2025/08/13 17:30:24 [32m/Users/afonso.junior/Documents/local/testlake/backend/test_lake/dao/main.go:36
+[0m[33m[0.090ms] [34;1m[rows:0][0m SELECT description FROM pg_catalog.pg_description WHERE objsubid = (SELECT ordinal_position FROM information_schema.columns WHERE table_schema = CURRENT_SCHEMA() AND table_name = 'features' AND column_name = 'name') AND objoid = (SELECT oid FROM pg_catalog.pg_class WHERE relname = 'features' AND relnamespace = (SELECT oid FROM pg_catalog.pg_namespace WHERE nspname = CURRENT_SCHEMA()))
+
+2025/08/13 17:30:24 [32m/Users/afonso.junior/Documents/local/testlake/backend/test_lake/dao/main.go:36
+[0m[33m[0.091ms] [34;1m[rows:0][0m SELECT description FROM pg_catalog.pg_description WHERE objsubid = (SELECT ordinal_position FROM information_schema.columns WHERE table_schema = CURRENT_SCHEMA() AND table_name = 'features' AND column_name = 'description') AND objoid = (SELECT oid FROM pg_catalog.pg_class WHERE relname = 'features' AND relnamespace = (SELECT oid FROM pg_catalog.pg_namespace WHERE nspname = CURRENT_SCHEMA()))
+
+2025/08/13 17:30:24 [32m/Users/afonso.junior/Documents/local/testlake/backend/test_lake/dao/main.go:36
+[0m[33m[0.089ms] [34;1m[rows:0][0m SELECT description FROM pg_catalog.pg_description WHERE objsubid = (SELECT ordinal_position FROM information_schema.columns WHERE table_schema = CURRENT_SCHEMA() AND table_name = 'features' AND column_name = 'project_id') AND objoid = (SELECT oid FROM pg_catalog.pg_class WHERE relname = 'features' AND relnamespace = (SELECT oid FROM pg_catalog.pg_namespace WHERE nspname = CURRENT_SCHEMA()))
+
+2025/08/13 17:30:24 [32m/Users/afonso.junior/Documents/local/testlake/backend/test_lake/dao/main.go:36
+[0m[33m[0.082ms] [34;1m[rows:0][0m SELECT description FROM pg_catalog.pg_description WHERE objsubid = (SELECT ordinal_position FROM information_schema.columns WHERE table_schema = CURRENT_SCHEMA() AND table_name = 'features' AND column_name = 'created_by') AND objoid = (SELECT oid FROM pg_catalog.pg_class WHERE relname = 'features' AND relnamespace = (SELECT oid FROM pg_catalog.pg_namespace WHERE nspname = CURRENT_SCHEMA()))
+
+2025/08/13 17:30:24 [32m/Users/afonso.junior/Documents/local/testlake/backend/test_lake/dao/main.go:36
+[0m[33m[0.090ms] [34;1m[rows:0][0m SELECT description FROM pg_catalog.pg_description WHERE objsubid = (SELECT ordinal_position FROM information_schema.columns WHERE table_schema = CURRENT_SCHEMA() AND table_name = 'features' AND column_name = 'created_at') AND objoid = (SELECT oid FROM pg_catalog.pg_class WHERE relname = 'features' AND relnamespace = (SELECT oid FROM pg_catalog.pg_namespace WHERE nspname = CURRENT_SCHEMA()))
+
+2025/08/13 17:30:24 [32m/Users/afonso.junior/Documents/local/testlake/backend/test_lake/dao/main.go:36
+[0m[33m[0.084ms] [34;1m[rows:0][0m SELECT description FROM pg_catalog.pg_description WHERE objsubid = (SELECT ordinal_position FROM information_schema.columns WHERE table_schema = CURRENT_SCHEMA() AND table_name = 'features' AND column_name = 'updated_at') AND objoid = (SELECT oid FROM pg_catalog.pg_class WHERE relname = 'features' AND relnamespace = (SELECT oid FROM pg_catalog.pg_namespace WHERE nspname = CURRENT_SCHEMA()))
+
+2025/08/13 17:30:24 [32m/Users/afonso.junior/Documents/local/testlake/backend/test_lake/dao/main.go:36
+[0m[33m[0.082ms] [34;1m[rows:0][0m SELECT description FROM pg_catalog.pg_description WHERE objsubid = (SELECT ordinal_position FROM information_schema.columns WHERE table_schema = CURRENT_SCHEMA() AND table_name = 'features' AND column_name = 'deleted_at') AND objoid = (SELECT oid FROM pg_catalog.pg_class WHERE relname = 'features' AND relnamespace = (SELECT oid FROM pg_catalog.pg_namespace WHERE nspname = CURRENT_SCHEMA()))
+
+2025/08/13 17:30:24 [32m/Users/afonso.junior/Documents/local/testlake/backend/test_lake/dao/main.go:36
+[0m[33m[0.106ms] [34;1m[rows:1][0m SELECT count(*) FROM INFORMATION_SCHEMA.table_constraints WHERE table_schema = CURRENT_SCHEMA() AND table_name = 'features' AND constraint_name = 'fk_features_project'
+
+2025/08/13 17:30:24 [32m/Users/afonso.junior/Documents/local/testlake/backend/test_lake/dao/main.go:36
+[0m[33m[0.092ms] [34;1m[rows:1][0m SELECT count(*) FROM INFORMATION_SCHEMA.table_constraints WHERE table_schema = CURRENT_SCHEMA() AND table_name = 'features' AND constraint_name = 'fk_features_creator'
+
+2025/08/13 17:30:24 [32m/Users/afonso.junior/Documents/local/testlake/backend/test_lake/dao/main.go:36
+[0m[33m[0.075ms] [34;1m[rows:1][0m SELECT count(*) FROM pg_indexes WHERE tablename = 'features' AND indexname = 'idx_features_deleted_at' AND schemaname = CURRENT_SCHEMA()
+
+2025/08/13 17:30:24 [32m/Users/afonso.junior/Documents/local/testlake/backend/test_lake/dao/main.go:36
+[0m[33m[0.074ms] [34;1m[rows:1][0m SELECT count(*) FROM information_schema.tables WHERE table_schema = CURRENT_SCHEMA() AND table_name = 'feature_environment_statuses' AND table_type = 'BASE TABLE'
+
+2025/08/13 17:30:24 [32m/Users/afonso.junior/Documents/local/testlake/backend/test_lake/dao/main.go:36
+[0m[33m[0.051ms] [34;1m[rows:1][0m SELECT CURRENT_DATABASE()
+
+2025/08/13 17:30:24 [32m/Users/afonso.junior/Documents/local/testlake/backend/test_lake/dao/main.go:36
+[0m[33m[0.401ms] [34;1m[rows:-][0m SELECT c.column_name, c.is_nullable = 'YES', c.udt_name, c.character_maximum_length, c.numeric_precision, c.numeric_precision_radix, c.numeric_scale, c.datetime_precision, 8 * typlen, c.column_default, pd.description, c.identity_increment FROM information_schema.columns AS c JOIN pg_type AS pgt ON c.udt_name = pgt.typname LEFT JOIN pg_catalog.pg_description as pd ON pd.objsubid = c.ordinal_position AND pd.objoid = (SELECT oid FROM pg_catalog.pg_class WHERE relname = c.table_name AND relnamespace = (SELECT oid FROM pg_catalog.pg_namespace WHERE nspname = c.table_schema)) where table_catalog = 'testlake' AND table_schema = CURRENT_SCHEMA() AND table_name = 'feature_environment_statuses'
+
+2025/08/13 17:30:24 [32m/Users/afonso.junior/Documents/local/testlake/backend/test_lake/dao/main.go:36
+[0m[33m[0.143ms] [34;1m[rows:-][0m SELECT * FROM "feature_environment_statuses" LIMIT 5
+
+2025/08/13 17:30:24 [32m/Users/afonso.junior/Documents/local/testlake/backend/test_lake/dao/main.go:36
+[0m[33m[0.313ms] [34;1m[rows:-][0m SELECT constraint_name FROM information_schema.table_constraints tc JOIN information_schema.constraint_column_usage AS ccu USING (constraint_schema, constraint_catalog, table_name, constraint_name) JOIN information_schema.columns AS c ON c.table_schema = tc.constraint_schema AND tc.table_name = c.table_name AND ccu.column_name = c.column_name WHERE constraint_type IN ('PRIMARY KEY', 'UNIQUE') AND c.table_catalog = 'testlake' AND c.table_schema = CURRENT_SCHEMA() AND c.table_name = 'feature_environment_statuses' AND constraint_type = 'UNIQUE'
+
+2025/08/13 17:30:24 [32m/Users/afonso.junior/Documents/local/testlake/backend/test_lake/dao/main.go:36
+[0m[33m[0.314ms] [34;1m[rows:-][0m SELECT c.column_name, constraint_name, constraint_type FROM information_schema.table_constraints tc JOIN information_schema.constraint_column_usage AS ccu USING (constraint_schema, constraint_catalog, table_name, constraint_name) JOIN information_schema.columns AS c ON c.table_schema = tc.constraint_schema AND tc.table_name = c.table_name AND ccu.column_name = c.column_name WHERE constraint_type IN ('PRIMARY KEY', 'UNIQUE') AND c.table_catalog = 'testlake' AND c.table_schema = CURRENT_SCHEMA() AND c.table_name = 'feature_environment_statuses'
+
+2025/08/13 17:30:24 [32m/Users/afonso.junior/Documents/local/testlake/backend/test_lake/dao/main.go:36
+[0m[33m[0.062ms] [34;1m[rows:-][0m SELECT a.attname as column_name, format_type(a.atttypid, a.atttypmod) AS data_type
+		FROM pg_attribute a JOIN pg_class b ON a.attrelid = b.oid AND relnamespace = (SELECT oid FROM pg_catalog.pg_namespace WHERE nspname = CURRENT_SCHEMA())
+		WHERE a.attnum > 0 -- hide internal columns
+		AND NOT a.attisdropped -- hide deleted columns
+		AND b.relname = 'feature_environment_statuses'
+
+2025/08/13 17:30:24 [32m/Users/afonso.junior/Documents/local/testlake/backend/test_lake/dao/main.go:36
+[0m[33m[0.096ms] [34;1m[rows:0][0m SELECT description FROM pg_catalog.pg_description WHERE objsubid = (SELECT ordinal_position FROM information_schema.columns WHERE table_schema = CURRENT_SCHEMA() AND table_name = 'feature_environment_statuses' AND column_name = 'id') AND objoid = (SELECT oid FROM pg_catalog.pg_class WHERE relname = 'feature_environment_statuses' AND relnamespace = (SELECT oid FROM pg_catalog.pg_namespace WHERE nspname = CURRENT_SCHEMA()))
+
+2025/08/13 17:30:24 [32m/Users/afonso.junior/Documents/local/testlake/backend/test_lake/dao/main.go:36
+[0m[33m[0.087ms] [34;1m[rows:0][0m SELECT description FROM pg_catalog.pg_description WHERE objsubid = (SELECT ordinal_position FROM information_schema.columns WHERE table_schema = CURRENT_SCHEMA() AND table_name = 'feature_environment_statuses' AND column_name = 'feature_id') AND objoid = (SELECT oid FROM pg_catalog.pg_class WHERE relname = 'feature_environment_statuses' AND relnamespace = (SELECT oid FROM pg_catalog.pg_namespace WHERE nspname = CURRENT_SCHEMA()))
+
+2025/08/13 17:30:24 [32m/Users/afonso.junior/Documents/local/testlake/backend/test_lake/dao/main.go:36
+[0m[33m[0.094ms] [34;1m[rows:0][0m SELECT description FROM pg_catalog.pg_description WHERE objsubid = (SELECT ordinal_position FROM information_schema.columns WHERE table_schema = CURRENT_SCHEMA() AND table_name = 'feature_environment_statuses' AND column_name = 'environment_id') AND objoid = (SELECT oid FROM pg_catalog.pg_class WHERE relname = 'feature_environment_statuses' AND relnamespace = (SELECT oid FROM pg_catalog.pg_namespace WHERE nspname = CURRENT_SCHEMA()))
+
+2025/08/13 17:30:24 [32m/Users/afonso.junior/Documents/local/testlake/backend/test_lake/dao/main.go:36
+[0m[33m[0.090ms] [34;1m[rows:0][0m SELECT description FROM pg_catalog.pg_description WHERE objsubid = (SELECT ordinal_position FROM information_schema.columns WHERE table_schema = CURRENT_SCHEMA() AND table_name = 'feature_environment_statuses' AND column_name = 'is_working') AND objoid = (SELECT oid FROM pg_catalog.pg_class WHERE relname = 'feature_environment_statuses' AND relnamespace = (SELECT oid FROM pg_catalog.pg_namespace WHERE nspname = CURRENT_SCHEMA()))
+
+2025/08/13 17:30:24 [32m/Users/afonso.junior/Documents/local/testlake/backend/test_lake/dao/main.go:36
+[0m[33m[0.084ms] [34;1m[rows:0][0m SELECT description FROM pg_catalog.pg_description WHERE objsubid = (SELECT ordinal_position FROM information_schema.columns WHERE table_schema = CURRENT_SCHEMA() AND table_name = 'feature_environment_statuses' AND column_name = 'error_message') AND objoid = (SELECT oid FROM pg_catalog.pg_class WHERE relname = 'feature_environment_statuses' AND relnamespace = (SELECT oid FROM pg_catalog.pg_namespace WHERE nspname = CURRENT_SCHEMA()))
+
+2025/08/13 17:30:24 [32m/Users/afonso.junior/Documents/local/testlake/backend/test_lake/dao/main.go:36
+[0m[33m[0.083ms] [34;1m[rows:0][0m SELECT description FROM pg_catalog.pg_description WHERE objsubid = (SELECT ordinal_position FROM information_schema.columns WHERE table_schema = CURRENT_SCHEMA() AND table_name = 'feature_environment_statuses' AND column_name = 'last_tested_at') AND objoid = (SELECT oid FROM pg_catalog.pg_class WHERE relname = 'feature_environment_statuses' AND relnamespace = (SELECT oid FROM pg_catalog.pg_namespace WHERE nspname = CURRENT_SCHEMA()))
+
+2025/08/13 17:30:24 [32m/Users/afonso.junior/Documents/local/testlake/backend/test_lake/dao/main.go:36
+[0m[33m[0.081ms] [34;1m[rows:0][0m SELECT description FROM pg_catalog.pg_description WHERE objsubid = (SELECT ordinal_position FROM information_schema.columns WHERE table_schema = CURRENT_SCHEMA() AND table_name = 'feature_environment_statuses' AND column_name = 'last_tested_by') AND objoid = (SELECT oid FROM pg_catalog.pg_class WHERE relname = 'feature_environment_statuses' AND relnamespace = (SELECT oid FROM pg_catalog.pg_namespace WHERE nspname = CURRENT_SCHEMA()))
+
+2025/08/13 17:30:24 [32m/Users/afonso.junior/Documents/local/testlake/backend/test_lake/dao/main.go:36
+[0m[33m[0.090ms] [34;1m[rows:0][0m SELECT description FROM pg_catalog.pg_description WHERE objsubid = (SELECT ordinal_position FROM information_schema.columns WHERE table_schema = CURRENT_SCHEMA() AND table_name = 'feature_environment_statuses' AND column_name = 'created_at') AND objoid = (SELECT oid FROM pg_catalog.pg_class WHERE relname = 'feature_environment_statuses' AND relnamespace = (SELECT oid FROM pg_catalog.pg_namespace WHERE nspname = CURRENT_SCHEMA()))
+
+2025/08/13 17:30:24 [32m/Users/afonso.junior/Documents/local/testlake/backend/test_lake/dao/main.go:36
+[0m[33m[0.083ms] [34;1m[rows:0][0m SELECT description FROM pg_catalog.pg_description WHERE objsubid = (SELECT ordinal_position FROM information_schema.columns WHERE table_schema = CURRENT_SCHEMA() AND table_name = 'feature_environment_statuses' AND column_name = 'updated_at') AND objoid = (SELECT oid FROM pg_catalog.pg_class WHERE relname = 'feature_environment_statuses' AND relnamespace = (SELECT oid FROM pg_catalog.pg_namespace WHERE nspname = CURRENT_SCHEMA()))
+
+2025/08/13 17:30:24 [32m/Users/afonso.junior/Documents/local/testlake/backend/test_lake/dao/main.go:36
+[0m[33m[0.083ms] [34;1m[rows:0][0m SELECT description FROM pg_catalog.pg_description WHERE objsubid = (SELECT ordinal_position FROM information_schema.columns WHERE table_schema = CURRENT_SCHEMA() AND table_name = 'feature_environment_statuses' AND column_name = 'deleted_at') AND objoid = (SELECT oid FROM pg_catalog.pg_class WHERE relname = 'feature_environment_statuses' AND relnamespace = (SELECT oid FROM pg_catalog.pg_namespace WHERE nspname = CURRENT_SCHEMA()))
+
+2025/08/13 17:30:24 [32m/Users/afonso.junior/Documents/local/testlake/backend/test_lake/dao/main.go:36
+[0m[33m[0.097ms] [34;1m[rows:1][0m SELECT count(*) FROM INFORMATION_SCHEMA.table_constraints WHERE table_schema = CURRENT_SCHEMA() AND table_name = 'feature_environment_statuses' AND constraint_name = 'fk_feature_environment_statuses_feature'
+
+2025/08/13 17:30:24 [32m/Users/afonso.junior/Documents/local/testlake/backend/test_lake/dao/main.go:36
+[0m[33m[0.085ms] [34;1m[rows:1][0m SELECT count(*) FROM INFORMATION_SCHEMA.table_constraints WHERE table_schema = CURRENT_SCHEMA() AND table_name = 'feature_environment_statuses' AND constraint_name = 'fk_feature_environment_statuses_environment'
+
+2025/08/13 17:30:24 [32m/Users/afonso.junior/Documents/local/testlake/backend/test_lake/dao/main.go:36
+[0m[33m[0.086ms] [34;1m[rows:1][0m SELECT count(*) FROM INFORMATION_SCHEMA.table_constraints WHERE table_schema = CURRENT_SCHEMA() AND table_name = 'feature_environment_statuses' AND constraint_name = 'fk_feature_environment_statuses_last_tested_by_user'
+
+2025/08/13 17:30:24 [32m/Users/afonso.junior/Documents/local/testlake/backend/test_lake/dao/main.go:36
+[0m[33m[0.076ms] [34;1m[rows:1][0m SELECT count(*) FROM pg_indexes WHERE tablename = 'feature_environment_statuses' AND indexname = 'idx_feature_environment_statuses_deleted_at' AND schemaname = CURRENT_SCHEMA()
+
+2025/08/13 17:30:24 [32m/Users/afonso.junior/Documents/local/testlake/backend/test_lake/dao/main.go:36
+[0m[33m[0.072ms] [34;1m[rows:1][0m SELECT count(*) FROM information_schema.tables WHERE table_schema = CURRENT_SCHEMA() AND table_name = 'feature_error_logs' AND table_type = 'BASE TABLE'
+
+2025/08/13 17:30:24 [32m/Users/afonso.junior/Documents/local/testlake/backend/test_lake/dao/main.go:36
+[0m[33m[0.051ms] [34;1m[rows:1][0m SELECT CURRENT_DATABASE()
+
+2025/08/13 17:30:24 [32m/Users/afonso.junior/Documents/local/testlake/backend/test_lake/dao/main.go:36
+[0m[33m[0.392ms] [34;1m[rows:-][0m SELECT c.column_name, c.is_nullable = 'YES', c.udt_name, c.character_maximum_length, c.numeric_precision, c.numeric_precision_radix, c.numeric_scale, c.datetime_precision, 8 * typlen, c.column_default, pd.description, c.identity_increment FROM information_schema.columns AS c JOIN pg_type AS pgt ON c.udt_name = pgt.typname LEFT JOIN pg_catalog.pg_description as pd ON pd.objsubid = c.ordinal_position AND pd.objoid = (SELECT oid FROM pg_catalog.pg_class WHERE relname = c.table_name AND relnamespace = (SELECT oid FROM pg_catalog.pg_namespace WHERE nspname = c.table_schema)) where table_catalog = 'testlake' AND table_schema = CURRENT_SCHEMA() AND table_name = 'feature_error_logs'
+
+2025/08/13 17:30:24 [32m/Users/afonso.junior/Documents/local/testlake/backend/test_lake/dao/main.go:36
+[0m[33m[0.134ms] [34;1m[rows:-][0m SELECT * FROM "feature_error_logs" LIMIT 5
+
+2025/08/13 17:30:24 [32m/Users/afonso.junior/Documents/local/testlake/backend/test_lake/dao/main.go:36
+[0m[33m[0.337ms] [34;1m[rows:-][0m SELECT constraint_name FROM information_schema.table_constraints tc JOIN information_schema.constraint_column_usage AS ccu USING (constraint_schema, constraint_catalog, table_name, constraint_name) JOIN information_schema.columns AS c ON c.table_schema = tc.constraint_schema AND tc.table_name = c.table_name AND ccu.column_name = c.column_name WHERE constraint_type IN ('PRIMARY KEY', 'UNIQUE') AND c.table_catalog = 'testlake' AND c.table_schema = CURRENT_SCHEMA() AND c.table_name = 'feature_error_logs' AND constraint_type = 'UNIQUE'
+
+2025/08/13 17:30:24 [32m/Users/afonso.junior/Documents/local/testlake/backend/test_lake/dao/main.go:36
+[0m[33m[0.335ms] [34;1m[rows:-][0m SELECT c.column_name, constraint_name, constraint_type FROM information_schema.table_constraints tc JOIN information_schema.constraint_column_usage AS ccu USING (constraint_schema, constraint_catalog, table_name, constraint_name) JOIN information_schema.columns AS c ON c.table_schema = tc.constraint_schema AND tc.table_name = c.table_name AND ccu.column_name = c.column_name WHERE constraint_type IN ('PRIMARY KEY', 'UNIQUE') AND c.table_catalog = 'testlake' AND c.table_schema = CURRENT_SCHEMA() AND c.table_name = 'feature_error_logs'
+
+2025/08/13 17:30:24 [32m/Users/afonso.junior/Documents/local/testlake/backend/test_lake/dao/main.go:36
+[0m[33m[0.063ms] [34;1m[rows:-][0m SELECT a.attname as column_name, format_type(a.atttypid, a.atttypmod) AS data_type
+		FROM pg_attribute a JOIN pg_class b ON a.attrelid = b.oid AND relnamespace = (SELECT oid FROM pg_catalog.pg_namespace WHERE nspname = CURRENT_SCHEMA())
+		WHERE a.attnum > 0 -- hide internal columns
+		AND NOT a.attisdropped -- hide deleted columns
+		AND b.relname = 'feature_error_logs'
+
+2025/08/13 17:30:24 [32m/Users/afonso.junior/Documents/local/testlake/backend/test_lake/dao/main.go:36
+[0m[33m[0.095ms] [34;1m[rows:0][0m SELECT description FROM pg_catalog.pg_description WHERE objsubid = (SELECT ordinal_position FROM information_schema.columns WHERE table_schema = CURRENT_SCHEMA() AND table_name = 'feature_error_logs' AND column_name = 'id') AND objoid = (SELECT oid FROM pg_catalog.pg_class WHERE relname = 'feature_error_logs' AND relnamespace = (SELECT oid FROM pg_catalog.pg_namespace WHERE nspname = CURRENT_SCHEMA()))
+
+2025/08/13 17:30:24 [32m/Users/afonso.junior/Documents/local/testlake/backend/test_lake/dao/main.go:36
+[0m[33m[0.084ms] [34;1m[rows:0][0m SELECT description FROM pg_catalog.pg_description WHERE objsubid = (SELECT ordinal_position FROM information_schema.columns WHERE table_schema = CURRENT_SCHEMA() AND table_name = 'feature_error_logs' AND column_name = 'feature_id') AND objoid = (SELECT oid FROM pg_catalog.pg_class WHERE relname = 'feature_error_logs' AND relnamespace = (SELECT oid FROM pg_catalog.pg_namespace WHERE nspname = CURRENT_SCHEMA()))
+
+2025/08/13 17:30:24 [32m/Users/afonso.junior/Documents/local/testlake/backend/test_lake/dao/main.go:36
+[0m[33m[0.081ms] [34;1m[rows:0][0m SELECT description FROM pg_catalog.pg_description WHERE objsubid = (SELECT ordinal_position FROM information_schema.columns WHERE table_schema = CURRENT_SCHEMA() AND table_name = 'feature_error_logs' AND column_name = 'environment_id') AND objoid = (SELECT oid FROM pg_catalog.pg_class WHERE relname = 'feature_error_logs' AND relnamespace = (SELECT oid FROM pg_catalog.pg_namespace WHERE nspname = CURRENT_SCHEMA()))
+
+2025/08/13 17:30:24 [32m/Users/afonso.junior/Documents/local/testlake/backend/test_lake/dao/main.go:36
+[0m[33m[0.080ms] [34;1m[rows:0][0m SELECT description FROM pg_catalog.pg_description WHERE objsubid = (SELECT ordinal_position FROM information_schema.columns WHERE table_schema = CURRENT_SCHEMA() AND table_name = 'feature_error_logs' AND column_name = 'error_message') AND objoid = (SELECT oid FROM pg_catalog.pg_class WHERE relname = 'feature_error_logs' AND relnamespace = (SELECT oid FROM pg_catalog.pg_namespace WHERE nspname = CURRENT_SCHEMA()))
+
+2025/08/13 17:30:24 [32m/Users/afonso.junior/Documents/local/testlake/backend/test_lake/dao/main.go:36
+[0m[33m[0.079ms] [34;1m[rows:0][0m SELECT description FROM pg_catalog.pg_description WHERE objsubid = (SELECT ordinal_position FROM information_schema.columns WHERE table_schema = CURRENT_SCHEMA() AND table_name = 'feature_error_logs' AND column_name = 'error_details') AND objoid = (SELECT oid FROM pg_catalog.pg_class WHERE relname = 'feature_error_logs' AND relnamespace = (SELECT oid FROM pg_catalog.pg_namespace WHERE nspname = CURRENT_SCHEMA()))
+
+2025/08/13 17:30:24 [32m/Users/afonso.junior/Documents/local/testlake/backend/test_lake/dao/main.go:36
+[0m[33m[0.086ms] [34;1m[rows:0][0m SELECT description FROM pg_catalog.pg_description WHERE objsubid = (SELECT ordinal_position FROM information_schema.columns WHERE table_schema = CURRENT_SCHEMA() AND table_name = 'feature_error_logs' AND column_name = 'reported_by') AND objoid = (SELECT oid FROM pg_catalog.pg_class WHERE relname = 'feature_error_logs' AND relnamespace = (SELECT oid FROM pg_catalog.pg_namespace WHERE nspname = CURRENT_SCHEMA()))
+
+2025/08/13 17:30:24 [32m/Users/afonso.junior/Documents/local/testlake/backend/test_lake/dao/main.go:36
+[0m[33m[0.078ms] [34;1m[rows:0][0m SELECT description FROM pg_catalog.pg_description WHERE objsubid = (SELECT ordinal_position FROM information_schema.columns WHERE table_schema = CURRENT_SCHEMA() AND table_name = 'feature_error_logs' AND column_name = 'reported_at') AND objoid = (SELECT oid FROM pg_catalog.pg_class WHERE relname = 'feature_error_logs' AND relnamespace = (SELECT oid FROM pg_catalog.pg_namespace WHERE nspname = CURRENT_SCHEMA()))
+
+2025/08/13 17:30:24 [32m/Users/afonso.junior/Documents/local/testlake/backend/test_lake/dao/main.go:36
+[0m[33m[0.080ms] [34;1m[rows:0][0m SELECT description FROM pg_catalog.pg_description WHERE objsubid = (SELECT ordinal_position FROM information_schema.columns WHERE table_schema = CURRENT_SCHEMA() AND table_name = 'feature_error_logs' AND column_name = 'resolved_at') AND objoid = (SELECT oid FROM pg_catalog.pg_class WHERE relname = 'feature_error_logs' AND relnamespace = (SELECT oid FROM pg_catalog.pg_namespace WHERE nspname = CURRENT_SCHEMA()))
+
+2025/08/13 17:30:24 [32m/Users/afonso.junior/Documents/local/testlake/backend/test_lake/dao/main.go:36
+[0m[33m[0.076ms] [34;1m[rows:0][0m SELECT description FROM pg_catalog.pg_description WHERE objsubid = (SELECT ordinal_position FROM information_schema.columns WHERE table_schema = CURRENT_SCHEMA() AND table_name = 'feature_error_logs' AND column_name = 'resolved_by') AND objoid = (SELECT oid FROM pg_catalog.pg_class WHERE relname = 'feature_error_logs' AND relnamespace = (SELECT oid FROM pg_catalog.pg_namespace WHERE nspname = CURRENT_SCHEMA()))
+
+2025/08/13 17:30:24 [32m/Users/afonso.junior/Documents/local/testlake/backend/test_lake/dao/main.go:36
+[0m[33m[0.075ms] [34;1m[rows:0][0m SELECT description FROM pg_catalog.pg_description WHERE objsubid = (SELECT ordinal_position FROM information_schema.columns WHERE table_schema = CURRENT_SCHEMA() AND table_name = 'feature_error_logs' AND column_name = 'deleted_at') AND objoid = (SELECT oid FROM pg_catalog.pg_class WHERE relname = 'feature_error_logs' AND relnamespace = (SELECT oid FROM pg_catalog.pg_namespace WHERE nspname = CURRENT_SCHEMA()))
+
+2025/08/13 17:30:24 [32m/Users/afonso.junior/Documents/local/testlake/backend/test_lake/dao/main.go:36
+[0m[33m[0.083ms] [34;1m[rows:1][0m SELECT count(*) FROM INFORMATION_SCHEMA.table_constraints WHERE table_schema = CURRENT_SCHEMA() AND table_name = 'feature_error_logs' AND constraint_name = 'fk_feature_error_logs_feature'
+
+2025/08/13 17:30:24 [32m/Users/afonso.junior/Documents/local/testlake/backend/test_lake/dao/main.go:36
+[0m[33m[0.081ms] [34;1m[rows:1][0m SELECT count(*) FROM INFORMATION_SCHEMA.table_constraints WHERE table_schema = CURRENT_SCHEMA() AND table_name = 'feature_error_logs' AND constraint_name = 'fk_feature_error_logs_environment'
+
+2025/08/13 17:30:24 [32m/Users/afonso.junior/Documents/local/testlake/backend/test_lake/dao/main.go:36
+[0m[33m[0.078ms] [34;1m[rows:1][0m SELECT count(*) FROM INFORMATION_SCHEMA.table_constraints WHERE table_schema = CURRENT_SCHEMA() AND table_name = 'feature_error_logs' AND constraint_name = 'fk_feature_error_logs_reporter'
+
+2025/08/13 17:30:24 [32m/Users/afonso.junior/Documents/local/testlake/backend/test_lake/dao/main.go:36
+[0m[33m[0.077ms] [34;1m[rows:1][0m SELECT count(*) FROM INFORMATION_SCHEMA.table_constraints WHERE table_schema = CURRENT_SCHEMA() AND table_name = 'feature_error_logs' AND constraint_name = 'fk_feature_error_logs_resolver'
+
+2025/08/13 17:30:24 [32m/Users/afonso.junior/Documents/local/testlake/backend/test_lake/dao/main.go:36
+[0m[33m[0.071ms] [34;1m[rows:1][0m SELECT count(*) FROM pg_indexes WHERE tablename = 'feature_error_logs' AND indexname = 'idx_feature_error_logs_deleted_at' AND schemaname = CURRENT_SCHEMA()
+
+2025/08/13 17:30:24 [32m/Users/afonso.junior/Documents/local/testlake/backend/test_lake/dao/main.go:36
+[0m[33m[0.067ms] [34;1m[rows:1][0m SELECT count(*) FROM information_schema.tables WHERE table_schema = CURRENT_SCHEMA() AND table_name = 'error_images' AND table_type = 'BASE TABLE'
+
+2025/08/13 17:30:24 [32m/Users/afonso.junior/Documents/local/testlake/backend/test_lake/dao/main.go:36
+[0m[33m[0.050ms] [34;1m[rows:1][0m SELECT CURRENT_DATABASE()
+
+2025/08/13 17:30:24 [32m/Users/afonso.junior/Documents/local/testlake/backend/test_lake/dao/main.go:36
+[0m[33m[0.292ms] [34;1m[rows:-][0m SELECT c.column_name, c.is_nullable = 'YES', c.udt_name, c.character_maximum_length, c.numeric_precision, c.numeric_precision_radix, c.numeric_scale, c.datetime_precision, 8 * typlen, c.column_default, pd.description, c.identity_increment FROM information_schema.columns AS c JOIN pg_type AS pgt ON c.udt_name = pgt.typname LEFT JOIN pg_catalog.pg_description as pd ON pd.objsubid = c.ordinal_position AND pd.objoid = (SELECT oid FROM pg_catalog.pg_class WHERE relname = c.table_name AND relnamespace = (SELECT oid FROM pg_catalog.pg_namespace WHERE nspname = c.table_schema)) where table_catalog = 'testlake' AND table_schema = CURRENT_SCHEMA() AND table_name = 'error_images'
+
+2025/08/13 17:30:24 [32m/Users/afonso.junior/Documents/local/testlake/backend/test_lake/dao/main.go:36
+[0m[33m[0.135ms] [34;1m[rows:-][0m SELECT * FROM "error_images" LIMIT 5
+
+2025/08/13 17:30:24 [32m/Users/afonso.junior/Documents/local/testlake/backend/test_lake/dao/main.go:36
+[0m[33m[0.254ms] [34;1m[rows:-][0m SELECT constraint_name FROM information_schema.table_constraints tc JOIN information_schema.constraint_column_usage AS ccu USING (constraint_schema, constraint_catalog, table_name, constraint_name) JOIN information_schema.columns AS c ON c.table_schema = tc.constraint_schema AND tc.table_name = c.table_name AND ccu.column_name = c.column_name WHERE constraint_type IN ('PRIMARY KEY', 'UNIQUE') AND c.table_catalog = 'testlake' AND c.table_schema = CURRENT_SCHEMA() AND c.table_name = 'error_images' AND constraint_type = 'UNIQUE'
+
+2025/08/13 17:30:24 [32m/Users/afonso.junior/Documents/local/testlake/backend/test_lake/dao/main.go:36
+[0m[33m[0.251ms] [34;1m[rows:-][0m SELECT c.column_name, constraint_name, constraint_type FROM information_schema.table_constraints tc JOIN information_schema.constraint_column_usage AS ccu USING (constraint_schema, constraint_catalog, table_name, constraint_name) JOIN information_schema.columns AS c ON c.table_schema = tc.constraint_schema AND tc.table_name = c.table_name AND ccu.column_name = c.column_name WHERE constraint_type IN ('PRIMARY KEY', 'UNIQUE') AND c.table_catalog = 'testlake' AND c.table_schema = CURRENT_SCHEMA() AND c.table_name = 'error_images'
+
+2025/08/13 17:30:24 [32m/Users/afonso.junior/Documents/local/testlake/backend/test_lake/dao/main.go:36
+[0m[33m[0.066ms] [34;1m[rows:-][0m SELECT a.attname as column_name, format_type(a.atttypid, a.atttypmod) AS data_type
+		FROM pg_attribute a JOIN pg_class b ON a.attrelid = b.oid AND relnamespace = (SELECT oid FROM pg_catalog.pg_namespace WHERE nspname = CURRENT_SCHEMA())
+		WHERE a.attnum > 0 -- hide internal columns
+		AND NOT a.attisdropped -- hide deleted columns
+		AND b.relname = 'error_images'
+
+2025/08/13 17:30:24 [32m/Users/afonso.junior/Documents/local/testlake/backend/test_lake/dao/main.go:36
+[0m[33m[0.102ms] [34;1m[rows:0][0m SELECT description FROM pg_catalog.pg_description WHERE objsubid = (SELECT ordinal_position FROM information_schema.columns WHERE table_schema = CURRENT_SCHEMA() AND table_name = 'error_images' AND column_name = 'id') AND objoid = (SELECT oid FROM pg_catalog.pg_class WHERE relname = 'error_images' AND relnamespace = (SELECT oid FROM pg_catalog.pg_namespace WHERE nspname = CURRENT_SCHEMA()))
+
+2025/08/13 17:30:24 [32m/Users/afonso.junior/Documents/local/testlake/backend/test_lake/dao/main.go:36
+[0m[33m[0.089ms] [34;1m[rows:0][0m SELECT description FROM pg_catalog.pg_description WHERE objsubid = (SELECT ordinal_position FROM information_schema.columns WHERE table_schema = CURRENT_SCHEMA() AND table_name = 'error_images' AND column_name = 'error_log_id') AND objoid = (SELECT oid FROM pg_catalog.pg_class WHERE relname = 'error_images' AND relnamespace = (SELECT oid FROM pg_catalog.pg_namespace WHERE nspname = CURRENT_SCHEMA()))
+
+2025/08/13 17:30:24 [32m/Users/afonso.junior/Documents/local/testlake/backend/test_lake/dao/main.go:36
+[0m[33m[0.102ms] [34;1m[rows:0][0m SELECT description FROM pg_catalog.pg_description WHERE objsubid = (SELECT ordinal_position FROM information_schema.columns WHERE table_schema = CURRENT_SCHEMA() AND table_name = 'error_images' AND column_name = 'image_url') AND objoid = (SELECT oid FROM pg_catalog.pg_class WHERE relname = 'error_images' AND relnamespace = (SELECT oid FROM pg_catalog.pg_namespace WHERE nspname = CURRENT_SCHEMA()))
+
+2025/08/13 17:30:24 [32m/Users/afonso.junior/Documents/local/testlake/backend/test_lake/dao/main.go:36
+[0m[33m[0.119ms] [34;1m[rows:0][0m SELECT description FROM pg_catalog.pg_description WHERE objsubid = (SELECT ordinal_position FROM information_schema.columns WHERE table_schema = CURRENT_SCHEMA() AND table_name = 'error_images' AND column_name = 'image_name') AND objoid = (SELECT oid FROM pg_catalog.pg_class WHERE relname = 'error_images' AND relnamespace = (SELECT oid FROM pg_catalog.pg_namespace WHERE nspname = CURRENT_SCHEMA()))
+
+2025/08/13 17:30:24 [32m/Users/afonso.junior/Documents/local/testlake/backend/test_lake/dao/main.go:36
+[0m[33m[0.107ms] [34;1m[rows:0][0m SELECT description FROM pg_catalog.pg_description WHERE objsubid = (SELECT ordinal_position FROM information_schema.columns WHERE table_schema = CURRENT_SCHEMA() AND table_name = 'error_images' AND column_name = 'uploaded_at') AND objoid = (SELECT oid FROM pg_catalog.pg_class WHERE relname = 'error_images' AND relnamespace = (SELECT oid FROM pg_catalog.pg_namespace WHERE nspname = CURRENT_SCHEMA()))
+
+2025/08/13 17:30:24 [32m/Users/afonso.junior/Documents/local/testlake/backend/test_lake/dao/main.go:36
+[0m[33m[0.105ms] [34;1m[rows:0][0m SELECT description FROM pg_catalog.pg_description WHERE objsubid = (SELECT ordinal_position FROM information_schema.columns WHERE table_schema = CURRENT_SCHEMA() AND table_name = 'error_images' AND column_name = 'deleted_at') AND objoid = (SELECT oid FROM pg_catalog.pg_class WHERE relname = 'error_images' AND relnamespace = (SELECT oid FROM pg_catalog.pg_namespace WHERE nspname = CURRENT_SCHEMA()))
+
+2025/08/13 17:30:24 [32m/Users/afonso.junior/Documents/local/testlake/backend/test_lake/dao/main.go:36
+[0m[33m[0.113ms] [34;1m[rows:1][0m SELECT count(*) FROM INFORMATION_SCHEMA.table_constraints WHERE table_schema = CURRENT_SCHEMA() AND table_name = 'error_images' AND constraint_name = 'fk_error_images_error_log'
+
+2025/08/13 17:30:24 [32m/Users/afonso.junior/Documents/local/testlake/backend/test_lake/dao/main.go:36
+[0m[33m[0.104ms] [34;1m[rows:1][0m SELECT count(*) FROM pg_indexes WHERE tablename = 'error_images' AND indexname = 'idx_error_images_deleted_at' AND schemaname = CURRENT_SCHEMA()
+
+2025/08/13 17:30:24 [32m/Users/afonso.junior/Documents/local/testlake/backend/test_lake/dao/main.go:36
+[0m[33m[0.082ms] [34;1m[rows:1][0m SELECT count(*) FROM information_schema.tables WHERE table_schema = CURRENT_SCHEMA() AND table_name = 'data_schemas' AND table_type = 'BASE TABLE'
+
+2025/08/13 17:30:24 [32m/Users/afonso.junior/Documents/local/testlake/backend/test_lake/dao/main.go:36
+[0m[33m[0.067ms] [34;1m[rows:1][0m SELECT CURRENT_DATABASE()
+
+2025/08/13 17:30:24 [32m/Users/afonso.junior/Documents/local/testlake/backend/test_lake/dao/main.go:36
+[0m[33m[0.439ms] [34;1m[rows:-][0m SELECT c.column_name, c.is_nullable = 'YES', c.udt_name, c.character_maximum_length, c.numeric_precision, c.numeric_precision_radix, c.numeric_scale, c.datetime_precision, 8 * typlen, c.column_default, pd.description, c.identity_increment FROM information_schema.columns AS c JOIN pg_type AS pgt ON c.udt_name = pgt.typname LEFT JOIN pg_catalog.pg_description as pd ON pd.objsubid = c.ordinal_position AND pd.objoid = (SELECT oid FROM pg_catalog.pg_class WHERE relname = c.table_name AND relnamespace = (SELECT oid FROM pg_catalog.pg_namespace WHERE nspname = c.table_schema)) where table_catalog = 'testlake' AND table_schema = CURRENT_SCHEMA() AND table_name = 'data_schemas'
+
+2025/08/13 17:30:24 [32m/Users/afonso.junior/Documents/local/testlake/backend/test_lake/dao/main.go:36
+[0m[33m[0.170ms] [34;1m[rows:-][0m SELECT * FROM "data_schemas" LIMIT 5
+
+2025/08/13 17:30:24 [32m/Users/afonso.junior/Documents/local/testlake/backend/test_lake/dao/main.go:36
+[0m[33m[0.506ms] [34;1m[rows:-][0m SELECT constraint_name FROM information_schema.table_constraints tc JOIN information_schema.constraint_column_usage AS ccu USING (constraint_schema, constraint_catalog, table_name, constraint_name) JOIN information_schema.columns AS c ON c.table_schema = tc.constraint_schema AND tc.table_name = c.table_name AND ccu.column_name = c.column_name WHERE constraint_type IN ('PRIMARY KEY', 'UNIQUE') AND c.table_catalog = 'testlake' AND c.table_schema = CURRENT_SCHEMA() AND c.table_name = 'data_schemas' AND constraint_type = 'UNIQUE'
+
+2025/08/13 17:30:24 [32m/Users/afonso.junior/Documents/local/testlake/backend/test_lake/dao/main.go:36
+[0m[33m[0.497ms] [34;1m[rows:-][0m SELECT c.column_name, constraint_name, constraint_type FROM information_schema.table_constraints tc JOIN information_schema.constraint_column_usage AS ccu USING (constraint_schema, constraint_catalog, table_name, constraint_name) JOIN information_schema.columns AS c ON c.table_schema = tc.constraint_schema AND tc.table_name = c.table_name AND ccu.column_name = c.column_name WHERE constraint_type IN ('PRIMARY KEY', 'UNIQUE') AND c.table_catalog = 'testlake' AND c.table_schema = CURRENT_SCHEMA() AND c.table_name = 'data_schemas'
+
+2025/08/13 17:30:24 [32m/Users/afonso.junior/Documents/local/testlake/backend/test_lake/dao/main.go:36
+[0m[33m[0.068ms] [34;1m[rows:-][0m SELECT a.attname as column_name, format_type(a.atttypid, a.atttypmod) AS data_type
+		FROM pg_attribute a JOIN pg_class b ON a.attrelid = b.oid AND relnamespace = (SELECT oid FROM pg_catalog.pg_namespace WHERE nspname = CURRENT_SCHEMA())
+		WHERE a.attnum > 0 -- hide internal columns
+		AND NOT a.attisdropped -- hide deleted columns
+		AND b.relname = 'data_schemas'
+
+2025/08/13 17:30:24 [32m/Users/afonso.junior/Documents/local/testlake/backend/test_lake/dao/main.go:36
+[0m[33m[0.115ms] [34;1m[rows:0][0m SELECT description FROM pg_catalog.pg_description WHERE objsubid = (SELECT ordinal_position FROM information_schema.columns WHERE table_schema = CURRENT_SCHEMA() AND table_name = 'data_schemas' AND column_name = 'id') AND objoid = (SELECT oid FROM pg_catalog.pg_class WHERE relname = 'data_schemas' AND relnamespace = (SELECT oid FROM pg_catalog.pg_namespace WHERE nspname = CURRENT_SCHEMA()))
+
+2025/08/13 17:30:24 [32m/Users/afonso.junior/Documents/local/testlake/backend/test_lake/dao/main.go:36
+[0m[33m[0.102ms] [34;1m[rows:0][0m SELECT description FROM pg_catalog.pg_description WHERE objsubid = (SELECT ordinal_position FROM information_schema.columns WHERE table_schema = CURRENT_SCHEMA() AND table_name = 'data_schemas' AND column_name = 'name') AND objoid = (SELECT oid FROM pg_catalog.pg_class WHERE relname = 'data_schemas' AND relnamespace = (SELECT oid FROM pg_catalog.pg_namespace WHERE nspname = CURRENT_SCHEMA()))
+
+2025/08/13 17:30:24 [32m/Users/afonso.junior/Documents/local/testlake/backend/test_lake/dao/main.go:36
+[0m[33m[0.100ms] [34;1m[rows:0][0m SELECT description FROM pg_catalog.pg_description WHERE objsubid = (SELECT ordinal_position FROM information_schema.columns WHERE table_schema = CURRENT_SCHEMA() AND table_name = 'data_schemas' AND column_name = 'description') AND objoid = (SELECT oid FROM pg_catalog.pg_class WHERE relname = 'data_schemas' AND relnamespace = (SELECT oid FROM pg_catalog.pg_namespace WHERE nspname = CURRENT_SCHEMA()))
+
+2025/08/13 17:30:24 [32m/Users/afonso.junior/Documents/local/testlake/backend/test_lake/dao/main.go:36
+[0m[33m[0.098ms] [34;1m[rows:0][0m SELECT description FROM pg_catalog.pg_description WHERE objsubid = (SELECT ordinal_position FROM information_schema.columns WHERE table_schema = CURRENT_SCHEMA() AND table_name = 'data_schemas' AND column_name = 'project_id') AND objoid = (SELECT oid FROM pg_catalog.pg_class WHERE relname = 'data_schemas' AND relnamespace = (SELECT oid FROM pg_catalog.pg_namespace WHERE nspname = CURRENT_SCHEMA()))
+
+2025/08/13 17:30:24 [32m/Users/afonso.junior/Documents/local/testlake/backend/test_lake/dao/main.go:36
+[0m[33m[0.099ms] [34;1m[rows:0][0m SELECT description FROM pg_catalog.pg_description WHERE objsubid = (SELECT ordinal_position FROM information_schema.columns WHERE table_schema = CURRENT_SCHEMA() AND table_name = 'data_schemas' AND column_name = 'is_reusable') AND objoid = (SELECT oid FROM pg_catalog.pg_class WHERE relname = 'data_schemas' AND relnamespace = (SELECT oid FROM pg_catalog.pg_namespace WHERE nspname = CURRENT_SCHEMA()))
+
+2025/08/13 17:30:24 [32m/Users/afonso.junior/Documents/local/testlake/backend/test_lake/dao/main.go:36
+[0m[33m[0.096ms] [34;1m[rows:0][0m SELECT description FROM pg_catalog.pg_description WHERE objsubid = (SELECT ordinal_position FROM information_schema.columns WHERE table_schema = CURRENT_SCHEMA() AND table_name = 'data_schemas' AND column_name = 'schema_definition') AND objoid = (SELECT oid FROM pg_catalog.pg_class WHERE relname = 'data_schemas' AND relnamespace = (SELECT oid FROM pg_catalog.pg_namespace WHERE nspname = CURRENT_SCHEMA()))
+
+2025/08/13 17:30:24 [32m/Users/afonso.junior/Documents/local/testlake/backend/test_lake/dao/main.go:36
+[0m[33m[0.102ms] [34;1m[rows:0][0m SELECT description FROM pg_catalog.pg_description WHERE objsubid = (SELECT ordinal_position FROM information_schema.columns WHERE table_schema = CURRENT_SCHEMA() AND table_name = 'data_schemas' AND column_name = 'created_by') AND objoid = (SELECT oid FROM pg_catalog.pg_class WHERE relname = 'data_schemas' AND relnamespace = (SELECT oid FROM pg_catalog.pg_namespace WHERE nspname = CURRENT_SCHEMA()))
+
+2025/08/13 17:30:24 [32m/Users/afonso.junior/Documents/local/testlake/backend/test_lake/dao/main.go:36
+[0m[33m[0.100ms] [34;1m[rows:0][0m SELECT description FROM pg_catalog.pg_description WHERE objsubid = (SELECT ordinal_position FROM information_schema.columns WHERE table_schema = CURRENT_SCHEMA() AND table_name = 'data_schemas' AND column_name = 'created_at') AND objoid = (SELECT oid FROM pg_catalog.pg_class WHERE relname = 'data_schemas' AND relnamespace = (SELECT oid FROM pg_catalog.pg_namespace WHERE nspname = CURRENT_SCHEMA()))
+
+2025/08/13 17:30:24 [32m/Users/afonso.junior/Documents/local/testlake/backend/test_lake/dao/main.go:36
+[0m[33m[0.099ms] [34;1m[rows:0][0m SELECT description FROM pg_catalog.pg_description WHERE objsubid = (SELECT ordinal_position FROM information_schema.columns WHERE table_schema = CURRENT_SCHEMA() AND table_name = 'data_schemas' AND column_name = 'updated_at') AND objoid = (SELECT oid FROM pg_catalog.pg_class WHERE relname = 'data_schemas' AND relnamespace = (SELECT oid FROM pg_catalog.pg_namespace WHERE nspname = CURRENT_SCHEMA()))
+
+2025/08/13 17:30:24 [32m/Users/afonso.junior/Documents/local/testlake/backend/test_lake/dao/main.go:36
+[0m[33m[0.101ms] [34;1m[rows:0][0m SELECT description FROM pg_catalog.pg_description WHERE objsubid = (SELECT ordinal_position FROM information_schema.columns WHERE table_schema = CURRENT_SCHEMA() AND table_name = 'data_schemas' AND column_name = 'status') AND objoid = (SELECT oid FROM pg_catalog.pg_class WHERE relname = 'data_schemas' AND relnamespace = (SELECT oid FROM pg_catalog.pg_namespace WHERE nspname = CURRENT_SCHEMA()))
+
+2025/08/13 17:30:24 [32m/Users/afonso.junior/Documents/local/testlake/backend/test_lake/dao/main.go:36
+[0m[33m[0.097ms] [34;1m[rows:0][0m SELECT description FROM pg_catalog.pg_description WHERE objsubid = (SELECT ordinal_position FROM information_schema.columns WHERE table_schema = CURRENT_SCHEMA() AND table_name = 'data_schemas' AND column_name = 'deleted_at') AND objoid = (SELECT oid FROM pg_catalog.pg_class WHERE relname = 'data_schemas' AND relnamespace = (SELECT oid FROM pg_catalog.pg_namespace WHERE nspname = CURRENT_SCHEMA()))
+
+2025/08/13 17:30:24 [32m/Users/afonso.junior/Documents/local/testlake/backend/test_lake/dao/main.go:36
+[0m[33m[0.111ms] [34;1m[rows:1][0m SELECT count(*) FROM INFORMATION_SCHEMA.table_constraints WHERE table_schema = CURRENT_SCHEMA() AND table_name = 'data_schemas' AND constraint_name = 'fk_data_schemas_project'
+
+2025/08/13 17:30:24 [32m/Users/afonso.junior/Documents/local/testlake/backend/test_lake/dao/main.go:36
+[0m[33m[0.104ms] [34;1m[rows:1][0m SELECT count(*) FROM INFORMATION_SCHEMA.table_constraints WHERE table_schema = CURRENT_SCHEMA() AND table_name = 'data_schemas' AND constraint_name = 'fk_data_schemas_creator'
+
+2025/08/13 17:30:24 [32m/Users/afonso.junior/Documents/local/testlake/backend/test_lake/dao/main.go:36
+[0m[33m[0.079ms] [34;1m[rows:1][0m SELECT count(*) FROM pg_indexes WHERE tablename = 'data_schemas' AND indexname = 'idx_data_schemas_deleted_at' AND schemaname = CURRENT_SCHEMA()
+
+2025/08/13 17:30:24 [32m/Users/afonso.junior/Documents/local/testlake/backend/test_lake/dao/main.go:36
+[0m[33m[0.070ms] [34;1m[rows:1][0m SELECT count(*) FROM information_schema.tables WHERE table_schema = CURRENT_SCHEMA() AND table_name = 'feature_schemas' AND table_type = 'BASE TABLE'
+
+2025/08/13 17:30:24 [32m/Users/afonso.junior/Documents/local/testlake/backend/test_lake/dao/main.go:36
+[0m[33m[0.064ms] [34;1m[rows:1][0m SELECT CURRENT_DATABASE()
+
+2025/08/13 17:30:24 [32m/Users/afonso.junior/Documents/local/testlake/backend/test_lake/dao/main.go:36
+[0m[33m[0.340ms] [34;1m[rows:-][0m SELECT c.column_name, c.is_nullable = 'YES', c.udt_name, c.character_maximum_length, c.numeric_precision, c.numeric_precision_radix, c.numeric_scale, c.datetime_precision, 8 * typlen, c.column_default, pd.description, c.identity_increment FROM information_schema.columns AS c JOIN pg_type AS pgt ON c.udt_name = pgt.typname LEFT JOIN pg_catalog.pg_description as pd ON pd.objsubid = c.ordinal_position AND pd.objoid = (SELECT oid FROM pg_catalog.pg_class WHERE relname = c.table_name AND relnamespace = (SELECT oid FROM pg_catalog.pg_namespace WHERE nspname = c.table_schema)) where table_catalog = 'testlake' AND table_schema = CURRENT_SCHEMA() AND table_name = 'feature_schemas'
+
+2025/08/13 17:30:24 [32m/Users/afonso.junior/Documents/local/testlake/backend/test_lake/dao/main.go:36
+[0m[33m[0.160ms] [34;1m[rows:-][0m SELECT * FROM "feature_schemas" LIMIT 5
+
+2025/08/13 17:30:24 [32m/Users/afonso.junior/Documents/local/testlake/backend/test_lake/dao/main.go:36
+[0m[33m[0.261ms] [34;1m[rows:-][0m SELECT constraint_name FROM information_schema.table_constraints tc JOIN information_schema.constraint_column_usage AS ccu USING (constraint_schema, constraint_catalog, table_name, constraint_name) JOIN information_schema.columns AS c ON c.table_schema = tc.constraint_schema AND tc.table_name = c.table_name AND ccu.column_name = c.column_name WHERE constraint_type IN ('PRIMARY KEY', 'UNIQUE') AND c.table_catalog = 'testlake' AND c.table_schema = CURRENT_SCHEMA() AND c.table_name = 'feature_schemas' AND constraint_type = 'UNIQUE'
+
+2025/08/13 17:30:24 [32m/Users/afonso.junior/Documents/local/testlake/backend/test_lake/dao/main.go:36
+[0m[33m[0.253ms] [34;1m[rows:-][0m SELECT c.column_name, constraint_name, constraint_type FROM information_schema.table_constraints tc JOIN information_schema.constraint_column_usage AS ccu USING (constraint_schema, constraint_catalog, table_name, constraint_name) JOIN information_schema.columns AS c ON c.table_schema = tc.constraint_schema AND tc.table_name = c.table_name AND ccu.column_name = c.column_name WHERE constraint_type IN ('PRIMARY KEY', 'UNIQUE') AND c.table_catalog = 'testlake' AND c.table_schema = CURRENT_SCHEMA() AND c.table_name = 'feature_schemas'
+
+2025/08/13 17:30:24 [32m/Users/afonso.junior/Documents/local/testlake/backend/test_lake/dao/main.go:36
+[0m[33m[0.067ms] [34;1m[rows:-][0m SELECT a.attname as column_name, format_type(a.atttypid, a.atttypmod) AS data_type
+		FROM pg_attribute a JOIN pg_class b ON a.attrelid = b.oid AND relnamespace = (SELECT oid FROM pg_catalog.pg_namespace WHERE nspname = CURRENT_SCHEMA())
+		WHERE a.attnum > 0 -- hide internal columns
+		AND NOT a.attisdropped -- hide deleted columns
+		AND b.relname = 'feature_schemas'
+
+2025/08/13 17:30:24 [32m/Users/afonso.junior/Documents/local/testlake/backend/test_lake/dao/main.go:36
+[0m[33m[0.107ms] [34;1m[rows:0][0m SELECT description FROM pg_catalog.pg_description WHERE objsubid = (SELECT ordinal_position FROM information_schema.columns WHERE table_schema = CURRENT_SCHEMA() AND table_name = 'feature_schemas' AND column_name = 'id') AND objoid = (SELECT oid FROM pg_catalog.pg_class WHERE relname = 'feature_schemas' AND relnamespace = (SELECT oid FROM pg_catalog.pg_namespace WHERE nspname = CURRENT_SCHEMA()))
+
+2025/08/13 17:30:24 [32m/Users/afonso.junior/Documents/local/testlake/backend/test_lake/dao/main.go:36
+[0m[33m[0.099ms] [34;1m[rows:0][0m SELECT description FROM pg_catalog.pg_description WHERE objsubid = (SELECT ordinal_position FROM information_schema.columns WHERE table_schema = CURRENT_SCHEMA() AND table_name = 'feature_schemas' AND column_name = 'feature_id') AND objoid = (SELECT oid FROM pg_catalog.pg_class WHERE relname = 'feature_schemas' AND relnamespace = (SELECT oid FROM pg_catalog.pg_namespace WHERE nspname = CURRENT_SCHEMA()))
+
+2025/08/13 17:30:24 [32m/Users/afonso.junior/Documents/local/testlake/backend/test_lake/dao/main.go:36
+[0m[33m[0.088ms] [34;1m[rows:0][0m SELECT description FROM pg_catalog.pg_description WHERE objsubid = (SELECT ordinal_position FROM information_schema.columns WHERE table_schema = CURRENT_SCHEMA() AND table_name = 'feature_schemas' AND column_name = 'schema_id') AND objoid = (SELECT oid FROM pg_catalog.pg_class WHERE relname = 'feature_schemas' AND relnamespace = (SELECT oid FROM pg_catalog.pg_namespace WHERE nspname = CURRENT_SCHEMA()))
+
+2025/08/13 17:30:24 [32m/Users/afonso.junior/Documents/local/testlake/backend/test_lake/dao/main.go:36
+[0m[33m[0.099ms] [34;1m[rows:0][0m SELECT description FROM pg_catalog.pg_description WHERE objsubid = (SELECT ordinal_position FROM information_schema.columns WHERE table_schema = CURRENT_SCHEMA() AND table_name = 'feature_schemas' AND column_name = 'is_primary') AND objoid = (SELECT oid FROM pg_catalog.pg_class WHERE relname = 'feature_schemas' AND relnamespace = (SELECT oid FROM pg_catalog.pg_namespace WHERE nspname = CURRENT_SCHEMA()))
+
+2025/08/13 17:30:24 [32m/Users/afonso.junior/Documents/local/testlake/backend/test_lake/dao/main.go:36
+[0m[33m[0.100ms] [34;1m[rows:0][0m SELECT description FROM pg_catalog.pg_description WHERE objsubid = (SELECT ordinal_position FROM information_schema.columns WHERE table_schema = CURRENT_SCHEMA() AND table_name = 'feature_schemas' AND column_name = 'created_by') AND objoid = (SELECT oid FROM pg_catalog.pg_class WHERE relname = 'feature_schemas' AND relnamespace = (SELECT oid FROM pg_catalog.pg_namespace WHERE nspname = CURRENT_SCHEMA()))
+
+2025/08/13 17:30:24 [32m/Users/afonso.junior/Documents/local/testlake/backend/test_lake/dao/main.go:36
+[0m[33m[0.086ms] [34;1m[rows:0][0m SELECT description FROM pg_catalog.pg_description WHERE objsubid = (SELECT ordinal_position FROM information_schema.columns WHERE table_schema = CURRENT_SCHEMA() AND table_name = 'feature_schemas' AND column_name = 'created_at') AND objoid = (SELECT oid FROM pg_catalog.pg_class WHERE relname = 'feature_schemas' AND relnamespace = (SELECT oid FROM pg_catalog.pg_namespace WHERE nspname = CURRENT_SCHEMA()))
+
+2025/08/13 17:30:24 [32m/Users/afonso.junior/Documents/local/testlake/backend/test_lake/dao/main.go:36
+[0m[33m[0.086ms] [34;1m[rows:0][0m SELECT description FROM pg_catalog.pg_description WHERE objsubid = (SELECT ordinal_position FROM information_schema.columns WHERE table_schema = CURRENT_SCHEMA() AND table_name = 'feature_schemas' AND column_name = 'deleted_at') AND objoid = (SELECT oid FROM pg_catalog.pg_class WHERE relname = 'feature_schemas' AND relnamespace = (SELECT oid FROM pg_catalog.pg_namespace WHERE nspname = CURRENT_SCHEMA()))
+
+2025/08/13 17:30:24 [32m/Users/afonso.junior/Documents/local/testlake/backend/test_lake/dao/main.go:36
+[0m[33m[0.107ms] [34;1m[rows:1][0m SELECT count(*) FROM INFORMATION_SCHEMA.table_constraints WHERE table_schema = CURRENT_SCHEMA() AND table_name = 'feature_schemas' AND constraint_name = 'fk_feature_schemas_feature'
+
+2025/08/13 17:30:24 [32m/Users/afonso.junior/Documents/local/testlake/backend/test_lake/dao/main.go:36
+[0m[33m[0.093ms] [34;1m[rows:1][0m SELECT count(*) FROM INFORMATION_SCHEMA.table_constraints WHERE table_schema = CURRENT_SCHEMA() AND table_name = 'feature_schemas' AND constraint_name = 'fk_feature_schemas_schema'
+
+2025/08/13 17:30:24 [32m/Users/afonso.junior/Documents/local/testlake/backend/test_lake/dao/main.go:36
+[0m[33m[0.097ms] [34;1m[rows:1][0m SELECT count(*) FROM INFORMATION_SCHEMA.table_constraints WHERE table_schema = CURRENT_SCHEMA() AND table_name = 'feature_schemas' AND constraint_name = 'fk_feature_schemas_creator'
+
+2025/08/13 17:30:24 [32m/Users/afonso.junior/Documents/local/testlake/backend/test_lake/dao/main.go:36
+[0m[33m[0.095ms] [34;1m[rows:1][0m SELECT count(*) FROM pg_indexes WHERE tablename = 'feature_schemas' AND indexname = 'idx_feature_schemas_deleted_at' AND schemaname = CURRENT_SCHEMA()
+
+2025/08/13 17:30:24 [32m/Users/afonso.junior/Documents/local/testlake/backend/test_lake/dao/main.go:36
+[0m[33m[0.065ms] [34;1m[rows:1][0m SELECT count(*) FROM information_schema.tables WHERE table_schema = CURRENT_SCHEMA() AND table_name = 'schema_fields' AND table_type = 'BASE TABLE'
+
+2025/08/13 17:30:24 [32m/Users/afonso.junior/Documents/local/testlake/backend/test_lake/dao/main.go:36
+[0m[33m[0.061ms] [34;1m[rows:1][0m SELECT CURRENT_DATABASE()
+
+2025/08/13 17:30:24 [32m/Users/afonso.junior/Documents/local/testlake/backend/test_lake/dao/main.go:36
+[0m[33m[0.445ms] [34;1m[rows:-][0m SELECT c.column_name, c.is_nullable = 'YES', c.udt_name, c.character_maximum_length, c.numeric_precision, c.numeric_precision_radix, c.numeric_scale, c.datetime_precision, 8 * typlen, c.column_default, pd.description, c.identity_increment FROM information_schema.columns AS c JOIN pg_type AS pgt ON c.udt_name = pgt.typname LEFT JOIN pg_catalog.pg_description as pd ON pd.objsubid = c.ordinal_position AND pd.objoid = (SELECT oid FROM pg_catalog.pg_class WHERE relname = c.table_name AND relnamespace = (SELECT oid FROM pg_catalog.pg_namespace WHERE nspname = c.table_schema)) where table_catalog = 'testlake' AND table_schema = CURRENT_SCHEMA() AND table_name = 'schema_fields'
+
+2025/08/13 17:30:24 [32m/Users/afonso.junior/Documents/local/testlake/backend/test_lake/dao/main.go:36
+[0m[33m[0.159ms] [34;1m[rows:-][0m SELECT * FROM "schema_fields" LIMIT 5
+
+2025/08/13 17:30:24 [32m/Users/afonso.junior/Documents/local/testlake/backend/test_lake/dao/main.go:36
+[0m[33m[0.365ms] [34;1m[rows:-][0m SELECT constraint_name FROM information_schema.table_constraints tc JOIN information_schema.constraint_column_usage AS ccu USING (constraint_schema, constraint_catalog, table_name, constraint_name) JOIN information_schema.columns AS c ON c.table_schema = tc.constraint_schema AND tc.table_name = c.table_name AND ccu.column_name = c.column_name WHERE constraint_type IN ('PRIMARY KEY', 'UNIQUE') AND c.table_catalog = 'testlake' AND c.table_schema = CURRENT_SCHEMA() AND c.table_name = 'schema_fields' AND constraint_type = 'UNIQUE'
+
+2025/08/13 17:30:24 [32m/Users/afonso.junior/Documents/local/testlake/backend/test_lake/dao/main.go:36
+[0m[33m[0.347ms] [34;1m[rows:-][0m SELECT c.column_name, constraint_name, constraint_type FROM information_schema.table_constraints tc JOIN information_schema.constraint_column_usage AS ccu USING (constraint_schema, constraint_catalog, table_name, constraint_name) JOIN information_schema.columns AS c ON c.table_schema = tc.constraint_schema AND tc.table_name = c.table_name AND ccu.column_name = c.column_name WHERE constraint_type IN ('PRIMARY KEY', 'UNIQUE') AND c.table_catalog = 'testlake' AND c.table_schema = CURRENT_SCHEMA() AND c.table_name = 'schema_fields'
+
+2025/08/13 17:30:24 [32m/Users/afonso.junior/Documents/local/testlake/backend/test_lake/dao/main.go:36
+[0m[33m[0.079ms] [34;1m[rows:-][0m SELECT a.attname as column_name, format_type(a.atttypid, a.atttypmod) AS data_type
+		FROM pg_attribute a JOIN pg_class b ON a.attrelid = b.oid AND relnamespace = (SELECT oid FROM pg_catalog.pg_namespace WHERE nspname = CURRENT_SCHEMA())
+		WHERE a.attnum > 0 -- hide internal columns
+		AND NOT a.attisdropped -- hide deleted columns
+		AND b.relname = 'schema_fields'
+
+2025/08/13 17:30:24 [32m/Users/afonso.junior/Documents/local/testlake/backend/test_lake/dao/main.go:36
+[0m[33m[0.111ms] [34;1m[rows:0][0m SELECT description FROM pg_catalog.pg_description WHERE objsubid = (SELECT ordinal_position FROM information_schema.columns WHERE table_schema = CURRENT_SCHEMA() AND table_name = 'schema_fields' AND column_name = 'id') AND objoid = (SELECT oid FROM pg_catalog.pg_class WHERE relname = 'schema_fields' AND relnamespace = (SELECT oid FROM pg_catalog.pg_namespace WHERE nspname = CURRENT_SCHEMA()))
+
+2025/08/13 17:30:24 [32m/Users/afonso.junior/Documents/local/testlake/backend/test_lake/dao/main.go:36
+[0m[33m[0.105ms] [34;1m[rows:0][0m SELECT description FROM pg_catalog.pg_description WHERE objsubid = (SELECT ordinal_position FROM information_schema.columns WHERE table_schema = CURRENT_SCHEMA() AND table_name = 'schema_fields' AND column_name = 'schema_id') AND objoid = (SELECT oid FROM pg_catalog.pg_class WHERE relname = 'schema_fields' AND relnamespace = (SELECT oid FROM pg_catalog.pg_namespace WHERE nspname = CURRENT_SCHEMA()))
+
+2025/08/13 17:30:24 [32m/Users/afonso.junior/Documents/local/testlake/backend/test_lake/dao/main.go:36
+[0m[33m[0.104ms] [34;1m[rows:0][0m SELECT description FROM pg_catalog.pg_description WHERE objsubid = (SELECT ordinal_position FROM information_schema.columns WHERE table_schema = CURRENT_SCHEMA() AND table_name = 'schema_fields' AND column_name = 'field_name') AND objoid = (SELECT oid FROM pg_catalog.pg_class WHERE relname = 'schema_fields' AND relnamespace = (SELECT oid FROM pg_catalog.pg_namespace WHERE nspname = CURRENT_SCHEMA()))
+
+2025/08/13 17:30:24 [32m/Users/afonso.junior/Documents/local/testlake/backend/test_lake/dao/main.go:36
+[0m[33m[0.100ms] [34;1m[rows:0][0m SELECT description FROM pg_catalog.pg_description WHERE objsubid = (SELECT ordinal_position FROM information_schema.columns WHERE table_schema = CURRENT_SCHEMA() AND table_name = 'schema_fields' AND column_name = 'field_type') AND objoid = (SELECT oid FROM pg_catalog.pg_class WHERE relname = 'schema_fields' AND relnamespace = (SELECT oid FROM pg_catalog.pg_namespace WHERE nspname = CURRENT_SCHEMA()))
+
+2025/08/13 17:30:24 [32m/Users/afonso.junior/Documents/local/testlake/backend/test_lake/dao/main.go:36
+[0m[33m[0.100ms] [34;1m[rows:0][0m SELECT description FROM pg_catalog.pg_description WHERE objsubid = (SELECT ordinal_position FROM information_schema.columns WHERE table_schema = CURRENT_SCHEMA() AND table_name = 'schema_fields' AND column_name = 'is_required') AND objoid = (SELECT oid FROM pg_catalog.pg_class WHERE relname = 'schema_fields' AND relnamespace = (SELECT oid FROM pg_catalog.pg_namespace WHERE nspname = CURRENT_SCHEMA()))
+
+2025/08/13 17:30:24 [32m/Users/afonso.junior/Documents/local/testlake/backend/test_lake/dao/main.go:36
+[0m[33m[0.102ms] [34;1m[rows:0][0m SELECT description FROM pg_catalog.pg_description WHERE objsubid = (SELECT ordinal_position FROM information_schema.columns WHERE table_schema = CURRENT_SCHEMA() AND table_name = 'schema_fields' AND column_name = 'validation_regex') AND objoid = (SELECT oid FROM pg_catalog.pg_class WHERE relname = 'schema_fields' AND relnamespace = (SELECT oid FROM pg_catalog.pg_namespace WHERE nspname = CURRENT_SCHEMA()))
+
+2025/08/13 17:30:24 [32m/Users/afonso.junior/Documents/local/testlake/backend/test_lake/dao/main.go:36
+[0m[33m[0.102ms] [34;1m[rows:0][0m SELECT description FROM pg_catalog.pg_description WHERE objsubid = (SELECT ordinal_position FROM information_schema.columns WHERE table_schema = CURRENT_SCHEMA() AND table_name = 'schema_fields' AND column_name = 'min_value') AND objoid = (SELECT oid FROM pg_catalog.pg_class WHERE relname = 'schema_fields' AND relnamespace = (SELECT oid FROM pg_catalog.pg_namespace WHERE nspname = CURRENT_SCHEMA()))
+
+2025/08/13 17:30:24 [32m/Users/afonso.junior/Documents/local/testlake/backend/test_lake/dao/main.go:36
+[0m[33m[0.102ms] [34;1m[rows:0][0m SELECT description FROM pg_catalog.pg_description WHERE objsubid = (SELECT ordinal_position FROM information_schema.columns WHERE table_schema = CURRENT_SCHEMA() AND table_name = 'schema_fields' AND column_name = 'max_value') AND objoid = (SELECT oid FROM pg_catalog.pg_class WHERE relname = 'schema_fields' AND relnamespace = (SELECT oid FROM pg_catalog.pg_namespace WHERE nspname = CURRENT_SCHEMA()))
+
+2025/08/13 17:30:24 [32m/Users/afonso.junior/Documents/local/testlake/backend/test_lake/dao/main.go:36
+[0m[33m[0.105ms] [34;1m[rows:0][0m SELECT description FROM pg_catalog.pg_description WHERE objsubid = (SELECT ordinal_position FROM information_schema.columns WHERE table_schema = CURRENT_SCHEMA() AND table_name = 'schema_fields' AND column_name = 'options') AND objoid = (SELECT oid FROM pg_catalog.pg_class WHERE relname = 'schema_fields' AND relnamespace = (SELECT oid FROM pg_catalog.pg_namespace WHERE nspname = CURRENT_SCHEMA()))
+
+2025/08/13 17:30:24 [32m/Users/afonso.junior/Documents/local/testlake/backend/test_lake/dao/main.go:36
+[0m[33m[0.134ms] [34;1m[rows:0][0m SELECT description FROM pg_catalog.pg_description WHERE objsubid = (SELECT ordinal_position FROM information_schema.columns WHERE table_schema = CURRENT_SCHEMA() AND table_name = 'schema_fields' AND column_name = 'reference_schema_id') AND objoid = (SELECT oid FROM pg_catalog.pg_class WHERE relname = 'schema_fields' AND relnamespace = (SELECT oid FROM pg_catalog.pg_namespace WHERE nspname = CURRENT_SCHEMA()))
+
+2025/08/13 17:30:24 [32m/Users/afonso.junior/Documents/local/testlake/backend/test_lake/dao/main.go:36
+[0m[33m[0.129ms] [34;1m[rows:0][0m SELECT description FROM pg_catalog.pg_description WHERE objsubid = (SELECT ordinal_position FROM information_schema.columns WHERE table_schema = CURRENT_SCHEMA() AND table_name = 'schema_fields' AND column_name = 'display_order') AND objoid = (SELECT oid FROM pg_catalog.pg_class WHERE relname = 'schema_fields' AND relnamespace = (SELECT oid FROM pg_catalog.pg_namespace WHERE nspname = CURRENT_SCHEMA()))
+
+2025/08/13 17:30:24 [32m/Users/afonso.junior/Documents/local/testlake/backend/test_lake/dao/main.go:36
+[0m[33m[0.086ms] [34;1m[rows:0][0m SELECT description FROM pg_catalog.pg_description WHERE objsubid = (SELECT ordinal_position FROM information_schema.columns WHERE table_schema = CURRENT_SCHEMA() AND table_name = 'schema_fields' AND column_name = 'created_at') AND objoid = (SELECT oid FROM pg_catalog.pg_class WHERE relname = 'schema_fields' AND relnamespace = (SELECT oid FROM pg_catalog.pg_namespace WHERE nspname = CURRENT_SCHEMA()))
+
+2025/08/13 17:30:24 [32m/Users/afonso.junior/Documents/local/testlake/backend/test_lake/dao/main.go:36
+[0m[33m[0.075ms] [34;1m[rows:0][0m SELECT description FROM pg_catalog.pg_description WHERE objsubid = (SELECT ordinal_position FROM information_schema.columns WHERE table_schema = CURRENT_SCHEMA() AND table_name = 'schema_fields' AND column_name = 'deleted_at') AND objoid = (SELECT oid FROM pg_catalog.pg_class WHERE relname = 'schema_fields' AND relnamespace = (SELECT oid FROM pg_catalog.pg_namespace WHERE nspname = CURRENT_SCHEMA()))
+
+2025/08/13 17:30:24 [32m/Users/afonso.junior/Documents/local/testlake/backend/test_lake/dao/main.go:36
+[0m[33m[0.094ms] [34;1m[rows:1][0m SELECT count(*) FROM INFORMATION_SCHEMA.table_constraints WHERE table_schema = CURRENT_SCHEMA() AND table_name = 'schema_fields' AND constraint_name = 'fk_schema_fields_schema'
+
+2025/08/13 17:30:24 [32m/Users/afonso.junior/Documents/local/testlake/backend/test_lake/dao/main.go:36
+[0m[33m[0.091ms] [34;1m[rows:1][0m SELECT count(*) FROM INFORMATION_SCHEMA.table_constraints WHERE table_schema = CURRENT_SCHEMA() AND table_name = 'schema_fields' AND constraint_name = 'fk_schema_fields_reference_schema'
+
+2025/08/13 17:30:24 [32m/Users/afonso.junior/Documents/local/testlake/backend/test_lake/dao/main.go:36
+[0m[33m[0.075ms] [34;1m[rows:1][0m SELECT count(*) FROM pg_indexes WHERE tablename = 'schema_fields' AND indexname = 'idx_schema_fields_deleted_at' AND schemaname = CURRENT_SCHEMA()
+
+2025/08/13 17:30:24 [32m/Users/afonso.junior/Documents/local/testlake/backend/test_lake/dao/main.go:36
+[0m[33m[0.052ms] [34;1m[rows:1][0m SELECT count(*) FROM information_schema.tables WHERE table_schema = CURRENT_SCHEMA() AND table_name = 'test_data' AND table_type = 'BASE TABLE'
+
+2025/08/13 17:30:24 [32m/Users/afonso.junior/Documents/local/testlake/backend/test_lake/dao/main.go:36
+[0m[33m[0.040ms] [34;1m[rows:1][0m SELECT CURRENT_DATABASE()
+
+2025/08/13 17:30:24 [32m/Users/afonso.junior/Documents/local/testlake/backend/test_lake/dao/main.go:36
+[0m[33m[0.436ms] [34;1m[rows:-][0m SELECT c.column_name, c.is_nullable = 'YES', c.udt_name, c.character_maximum_length, c.numeric_precision, c.numeric_precision_radix, c.numeric_scale, c.datetime_precision, 8 * typlen, c.column_default, pd.description, c.identity_increment FROM information_schema.columns AS c JOIN pg_type AS pgt ON c.udt_name = pgt.typname LEFT JOIN pg_catalog.pg_description as pd ON pd.objsubid = c.ordinal_position AND pd.objoid = (SELECT oid FROM pg_catalog.pg_class WHERE relname = c.table_name AND relnamespace = (SELECT oid FROM pg_catalog.pg_namespace WHERE nspname = c.table_schema)) where table_catalog = 'testlake' AND table_schema = CURRENT_SCHEMA() AND table_name = 'test_data'
+
+2025/08/13 17:30:24 [32m/Users/afonso.junior/Documents/local/testlake/backend/test_lake/dao/main.go:36
+[0m[33m[0.172ms] [34;1m[rows:-][0m SELECT * FROM "test_data" LIMIT 5
+
+2025/08/13 17:30:24 [32m/Users/afonso.junior/Documents/local/testlake/backend/test_lake/dao/main.go:36
+[0m[33m[0.507ms] [34;1m[rows:-][0m SELECT constraint_name FROM information_schema.table_constraints tc JOIN information_schema.constraint_column_usage AS ccu USING (constraint_schema, constraint_catalog, table_name, constraint_name) JOIN information_schema.columns AS c ON c.table_schema = tc.constraint_schema AND tc.table_name = c.table_name AND ccu.column_name = c.column_name WHERE constraint_type IN ('PRIMARY KEY', 'UNIQUE') AND c.table_catalog = 'testlake' AND c.table_schema = CURRENT_SCHEMA() AND c.table_name = 'test_data' AND constraint_type = 'UNIQUE'
+
+2025/08/13 17:30:24 [32m/Users/afonso.junior/Documents/local/testlake/backend/test_lake/dao/main.go:36
+[0m[33m[0.438ms] [34;1m[rows:-][0m SELECT c.column_name, constraint_name, constraint_type FROM information_schema.table_constraints tc JOIN information_schema.constraint_column_usage AS ccu USING (constraint_schema, constraint_catalog, table_name, constraint_name) JOIN information_schema.columns AS c ON c.table_schema = tc.constraint_schema AND tc.table_name = c.table_name AND ccu.column_name = c.column_name WHERE constraint_type IN ('PRIMARY KEY', 'UNIQUE') AND c.table_catalog = 'testlake' AND c.table_schema = CURRENT_SCHEMA() AND c.table_name = 'test_data'
+
+2025/08/13 17:30:24 [32m/Users/afonso.junior/Documents/local/testlake/backend/test_lake/dao/main.go:36
+[0m[33m[0.095ms] [34;1m[rows:-][0m SELECT a.attname as column_name, format_type(a.atttypid, a.atttypmod) AS data_type
+		FROM pg_attribute a JOIN pg_class b ON a.attrelid = b.oid AND relnamespace = (SELECT oid FROM pg_catalog.pg_namespace WHERE nspname = CURRENT_SCHEMA())
+		WHERE a.attnum > 0 -- hide internal columns
+		AND NOT a.attisdropped -- hide deleted columns
+		AND b.relname = 'test_data'
+
+2025/08/13 17:30:24 [32m/Users/afonso.junior/Documents/local/testlake/backend/test_lake/dao/main.go:36
+[0m[33m[0.118ms] [34;1m[rows:0][0m SELECT description FROM pg_catalog.pg_description WHERE objsubid = (SELECT ordinal_position FROM information_schema.columns WHERE table_schema = CURRENT_SCHEMA() AND table_name = 'test_data' AND column_name = 'id') AND objoid = (SELECT oid FROM pg_catalog.pg_class WHERE relname = 'test_data' AND relnamespace = (SELECT oid FROM pg_catalog.pg_namespace WHERE nspname = CURRENT_SCHEMA()))
+
+2025/08/13 17:30:24 [32m/Users/afonso.junior/Documents/local/testlake/backend/test_lake/dao/main.go:36
+[0m[33m[0.105ms] [34;1m[rows:0][0m SELECT description FROM pg_catalog.pg_description WHERE objsubid = (SELECT ordinal_position FROM information_schema.columns WHERE table_schema = CURRENT_SCHEMA() AND table_name = 'test_data' AND column_name = 'schema_id') AND objoid = (SELECT oid FROM pg_catalog.pg_class WHERE relname = 'test_data' AND relnamespace = (SELECT oid FROM pg_catalog.pg_namespace WHERE nspname = CURRENT_SCHEMA()))
+
+2025/08/13 17:30:24 [32m/Users/afonso.junior/Documents/local/testlake/backend/test_lake/dao/main.go:36
+[0m[33m[0.104ms] [34;1m[rows:0][0m SELECT description FROM pg_catalog.pg_description WHERE objsubid = (SELECT ordinal_position FROM information_schema.columns WHERE table_schema = CURRENT_SCHEMA() AND table_name = 'test_data' AND column_name = 'environment_id') AND objoid = (SELECT oid FROM pg_catalog.pg_class WHERE relname = 'test_data' AND relnamespace = (SELECT oid FROM pg_catalog.pg_namespace WHERE nspname = CURRENT_SCHEMA()))
+
+2025/08/13 17:30:24 [32m/Users/afonso.junior/Documents/local/testlake/backend/test_lake/dao/main.go:36
+[0m[33m[0.111ms] [34;1m[rows:0][0m SELECT description FROM pg_catalog.pg_description WHERE objsubid = (SELECT ordinal_position FROM information_schema.columns WHERE table_schema = CURRENT_SCHEMA() AND table_name = 'test_data' AND column_name = 'data_values') AND objoid = (SELECT oid FROM pg_catalog.pg_class WHERE relname = 'test_data' AND relnamespace = (SELECT oid FROM pg_catalog.pg_namespace WHERE nspname = CURRENT_SCHEMA()))
+
+2025/08/13 17:30:24 [32m/Users/afonso.junior/Documents/local/testlake/backend/test_lake/dao/main.go:36
+[0m[33m[0.100ms] [34;1m[rows:0][0m SELECT description FROM pg_catalog.pg_description WHERE objsubid = (SELECT ordinal_position FROM information_schema.columns WHERE table_schema = CURRENT_SCHEMA() AND table_name = 'test_data' AND column_name = 'is_used') AND objoid = (SELECT oid FROM pg_catalog.pg_class WHERE relname = 'test_data' AND relnamespace = (SELECT oid FROM pg_catalog.pg_namespace WHERE nspname = CURRENT_SCHEMA()))
+
+2025/08/13 17:30:24 [32m/Users/afonso.junior/Documents/local/testlake/backend/test_lake/dao/main.go:36
+[0m[33m[0.101ms] [34;1m[rows:0][0m SELECT description FROM pg_catalog.pg_description WHERE objsubid = (SELECT ordinal_position FROM information_schema.columns WHERE table_schema = CURRENT_SCHEMA() AND table_name = 'test_data' AND column_name = 'used_at') AND objoid = (SELECT oid FROM pg_catalog.pg_class WHERE relname = 'test_data' AND relnamespace = (SELECT oid FROM pg_catalog.pg_namespace WHERE nspname = CURRENT_SCHEMA()))
+
+2025/08/13 17:30:24 [32m/Users/afonso.junior/Documents/local/testlake/backend/test_lake/dao/main.go:36
+[0m[33m[0.096ms] [34;1m[rows:0][0m SELECT description FROM pg_catalog.pg_description WHERE objsubid = (SELECT ordinal_position FROM information_schema.columns WHERE table_schema = CURRENT_SCHEMA() AND table_name = 'test_data' AND column_name = 'used_by') AND objoid = (SELECT oid FROM pg_catalog.pg_class WHERE relname = 'test_data' AND relnamespace = (SELECT oid FROM pg_catalog.pg_namespace WHERE nspname = CURRENT_SCHEMA()))
+
+2025/08/13 17:30:24 [32m/Users/afonso.junior/Documents/local/testlake/backend/test_lake/dao/main.go:36
+[0m[33m[0.106ms] [34;1m[rows:0][0m SELECT description FROM pg_catalog.pg_description WHERE objsubid = (SELECT ordinal_position FROM information_schema.columns WHERE table_schema = CURRENT_SCHEMA() AND table_name = 'test_data' AND column_name = 'feature_id') AND objoid = (SELECT oid FROM pg_catalog.pg_class WHERE relname = 'test_data' AND relnamespace = (SELECT oid FROM pg_catalog.pg_namespace WHERE nspname = CURRENT_SCHEMA()))
+
+2025/08/13 17:30:24 [32m/Users/afonso.junior/Documents/local/testlake/backend/test_lake/dao/main.go:36
+[0m[33m[0.100ms] [34;1m[rows:0][0m SELECT description FROM pg_catalog.pg_description WHERE objsubid = (SELECT ordinal_position FROM information_schema.columns WHERE table_schema = CURRENT_SCHEMA() AND table_name = 'test_data' AND column_name = 'created_by') AND objoid = (SELECT oid FROM pg_catalog.pg_class WHERE relname = 'test_data' AND relnamespace = (SELECT oid FROM pg_catalog.pg_namespace WHERE nspname = CURRENT_SCHEMA()))
+
+2025/08/13 17:30:24 [32m/Users/afonso.junior/Documents/local/testlake/backend/test_lake/dao/main.go:36
+[0m[33m[0.082ms] [34;1m[rows:0][0m SELECT description FROM pg_catalog.pg_description WHERE objsubid = (SELECT ordinal_position FROM information_schema.columns WHERE table_schema = CURRENT_SCHEMA() AND table_name = 'test_data' AND column_name = 'created_at') AND objoid = (SELECT oid FROM pg_catalog.pg_class WHERE relname = 'test_data' AND relnamespace = (SELECT oid FROM pg_catalog.pg_namespace WHERE nspname = CURRENT_SCHEMA()))
+
+2025/08/13 17:30:24 [32m/Users/afonso.junior/Documents/local/testlake/backend/test_lake/dao/main.go:36
+[0m[33m[0.097ms] [34;1m[rows:0][0m SELECT description FROM pg_catalog.pg_description WHERE objsubid = (SELECT ordinal_position FROM information_schema.columns WHERE table_schema = CURRENT_SCHEMA() AND table_name = 'test_data' AND column_name = 'updated_at') AND objoid = (SELECT oid FROM pg_catalog.pg_class WHERE relname = 'test_data' AND relnamespace = (SELECT oid FROM pg_catalog.pg_namespace WHERE nspname = CURRENT_SCHEMA()))
+
+2025/08/13 17:30:24 [32m/Users/afonso.junior/Documents/local/testlake/backend/test_lake/dao/main.go:36
+[0m[33m[0.099ms] [34;1m[rows:0][0m SELECT description FROM pg_catalog.pg_description WHERE objsubid = (SELECT ordinal_position FROM information_schema.columns WHERE table_schema = CURRENT_SCHEMA() AND table_name = 'test_data' AND column_name = 'status') AND objoid = (SELECT oid FROM pg_catalog.pg_class WHERE relname = 'test_data' AND relnamespace = (SELECT oid FROM pg_catalog.pg_namespace WHERE nspname = CURRENT_SCHEMA()))
+
+2025/08/13 17:30:24 [32m/Users/afonso.junior/Documents/local/testlake/backend/test_lake/dao/main.go:36
+[0m[33m[0.090ms] [34;1m[rows:0][0m SELECT description FROM pg_catalog.pg_description WHERE objsubid = (SELECT ordinal_position FROM information_schema.columns WHERE table_schema = CURRENT_SCHEMA() AND table_name = 'test_data' AND column_name = 'deleted_at') AND objoid = (SELECT oid FROM pg_catalog.pg_class WHERE relname = 'test_data' AND relnamespace = (SELECT oid FROM pg_catalog.pg_namespace WHERE nspname = CURRENT_SCHEMA()))
+
+2025/08/13 17:30:24 [32m/Users/afonso.junior/Documents/local/testlake/backend/test_lake/dao/main.go:36
+[0m[33m[0.097ms] [34;1m[rows:1][0m SELECT count(*) FROM INFORMATION_SCHEMA.table_constraints WHERE table_schema = CURRENT_SCHEMA() AND table_name = 'test_data' AND constraint_name = 'fk_test_data_used_by_user'
+
+2025/08/13 17:30:24 [32m/Users/afonso.junior/Documents/local/testlake/backend/test_lake/dao/main.go:36
+[0m[33m[0.104ms] [34;1m[rows:1][0m SELECT count(*) FROM INFORMATION_SCHEMA.table_constraints WHERE table_schema = CURRENT_SCHEMA() AND table_name = 'test_data' AND constraint_name = 'fk_test_data_feature'
+
+2025/08/13 17:30:24 [32m/Users/afonso.junior/Documents/local/testlake/backend/test_lake/dao/main.go:36
+[0m[33m[0.093ms] [34;1m[rows:1][0m SELECT count(*) FROM INFORMATION_SCHEMA.table_constraints WHERE table_schema = CURRENT_SCHEMA() AND table_name = 'test_data' AND constraint_name = 'fk_test_data_creator'
+
+2025/08/13 17:30:24 [32m/Users/afonso.junior/Documents/local/testlake/backend/test_lake/dao/main.go:36
+[0m[33m[0.091ms] [34;1m[rows:1][0m SELECT count(*) FROM INFORMATION_SCHEMA.table_constraints WHERE table_schema = CURRENT_SCHEMA() AND table_name = 'test_data' AND constraint_name = 'fk_test_data_schema'
+
+2025/08/13 17:30:24 [32m/Users/afonso.junior/Documents/local/testlake/backend/test_lake/dao/main.go:36
+[0m[33m[0.092ms] [34;1m[rows:1][0m SELECT count(*) FROM INFORMATION_SCHEMA.table_constraints WHERE table_schema = CURRENT_SCHEMA() AND table_name = 'test_data' AND constraint_name = 'fk_test_data_environment'
+
+2025/08/13 17:30:24 [32m/Users/afonso.junior/Documents/local/testlake/backend/test_lake/dao/main.go:36
+[0m[33m[0.081ms] [34;1m[rows:1][0m SELECT count(*) FROM pg_indexes WHERE tablename = 'test_data' AND indexname = 'idx_test_data_deleted_at' AND schemaname = CURRENT_SCHEMA()
+
+2025/08/13 17:30:24 [32m/Users/afonso.junior/Documents/local/testlake/backend/test_lake/dao/main.go:36
+[0m[33m[0.058ms] [34;1m[rows:1][0m SELECT count(*) FROM information_schema.tables WHERE table_schema = CURRENT_SCHEMA() AND table_name = 'test_data_requests' AND table_type = 'BASE TABLE'
+
+2025/08/13 17:30:24 [32m/Users/afonso.junior/Documents/local/testlake/backend/test_lake/dao/main.go:36
+[0m[33m[0.062ms] [34;1m[rows:1][0m SELECT CURRENT_DATABASE()
+
+2025/08/13 17:30:24 [32m/Users/afonso.junior/Documents/local/testlake/backend/test_lake/dao/main.go:36
+[0m[33m[0.453ms] [34;1m[rows:-][0m SELECT c.column_name, c.is_nullable = 'YES', c.udt_name, c.character_maximum_length, c.numeric_precision, c.numeric_precision_radix, c.numeric_scale, c.datetime_precision, 8 * typlen, c.column_default, pd.description, c.identity_increment FROM information_schema.columns AS c JOIN pg_type AS pgt ON c.udt_name = pgt.typname LEFT JOIN pg_catalog.pg_description as pd ON pd.objsubid = c.ordinal_position AND pd.objoid = (SELECT oid FROM pg_catalog.pg_class WHERE relname = c.table_name AND relnamespace = (SELECT oid FROM pg_catalog.pg_namespace WHERE nspname = c.table_schema)) where table_catalog = 'testlake' AND table_schema = CURRENT_SCHEMA() AND table_name = 'test_data_requests'
+
+2025/08/13 17:30:24 [32m/Users/afonso.junior/Documents/local/testlake/backend/test_lake/dao/main.go:36
+[0m[33m[0.168ms] [34;1m[rows:-][0m SELECT * FROM "test_data_requests" LIMIT 5
+
+2025/08/13 17:30:24 [32m/Users/afonso.junior/Documents/local/testlake/backend/test_lake/dao/main.go:36
+[0m[33m[0.351ms] [34;1m[rows:-][0m SELECT constraint_name FROM information_schema.table_constraints tc JOIN information_schema.constraint_column_usage AS ccu USING (constraint_schema, constraint_catalog, table_name, constraint_name) JOIN information_schema.columns AS c ON c.table_schema = tc.constraint_schema AND tc.table_name = c.table_name AND ccu.column_name = c.column_name WHERE constraint_type IN ('PRIMARY KEY', 'UNIQUE') AND c.table_catalog = 'testlake' AND c.table_schema = CURRENT_SCHEMA() AND c.table_name = 'test_data_requests' AND constraint_type = 'UNIQUE'
+
+2025/08/13 17:30:24 [32m/Users/afonso.junior/Documents/local/testlake/backend/test_lake/dao/main.go:36
+[0m[33m[0.377ms] [34;1m[rows:-][0m SELECT c.column_name, constraint_name, constraint_type FROM information_schema.table_constraints tc JOIN information_schema.constraint_column_usage AS ccu USING (constraint_schema, constraint_catalog, table_name, constraint_name) JOIN information_schema.columns AS c ON c.table_schema = tc.constraint_schema AND tc.table_name = c.table_name AND ccu.column_name = c.column_name WHERE constraint_type IN ('PRIMARY KEY', 'UNIQUE') AND c.table_catalog = 'testlake' AND c.table_schema = CURRENT_SCHEMA() AND c.table_name = 'test_data_requests'
+
+2025/08/13 17:30:24 [32m/Users/afonso.junior/Documents/local/testlake/backend/test_lake/dao/main.go:36
+[0m[33m[0.059ms] [34;1m[rows:-][0m SELECT a.attname as column_name, format_type(a.atttypid, a.atttypmod) AS data_type
+		FROM pg_attribute a JOIN pg_class b ON a.attrelid = b.oid AND relnamespace = (SELECT oid FROM pg_catalog.pg_namespace WHERE nspname = CURRENT_SCHEMA())
+		WHERE a.attnum > 0 -- hide internal columns
+		AND NOT a.attisdropped -- hide deleted columns
+		AND b.relname = 'test_data_requests'
+
+2025/08/13 17:30:24 [32m/Users/afonso.junior/Documents/local/testlake/backend/test_lake/dao/main.go:36
+[0m[33m[0.084ms] [34;1m[rows:0][0m SELECT description FROM pg_catalog.pg_description WHERE objsubid = (SELECT ordinal_position FROM information_schema.columns WHERE table_schema = CURRENT_SCHEMA() AND table_name = 'test_data_requests' AND column_name = 'id') AND objoid = (SELECT oid FROM pg_catalog.pg_class WHERE relname = 'test_data_requests' AND relnamespace = (SELECT oid FROM pg_catalog.pg_namespace WHERE nspname = CURRENT_SCHEMA()))
+
+2025/08/13 17:30:24 [32m/Users/afonso.junior/Documents/local/testlake/backend/test_lake/dao/main.go:36
+[0m[33m[0.084ms] [34;1m[rows:0][0m SELECT description FROM pg_catalog.pg_description WHERE objsubid = (SELECT ordinal_position FROM information_schema.columns WHERE table_schema = CURRENT_SCHEMA() AND table_name = 'test_data_requests' AND column_name = 'feature_id') AND objoid = (SELECT oid FROM pg_catalog.pg_class WHERE relname = 'test_data_requests' AND relnamespace = (SELECT oid FROM pg_catalog.pg_namespace WHERE nspname = CURRENT_SCHEMA()))
+
+2025/08/13 17:30:24 [32m/Users/afonso.junior/Documents/local/testlake/backend/test_lake/dao/main.go:36
+[0m[33m[0.089ms] [34;1m[rows:0][0m SELECT description FROM pg_catalog.pg_description WHERE objsubid = (SELECT ordinal_position FROM information_schema.columns WHERE table_schema = CURRENT_SCHEMA() AND table_name = 'test_data_requests' AND column_name = 'environment_id') AND objoid = (SELECT oid FROM pg_catalog.pg_class WHERE relname = 'test_data_requests' AND relnamespace = (SELECT oid FROM pg_catalog.pg_namespace WHERE nspname = CURRENT_SCHEMA()))
+
+2025/08/13 17:30:24 [32m/Users/afonso.junior/Documents/local/testlake/backend/test_lake/dao/main.go:36
+[0m[33m[0.085ms] [34;1m[rows:0][0m SELECT description FROM pg_catalog.pg_description WHERE objsubid = (SELECT ordinal_position FROM information_schema.columns WHERE table_schema = CURRENT_SCHEMA() AND table_name = 'test_data_requests' AND column_name = 'schema_id') AND objoid = (SELECT oid FROM pg_catalog.pg_class WHERE relname = 'test_data_requests' AND relnamespace = (SELECT oid FROM pg_catalog.pg_namespace WHERE nspname = CURRENT_SCHEMA()))
+
+2025/08/13 17:30:24 [32m/Users/afonso.junior/Documents/local/testlake/backend/test_lake/dao/main.go:36
+[0m[33m[0.082ms] [34;1m[rows:0][0m SELECT description FROM pg_catalog.pg_description WHERE objsubid = (SELECT ordinal_position FROM information_schema.columns WHERE table_schema = CURRENT_SCHEMA() AND table_name = 'test_data_requests' AND column_name = 'requested_by') AND objoid = (SELECT oid FROM pg_catalog.pg_class WHERE relname = 'test_data_requests' AND relnamespace = (SELECT oid FROM pg_catalog.pg_namespace WHERE nspname = CURRENT_SCHEMA()))
+
+2025/08/13 17:30:24 [32m/Users/afonso.junior/Documents/local/testlake/backend/test_lake/dao/main.go:36
+[0m[33m[0.091ms] [34;1m[rows:0][0m SELECT description FROM pg_catalog.pg_description WHERE objsubid = (SELECT ordinal_position FROM information_schema.columns WHERE table_schema = CURRENT_SCHEMA() AND table_name = 'test_data_requests' AND column_name = 'provided_data_id') AND objoid = (SELECT oid FROM pg_catalog.pg_class WHERE relname = 'test_data_requests' AND relnamespace = (SELECT oid FROM pg_catalog.pg_namespace WHERE nspname = CURRENT_SCHEMA()))
+
+2025/08/13 17:30:24 [32m/Users/afonso.junior/Documents/local/testlake/backend/test_lake/dao/main.go:36
+[0m[33m[0.122ms] [34;1m[rows:0][0m SELECT description FROM pg_catalog.pg_description WHERE objsubid = (SELECT ordinal_position FROM information_schema.columns WHERE table_schema = CURRENT_SCHEMA() AND table_name = 'test_data_requests' AND column_name = 'request_notes') AND objoid = (SELECT oid FROM pg_catalog.pg_class WHERE relname = 'test_data_requests' AND relnamespace = (SELECT oid FROM pg_catalog.pg_namespace WHERE nspname = CURRENT_SCHEMA()))
+
+2025/08/13 17:30:24 [32m/Users/afonso.junior/Documents/local/testlake/backend/test_lake/dao/main.go:36
+[0m[33m[0.107ms] [34;1m[rows:0][0m SELECT description FROM pg_catalog.pg_description WHERE objsubid = (SELECT ordinal_position FROM information_schema.columns WHERE table_schema = CURRENT_SCHEMA() AND table_name = 'test_data_requests' AND column_name = 'response_notes') AND objoid = (SELECT oid FROM pg_catalog.pg_class WHERE relname = 'test_data_requests' AND relnamespace = (SELECT oid FROM pg_catalog.pg_namespace WHERE nspname = CURRENT_SCHEMA()))
+
+2025/08/13 17:30:24 [32m/Users/afonso.junior/Documents/local/testlake/backend/test_lake/dao/main.go:36
+[0m[33m[0.101ms] [34;1m[rows:0][0m SELECT description FROM pg_catalog.pg_description WHERE objsubid = (SELECT ordinal_position FROM information_schema.columns WHERE table_schema = CURRENT_SCHEMA() AND table_name = 'test_data_requests' AND column_name = 'requested_at') AND objoid = (SELECT oid FROM pg_catalog.pg_class WHERE relname = 'test_data_requests' AND relnamespace = (SELECT oid FROM pg_catalog.pg_namespace WHERE nspname = CURRENT_SCHEMA()))
+
+2025/08/13 17:30:24 [32m/Users/afonso.junior/Documents/local/testlake/backend/test_lake/dao/main.go:36
+[0m[33m[0.106ms] [34;1m[rows:0][0m SELECT description FROM pg_catalog.pg_description WHERE objsubid = (SELECT ordinal_position FROM information_schema.columns WHERE table_schema = CURRENT_SCHEMA() AND table_name = 'test_data_requests' AND column_name = 'fulfilled_at') AND objoid = (SELECT oid FROM pg_catalog.pg_class WHERE relname = 'test_data_requests' AND relnamespace = (SELECT oid FROM pg_catalog.pg_namespace WHERE nspname = CURRENT_SCHEMA()))
+
+2025/08/13 17:30:24 [32m/Users/afonso.junior/Documents/local/testlake/backend/test_lake/dao/main.go:36
+[0m[33m[0.102ms] [34;1m[rows:0][0m SELECT description FROM pg_catalog.pg_description WHERE objsubid = (SELECT ordinal_position FROM information_schema.columns WHERE table_schema = CURRENT_SCHEMA() AND table_name = 'test_data_requests' AND column_name = 'status') AND objoid = (SELECT oid FROM pg_catalog.pg_class WHERE relname = 'test_data_requests' AND relnamespace = (SELECT oid FROM pg_catalog.pg_namespace WHERE nspname = CURRENT_SCHEMA()))
+
+2025/08/13 17:30:24 [32m/Users/afonso.junior/Documents/local/testlake/backend/test_lake/dao/main.go:36
+[0m[33m[0.104ms] [34;1m[rows:0][0m SELECT description FROM pg_catalog.pg_description WHERE objsubid = (SELECT ordinal_position FROM information_schema.columns WHERE table_schema = CURRENT_SCHEMA() AND table_name = 'test_data_requests' AND column_name = 'deleted_at') AND objoid = (SELECT oid FROM pg_catalog.pg_class WHERE relname = 'test_data_requests' AND relnamespace = (SELECT oid FROM pg_catalog.pg_namespace WHERE nspname = CURRENT_SCHEMA()))
+
+2025/08/13 17:30:24 [32m/Users/afonso.junior/Documents/local/testlake/backend/test_lake/dao/main.go:36
+[0m[33m[0.109ms] [34;1m[rows:1][0m SELECT count(*) FROM INFORMATION_SCHEMA.table_constraints WHERE table_schema = CURRENT_SCHEMA() AND table_name = 'test_data_requests' AND constraint_name = 'fk_test_data_requests_provided_data'
+
+2025/08/13 17:30:24 [32m/Users/afonso.junior/Documents/local/testlake/backend/test_lake/dao/main.go:36
+[0m[33m[0.104ms] [34;1m[rows:1][0m SELECT count(*) FROM INFORMATION_SCHEMA.table_constraints WHERE table_schema = CURRENT_SCHEMA() AND table_name = 'test_data_requests' AND constraint_name = 'fk_test_data_requests_feature'
+
+2025/08/13 17:30:24 [32m/Users/afonso.junior/Documents/local/testlake/backend/test_lake/dao/main.go:36
+[0m[33m[0.104ms] [34;1m[rows:1][0m SELECT count(*) FROM INFORMATION_SCHEMA.table_constraints WHERE table_schema = CURRENT_SCHEMA() AND table_name = 'test_data_requests' AND constraint_name = 'fk_test_data_requests_environment'
+
+2025/08/13 17:30:24 [32m/Users/afonso.junior/Documents/local/testlake/backend/test_lake/dao/main.go:36
+[0m[33m[0.095ms] [34;1m[rows:1][0m SELECT count(*) FROM INFORMATION_SCHEMA.table_constraints WHERE table_schema = CURRENT_SCHEMA() AND table_name = 'test_data_requests' AND constraint_name = 'fk_test_data_requests_schema'
+
+2025/08/13 17:30:24 [32m/Users/afonso.junior/Documents/local/testlake/backend/test_lake/dao/main.go:36
+[0m[33m[0.103ms] [34;1m[rows:1][0m SELECT count(*) FROM INFORMATION_SCHEMA.table_constraints WHERE table_schema = CURRENT_SCHEMA() AND table_name = 'test_data_requests' AND constraint_name = 'fk_test_data_requests_requester'
+
+2025/08/13 17:30:24 [32m/Users/afonso.junior/Documents/local/testlake/backend/test_lake/dao/main.go:36
+[0m[33m[0.081ms] [34;1m[rows:1][0m SELECT count(*) FROM pg_indexes WHERE tablename = 'test_data_requests' AND indexname = 'idx_test_data_requests_deleted_at' AND schemaname = CURRENT_SCHEMA()
+[GIN-debug] [WARNING] Creating an Engine instance with the Logger and Recovery middleware already attached.
+
+[GIN-debug] [WARNING] Running in "debug" mode. Switch to "release" mode in production.
+ - using env:	export GIN_MODE=release
+ - using code:	gin.SetMode(gin.ReleaseMode)
+
+[GIN-debug] GET    /swagger/*any             --> github.com/swaggo/gin-swagger.CustomWrapHandler.func1 (4 handlers)
+[GIN-debug] POST   /api/v1/public/auth/signup --> testlake/controller.AuthController.SignUp-fm (4 handlers)
+[GIN-debug] POST   /api/v1/public/auth/signin --> testlake/controller.AuthController.SignIn-fm (4 handlers)
+[GIN-debug] POST   /api/v1/public/auth/signout --> testlake/controller.AuthController.SignOut-fm (4 handlers)
+[GIN-debug] POST   /api/v1/public/auth/forgot-password --> testlake/controller.AuthController.ForgotPassword-fm (4 handlers)
+[GIN-debug] POST   /api/v1/public/auth/reset-password --> testlake/controller.AuthController.ResetPassword-fm (4 handlers)
+[GIN-debug] GET    /api/v1/public/auth/verify-email/:token --> testlake/controller.AuthController.VerifyEmail-fm (4 handlers)
+[GIN-debug] POST   /api/v1/private/auth/refresh --> testlake/controller.AuthController.RefreshToken-fm (5 handlers)
+[GIN-debug] GET    /api/v1/private/users/profile --> testlake/controller.UserController.GetProfile-fm (5 handlers)
+[GIN-debug] PUT    /api/v1/private/users/profile --> testlake/controller.UserController.UpdateProfile-fm (5 handlers)
+[GIN-debug] DELETE /api/v1/private/users/account --> testlake/controller.UserController.DeleteAccount-fm (5 handlers)
+[GIN-debug] GET    /api/v1/private/users/dashboard --> testlake/controller.UserController.GetDashboard-fm (5 handlers)
+[GIN-debug] GET    /api/v1/private/users/notifications --> testlake/controller.UserController.GetNotifications-fm (5 handlers)
+[GIN-debug] PUT    /api/v1/private/users/notifications/:id/read --> testlake/controller.UserController.MarkNotificationRead-fm (5 handlers)
+[GIN-debug] [WARNING] You trusted all proxies, this is NOT safe. We recommend you to set a value.
+Please check https://pkg.go.dev/github.com/gin-gonic/gin#readme-don-t-trust-all-proxies for details.
+[GIN-debug] Listening and serving HTTP on localhost:8000
+[GIN-debug] [ERROR] listen tcp 127.0.0.1:8000: bind: address already in use
