@@ -130,6 +130,17 @@ definitions:
       error_description:
         type: string
     type: object
+  inout.PaginationMeta:
+    properties:
+      limit:
+        type: integer
+      page:
+        type: integer
+      total:
+        type: integer
+      total_pages:
+        type: integer
+    type: object
   model.AuthProvider:
     enum:
     - email
@@ -140,6 +151,28 @@ definitions:
     - AuthProviderEmail
     - AuthProviderGmail
     - AuthProviderApple
+  model.OrganizationStatus:
+    enum:
+    - active
+    - suspended
+    - cancelled
+    type: string
+    x-enum-varnames:
+    - OrganizationStatusActive
+    - OrganizationStatusSuspended
+    - OrganizationStatusCancelled
+  model.PlanType:
+    enum:
+    - free
+    - starter
+    - professional
+    - enterprise
+    type: string
+    x-enum-varnames:
+    - PlanTypeFree
+    - PlanTypeStarter
+    - PlanTypeProfessional
+    - PlanTypeEnterprise
   model.UserStatus:
     enum:
     - active
@@ -150,6 +183,213 @@ definitions:
     - UserStatusActive
     - UserStatusSuspended
     - UserStatusInactive
+  organization.CreateOrganizationRequest:
+    properties:
+      description:
+        type: string
+      logo_url:
+        type: string
+      max_projects:
+        type: integer
+      max_users:
+        type: integer
+      name:
+        maxLength: 200
+        minLength: 2
+        type: string
+      plan_type:
+        $ref: '#/definitions/model.PlanType'
+      slug:
+        maxLength: 100
+        minLength: 2
+        type: string
+    required:
+    - name
+    - slug
+    type: object
+  organization.InviteMemberRequest:
+    properties:
+      email:
+        type: string
+      role:
+        enum:
+        - member
+        - admin
+        type: string
+    required:
+    - email
+    - role
+    type: object
+  organization.InviteOut:
+    properties:
+      data:
+        $ref: '#/definitions/organization.InviteResult'
+      error_code:
+        type: integer
+      error_description:
+        type: string
+    type: object
+  organization.InviteResult:
+    properties:
+      email:
+        type: string
+      message:
+        type: string
+      status:
+        type: string
+    type: object
+  organization.Member:
+    properties:
+      email:
+        type: string
+      full_name:
+        type: string
+      id:
+        type: string
+      joined_at:
+        type: string
+      role:
+        type: string
+      username:
+        type: string
+    type: object
+  organization.MembersOut:
+    properties:
+      data:
+        items:
+          $ref: '#/definitions/organization.Member'
+        type: array
+      error_code:
+        type: integer
+      error_description:
+        type: string
+    type: object
+  organization.Organization:
+    properties:
+      created_at:
+        type: string
+      created_by:
+        type: string
+      description:
+        type: string
+      id:
+        type: string
+      logo_url:
+        type: string
+      max_projects:
+        type: integer
+      max_users:
+        type: integer
+      name:
+        type: string
+      plan_type:
+        $ref: '#/definitions/model.PlanType'
+      slug:
+        type: string
+      status:
+        $ref: '#/definitions/model.OrganizationStatus'
+      updated_at:
+        type: string
+    type: object
+  organization.OrganizationListOut:
+    properties:
+      error_code:
+        type: integer
+      error_description:
+        type: string
+      list:
+        items:
+          $ref: '#/definitions/organization.Organization'
+        type: array
+      meta:
+        $ref: '#/definitions/inout.PaginationMeta'
+    type: object
+  organization.OrganizationOut:
+    properties:
+      data:
+        $ref: '#/definitions/organization.Organization'
+      error_code:
+        type: integer
+      error_description:
+        type: string
+    type: object
+  organization.PendingInvite:
+    properties:
+      email:
+        type: string
+      expires_at:
+        type: string
+      id:
+        type: string
+      invited_at:
+        type: string
+      role:
+        type: string
+      token:
+        type: string
+    type: object
+  organization.PendingInvitesOut:
+    properties:
+      data:
+        items:
+          $ref: '#/definitions/organization.PendingInvite'
+        type: array
+      error_code:
+        type: integer
+      error_description:
+        type: string
+    type: object
+  organization.UpdateMemberRoleRequest:
+    properties:
+      role:
+        enum:
+        - member
+        - admin
+        type: string
+    required:
+    - role
+    type: object
+  organization.UpdateOrganizationRequest:
+    properties:
+      description:
+        type: string
+      logo_url:
+        type: string
+      max_projects:
+        minimum: 1
+        type: integer
+      max_users:
+        minimum: 1
+        type: integer
+      name:
+        maxLength: 200
+        minLength: 2
+        type: string
+      plan_type:
+        $ref: '#/definitions/model.PlanType'
+    type: object
+  user.AcceptInviteOut:
+    properties:
+      data:
+        $ref: '#/definitions/user.AcceptInviteResult'
+      error_code:
+        type: integer
+      error_description:
+        type: string
+    type: object
+  user.AcceptInviteResult:
+    properties:
+      message:
+        type: string
+      organization_id:
+        type: string
+      organization_name:
+        type: string
+      role:
+        type: string
+      status:
+        type: string
+    type: object
   user.ActivityItem:
     properties:
       description:
@@ -183,6 +423,26 @@ definitions:
       error_description:
         type: string
     type: object
+  user.DenyInviteOut:
+    properties:
+      data:
+        $ref: '#/definitions/user.DenyInviteResult'
+      error_code:
+        type: integer
+      error_description:
+        type: string
+    type: object
+  user.DenyInviteResult:
+    properties:
+      message:
+        type: string
+      organization_id:
+        type: string
+      organization_name:
+        type: string
+      status:
+        type: string
+    type: object
   user.Notification:
     properties:
       created_at:
@@ -205,6 +465,34 @@ definitions:
       data:
         items:
           $ref: '#/definitions/user.Notification'
+        type: array
+      error_code:
+        type: integer
+      error_description:
+        type: string
+    type: object
+  user.PendingInvite:
+    properties:
+      expires_at:
+        type: string
+      id:
+        type: string
+      invited_at:
+        type: string
+      organization_id:
+        type: string
+      organization_name:
+        type: string
+      role:
+        type: string
+      token:
+        type: string
+    type: object
+  user.PendingInvitesOut:
+    properties:
+      data:
+        items:
+          $ref: '#/definitions/user.PendingInvite'
         type: array
       error_code:
         type: integer
@@ -337,6 +625,12 @@ paths:
       - application/json
       description: Reset password with valid reset token
       parameters:
+      - description: Bearer token
+        format: Bearer {token}
+        in: header
+        name: Authorization
+        required: true
+        type: string
       - description: Password reset data
         in: body
         name: request
@@ -384,6 +678,13 @@ paths:
       consumes:
       - application/json
       description: Sign out current user (invalidate JWT token)
+      parameters:
+      - description: Bearer token
+        format: Bearer {token}
+        in: header
+        name: Authorization
+        required: true
+        type: string
       produces:
       - application/json
       responses:
@@ -406,6 +707,12 @@ paths:
         required: true
         schema:
           $ref: '#/definitions/auth.SignUpRequest'
+      - description: Bearer token
+        format: Bearer {token}
+        in: header
+        name: Authorization
+        required: true
+        type: string
       produces:
       - application/json
       responses:
@@ -441,11 +748,473 @@ paths:
       summary: Verify email address
       tags:
       - Authentication
+  /api/v1/organizations:
+    get:
+      consumes:
+      - application/json
+      description: Get paginated list of organizations for current user
+      parameters:
+      - description: Bearer token
+        format: Bearer {token}
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      - description: Page number (default 0)
+        in: query
+        name: page
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/organization.OrganizationListOut'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/inout.BaseResponse'
+      security:
+      - BearerAuth: []
+      summary: Get organizations
+      tags:
+      - Organization Management
+    post:
+      consumes:
+      - application/json
+      description: Create a new organization
+      parameters:
+      - description: Bearer token
+        format: Bearer {token}
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      - description: Organization data
+        in: body
+        name: organization
+        required: true
+        schema:
+          $ref: '#/definitions/organization.CreateOrganizationRequest'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/organization.OrganizationOut'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/inout.BaseResponse'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/inout.BaseResponse'
+      security:
+      - BearerAuth: []
+      summary: Create organization
+      tags:
+      - Organization Management
+  /api/v1/organizations/{id}:
+    delete:
+      consumes:
+      - application/json
+      description: Soft delete an organization
+      parameters:
+      - description: Bearer token
+        format: Bearer {token}
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      - description: Organization ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/inout.BaseResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/inout.BaseResponse'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/inout.BaseResponse'
+        "403":
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/inout.BaseResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/inout.BaseResponse'
+      security:
+      - BearerAuth: []
+      summary: Delete organization
+      tags:
+      - Organization Management
+    get:
+      consumes:
+      - application/json
+      description: Get organization details by ID
+      parameters:
+      - description: Bearer token
+        format: Bearer {token}
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      - description: Organization ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/organization.OrganizationOut'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/inout.BaseResponse'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/inout.BaseResponse'
+        "403":
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/inout.BaseResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/inout.BaseResponse'
+      security:
+      - BearerAuth: []
+      summary: Get organization
+      tags:
+      - Organization Management
+    put:
+      consumes:
+      - application/json
+      description: Update organization details
+      parameters:
+      - description: Bearer token
+        format: Bearer {token}
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      - description: Organization ID
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: Organization update data
+        in: body
+        name: organization
+        required: true
+        schema:
+          $ref: '#/definitions/organization.UpdateOrganizationRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/organization.OrganizationOut'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/inout.BaseResponse'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/inout.BaseResponse'
+        "403":
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/inout.BaseResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/inout.BaseResponse'
+      security:
+      - BearerAuth: []
+      summary: Update organization
+      tags:
+      - Organization Management
+  /api/v1/organizations/{id}/invite:
+    post:
+      consumes:
+      - application/json
+      description: Invite a user to join the organization
+      parameters:
+      - description: Bearer token
+        format: Bearer {token}
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      - description: Organization ID
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: Invitation data
+        in: body
+        name: invite
+        required: true
+        schema:
+          $ref: '#/definitions/organization.InviteMemberRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/organization.InviteOut'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/inout.BaseResponse'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/inout.BaseResponse'
+        "403":
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/inout.BaseResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/inout.BaseResponse'
+      security:
+      - BearerAuth: []
+      summary: Invite member
+      tags:
+      - Organization Management
+  /api/v1/organizations/{id}/invites:
+    get:
+      consumes:
+      - application/json
+      description: Get list of pending invitations for the organization
+      parameters:
+      - description: Bearer token
+        format: Bearer {token}
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      - description: Organization ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/organization.PendingInvitesOut'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/inout.BaseResponse'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/inout.BaseResponse'
+        "403":
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/inout.BaseResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/inout.BaseResponse'
+      security:
+      - BearerAuth: []
+      summary: Get pending invites
+      tags:
+      - Organization Management
+  /api/v1/organizations/{id}/members:
+    get:
+      consumes:
+      - application/json
+      description: Get list of organization members
+      parameters:
+      - description: Bearer token
+        format: Bearer {token}
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      - description: Organization ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/organization.MembersOut'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/inout.BaseResponse'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/inout.BaseResponse'
+        "403":
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/inout.BaseResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/inout.BaseResponse'
+      security:
+      - BearerAuth: []
+      summary: Get organization members
+      tags:
+      - Organization Management
+  /api/v1/organizations/{id}/members/{userId}:
+    delete:
+      consumes:
+      - application/json
+      description: Remove a member from the organization
+      parameters:
+      - description: Bearer token
+        format: Bearer {token}
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      - description: Organization ID
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: User ID to remove
+        in: path
+        name: userId
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/inout.BaseResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/inout.BaseResponse'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/inout.BaseResponse'
+        "403":
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/inout.BaseResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/inout.BaseResponse'
+      security:
+      - BearerAuth: []
+      summary: Remove member
+      tags:
+      - Organization Management
+  /api/v1/organizations/{id}/members/{userId}/role:
+    put:
+      consumes:
+      - application/json
+      description: Update a member's role in the organization
+      parameters:
+      - description: Bearer token
+        format: Bearer {token}
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      - description: Organization ID
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: User ID
+        in: path
+        name: userId
+        required: true
+        type: string
+      - description: Role update data
+        in: body
+        name: role
+        required: true
+        schema:
+          $ref: '#/definitions/organization.UpdateMemberRoleRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/inout.BaseResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/inout.BaseResponse'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/inout.BaseResponse'
+        "403":
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/inout.BaseResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/inout.BaseResponse'
+      security:
+      - BearerAuth: []
+      summary: Update member role
+      tags:
+      - Organization Management
   /api/v1/users/account:
     delete:
       consumes:
       - application/json
       description: Delete current user's account permanently
+      parameters:
+      - description: Bearer token
+        format: Bearer {token}
+        in: header
+        name: Authorization
+        required: true
+        type: string
       produces:
       - application/json
       responses:
@@ -467,6 +1236,13 @@ paths:
       consumes:
       - application/json
       description: Get user dashboard with overview of projects and activities
+      parameters:
+      - description: Bearer token
+        format: Bearer {token}
+        in: header
+        name: Authorization
+        required: true
+        type: string
       produces:
       - application/json
       responses:
@@ -483,11 +1259,128 @@ paths:
       summary: Get user dashboard
       tags:
       - User Management
+  /api/v1/users/invites:
+    get:
+      consumes:
+      - application/json
+      description: Get all pending organization invitations for the current user
+      parameters:
+      - description: Bearer token
+        format: Bearer {token}
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/user.PendingInvitesOut'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/inout.BaseResponse'
+      security:
+      - BearerAuth: []
+      summary: Get pending invitations
+      tags:
+      - User Management
+  /api/v1/users/invites/{token}/accept:
+    post:
+      consumes:
+      - application/json
+      description: Accept an organization invitation using the invitation token
+      parameters:
+      - description: Bearer token
+        format: Bearer {token}
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      - description: Invitation token
+        in: path
+        name: token
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/user.AcceptInviteOut'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/inout.BaseResponse'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/inout.BaseResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/inout.BaseResponse'
+      security:
+      - BearerAuth: []
+      summary: Accept organization invite
+      tags:
+      - User Management
+  /api/v1/users/invites/{token}/deny:
+    post:
+      consumes:
+      - application/json
+      description: Decline an organization invitation using the invitation token
+      parameters:
+      - description: Bearer token
+        format: Bearer {token}
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      - description: Invitation token
+        in: path
+        name: token
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/user.DenyInviteOut'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/inout.BaseResponse'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/inout.BaseResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/inout.BaseResponse'
+      security:
+      - BearerAuth: []
+      summary: Deny organization invite
+      tags:
+      - User Management
   /api/v1/users/notifications:
     get:
       consumes:
       - application/json
       description: Get list of user notifications
+      parameters:
+      - description: Bearer token
+        format: Bearer {token}
+        in: header
+        name: Authorization
+        required: true
+        type: string
       produces:
       - application/json
       responses:
@@ -515,6 +1408,12 @@ paths:
         name: id
         required: true
         type: string
+      - description: Bearer token
+        format: Bearer {token}
+        in: header
+        name: Authorization
+        required: true
+        type: string
       produces:
       - application/json
       responses:
@@ -540,6 +1439,13 @@ paths:
       consumes:
       - application/json
       description: Get current user's profile information
+      parameters:
+      - description: Bearer token
+        format: Bearer {token}
+        in: header
+        name: Authorization
+        required: true
+        type: string
       produces:
       - application/json
       responses:
@@ -561,6 +1467,12 @@ paths:
       - application/json
       description: Update current user's profile information
       parameters:
+      - description: Bearer token
+        format: Bearer {token}
+        in: header
+        name: Authorization
+        required: true
+        type: string
       - description: User profile data
         in: body
         name: user

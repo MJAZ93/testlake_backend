@@ -60,7 +60,7 @@ func (dao *OrganizationDao) GetByCreatedBy(userID uuid.UUID, page int) ([]model.
 	var total int64
 
 	query := Database.Model(&model.Organization{}).Where("created_by = ?", userID)
-	
+
 	err := query.Count(&total).Error
 	if err != nil {
 		return nil, 0, err
@@ -93,9 +93,7 @@ func (dao *OrganizationDao) SlugExists(slug string) (bool, error) {
 	return count > 0, err
 }
 
-func (dao *OrganizationDao) GetMembers(orgID uuid.UUID) ([]model.User, error) {
-	var users []model.User
-	// This would require a proper organization_members table in a real implementation
-	// For now, return empty slice
-	return users, nil
+func (dao *OrganizationDao) GetMembers(orgID uuid.UUID) ([]model.OrganizationMember, error) {
+	memberDao := NewOrganizationMemberDao()
+	return memberDao.GetMembers(orgID)
 }

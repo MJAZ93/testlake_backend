@@ -104,3 +104,54 @@ func (s UserService) GetNotifications(r *gin.RouterGroup, route string) {
 func (s UserService) MarkNotificationRead(r *gin.RouterGroup, route string) {
 	r.PUT("/"+s.Route+"/"+route+"/:id/read", s.Controller.MarkNotificationRead)
 }
+
+// GetPendingInvites godoc
+// @Summary Get pending invitations
+// @Description Get all pending organization invitations for the current user
+// @Tags User Management
+// @Accept json
+// @Produce json
+// @Security BearerAuth
+// @Param Authorization header string true "Bearer token" format(Bearer {token})
+// @Success 200 {object} user.PendingInvitesOut
+// @Failure 401 {object} inout.BaseResponse
+// @Router /api/v1/users/invites [GET]
+func (s UserService) GetPendingInvites(r *gin.RouterGroup, route string) {
+	r.GET("/"+s.Route+"/"+route, s.Controller.GetPendingInvites)
+}
+
+// AcceptInvite godoc
+// @Summary Accept organization invite
+// @Description Accept an organization invitation using the invitation token
+// @Tags User Management
+// @Accept json
+// @Produce json
+// @Security BearerAuth
+// @Param Authorization header string true "Bearer token" format(Bearer {token})
+// @Param token path string true "Invitation token"
+// @Success 200 {object} user.AcceptInviteOut
+// @Failure 400 {object} inout.BaseResponse
+// @Failure 401 {object} inout.BaseResponse
+// @Failure 404 {object} inout.BaseResponse
+// @Router /api/v1/users/invites/{token}/accept [POST]
+func (s UserService) AcceptInvite(r *gin.RouterGroup, route string) {
+	r.POST("/"+s.Route+"/"+route+"/:token/accept", s.Controller.AcceptInvite)
+}
+
+// DenyInvite godoc
+// @Summary Deny organization invite
+// @Description Decline an organization invitation using the invitation token
+// @Tags User Management
+// @Accept json
+// @Produce json
+// @Security BearerAuth
+// @Param Authorization header string true "Bearer token" format(Bearer {token})
+// @Param token path string true "Invitation token"
+// @Success 200 {object} user.DenyInviteOut
+// @Failure 400 {object} inout.BaseResponse
+// @Failure 401 {object} inout.BaseResponse
+// @Failure 404 {object} inout.BaseResponse
+// @Router /api/v1/users/invites/{token}/deny [POST]
+func (s UserService) DenyInvite(r *gin.RouterGroup, route string) {
+	r.POST("/"+s.Route+"/"+route+"/:token/deny", s.Controller.DenyInvite)
+}

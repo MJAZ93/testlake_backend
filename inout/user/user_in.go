@@ -5,3 +5,7 @@ type UpdateUserRequest struct {
 	LastName  *string `json:"last_name"`
 	AvatarURL *string `json:"avatar_url"`
 }
+
+type AcceptInviteRequest struct {
+	Token string `json:"token"`
+}

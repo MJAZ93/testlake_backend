@@ -61,6 +61,11 @@ func ValidateJWT(c *gin.Context) error {
 		return errors.New("invalid token claims")
 	}
 
+	// Check if token has expired
+	if claims.ExpiresAt != nil && claims.ExpiresAt.Time.Before(time.Now()) {
+		return errors.New("token has expired")
+	}
+
 	c.Set("user_id", claims.UserID)
 	c.Set("email", claims.Email)
 	c.Set("username", claims.Username)
@@ -73,12 +78,12 @@ func ExtractToken(c *gin.Context) string {
 	if token != "" {
 		return token
 	}
-	
+
 	bearerToken := c.Request.Header.Get("Authorization")
 	if strings.HasPrefix(bearerToken, "Bearer ") {
 		return bearerToken[7:]
 	}
-	
+
 	return ""
 }
 
@@ -87,11 +92,11 @@ func ExtractUserID(c *gin.Context) (uuid.UUID, error) {
 	if !exists {
 		return uuid.Nil, errors.New("user ID not found in context")
 	}
-	
+
 	uid, ok := userID.(uuid.UUID)
 	if !ok {
 		return uuid.Nil, errors.New("invalid user ID format")
 	}
-	
+
 	return uid, nil
 }

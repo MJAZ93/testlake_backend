@@ -170,6 +170,12 @@ func (controller AuthController) SignOut(context *gin.Context) {
 
 // RefreshToken generates a new JWT token from a valid existing token
 func (controller AuthController) RefreshToken(context *gin.Context) {
+	// First validate the existing token
+	if err := utils.ValidateJWT(context); err != nil {
+		utils.ReportUnauthorized(context, "Invalid or expired token")
+		return
+	}
+
 	userID, err := utils.ExtractUserID(context)
 	if err != nil {
 		utils.ReportUnauthorized(context, "Invalid token")

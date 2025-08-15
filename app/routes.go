@@ -47,4 +47,24 @@ func PrivateRoutes(r *gin.RouterGroup) {
 	userService.GetDashboard(r, "dashboard")
 	userService.GetNotifications(r, "notifications")
 	userService.MarkNotificationRead(r, "notifications")
+	userService.GetPendingInvites(r, "invites")
+	userService.AcceptInvite(r, "invites")
+	userService.DenyInvite(r, "invites")
+
+	// Organization Management endpoints
+	organizationService := service.OrganizationService{
+		Route:      "organizations",
+		Controller: controller.OrganizationController{},
+	}
+
+	organizationService.CreateOrganization(r)
+	organizationService.GetOrganizations(r)
+	organizationService.GetOrganization(r)
+	organizationService.UpdateOrganization(r)
+	organizationService.DeleteOrganization(r)
+	organizationService.GetOrganizationMembers(r)
+	organizationService.InviteMember(r)
+	organizationService.GetPendingInvites(r)
+	organizationService.RemoveMember(r)
+	organizationService.UpdateMemberRole(r)
 }

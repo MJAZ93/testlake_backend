@@ -36,6 +36,8 @@ func Connect() {
 	err = Database.AutoMigrate(
 		&model.User{},
 		&model.Organization{},
+		&model.OrganizationMember{},
+		&model.OrganizationInvitation{},
 		&model.Project{},
 		&model.Team{},
 		&model.TeamMember{},

@@ -9,6 +9,31 @@ import (
 	"github.com/google/uuid"
 )
 
+type AcceptInviteResult struct {
+	OrganizationID   uuid.UUID `json:"organization_id"`
+	OrganizationName string    `json:"organization_name"`
+	Role             string    `json:"role"`
+	Status           string    `json:"status"`
+	Message          string    `json:"message"`
+}
+
+type AcceptInviteOut struct {
+	inout.BaseResponse
+	Data AcceptInviteResult `json:"data"`
+}
+
+type DenyInviteResult struct {
+	OrganizationID   uuid.UUID `json:"organization_id"`
+	OrganizationName string    `json:"organization_name"`
+	Status           string    `json:"status"`
+	Message          string    `json:"message"`
+}
+
+type DenyInviteOut struct {
+	inout.BaseResponse
+	Data DenyInviteResult `json:"data"`
+}
+
 type User struct {
 	ID              uuid.UUID          `json:"id"`
 	Email           string             `json:"email"`
@@ -67,6 +92,21 @@ type Notification struct {
 type NotificationsOut struct {
 	inout.BaseResponse
 	Data []Notification `json:"data"`
+}
+
+type PendingInvite struct {
+	ID               uuid.UUID `json:"id"`
+	OrganizationID   uuid.UUID `json:"organization_id"`
+	OrganizationName string    `json:"organization_name"`
+	Role             string    `json:"role"`
+	InvitedAt        time.Time `json:"invited_at"`
+	ExpiresAt        time.Time `json:"expires_at"`
+	Token            string    `json:"token"`
+}
+
+type PendingInvitesOut struct {
+	inout.BaseResponse
+	Data []PendingInvite `json:"data"`
 }
 
 func FromModel(user *model.User) User {
