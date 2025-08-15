@@ -24,6 +24,16 @@ const (
 	OrganizationStatusCancelled OrganizationStatus = "cancelled"
 )
 
+type OrganizationSubscriptionStatus string
+
+const (
+	OrganizationSubscriptionStatusActive    OrganizationSubscriptionStatus = "active"
+	OrganizationSubscriptionStatusPastDue   OrganizationSubscriptionStatus = "past_due"
+	OrganizationSubscriptionStatusCancelled OrganizationSubscriptionStatus = "cancelled"
+	OrganizationSubscriptionStatusSuspended OrganizationSubscriptionStatus = "suspended"
+	OrganizationSubscriptionStatusTrialing  OrganizationSubscriptionStatus = "trialing"
+)
+
 type Organization struct {
 	ID          uuid.UUID          `gorm:"type:uuid;primaryKey" json:"id"`
 	Name        string             `gorm:"type:varchar(200);not null" json:"name"`
@@ -39,8 +49,18 @@ type Organization struct {
 	Status      OrganizationStatus `gorm:"type:varchar(20);default:active" json:"status"`
 	DeletedAt   gorm.DeletedAt     `gorm:"index" json:"-"`
 
+	// Payment-related fields
+	PlanID               *uuid.UUID                     `gorm:"type:uuid" json:"plan_id"`
+	BillingCycle         BillingCycle                   `gorm:"type:varchar(20);default:monthly" json:"billing_cycle"`
+	SubscriptionStatus   OrganizationSubscriptionStatus `gorm:"type:varchar(20);default:active" json:"subscription_status"`
+	TrialEndsAt          *time.Time                     `json:"trial_ends_at"`
+	NextBillingDate      *time.Time                     `json:"next_billing_date"`
+	PayPalSubscriptionID *string                        `gorm:"type:varchar(100)" json:"paypal_subscription_id"`
+	BillingEmail         *string                        `gorm:"type:varchar(255)" json:"billing_email"`
+
 	// Relationships
-	Creator User `gorm:"foreignKey:CreatedBy;references:ID" json:"-"`
+	Creator User  `gorm:"foreignKey:CreatedBy;references:ID" json:"-"`
+	Plan    *Plan `gorm:"foreignKey:PlanID;references:ID" json:"-"`
 }
 
 func (o *Organization) BeforeCreate(tx *gorm.DB) (err error) {

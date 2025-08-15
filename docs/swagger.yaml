@@ -123,6 +123,161 @@ definitions:
       token:
         type: string
     type: object
+  billing.BillingHistoryItem:
+    properties:
+      amount:
+        type: number
+      currency:
+        type: string
+      date:
+        type: string
+      description:
+        type: string
+      id:
+        type: string
+      status:
+        type: string
+      type:
+        description: '"invoice" or "payment"'
+        type: string
+    type: object
+  billing.BillingHistoryOut:
+    properties:
+      error_code:
+        type: integer
+      error_description:
+        type: string
+      list:
+        items:
+          $ref: '#/definitions/billing.BillingHistoryItem'
+        type: array
+      meta:
+        $ref: '#/definitions/inout.PaginationMeta'
+    type: object
+  billing.BillingOverview:
+    properties:
+      current_plan:
+        $ref: '#/definitions/plan.Plan'
+      current_subscription:
+        $ref: '#/definitions/subscription.Subscription'
+      current_usage:
+        $ref: '#/definitions/subscription.UsageMetrics'
+      next_billing_amount:
+        type: number
+      next_billing_date:
+        type: string
+      plan_limits:
+        $ref: '#/definitions/subscription.PlanLimits'
+      recent_payments:
+        items:
+          $ref: '#/definitions/payment.Payment'
+        type: array
+      unpaid_invoices:
+        items:
+          $ref: '#/definitions/billing.Invoice'
+        type: array
+    type: object
+  billing.BillingOverviewOut:
+    properties:
+      data:
+        $ref: '#/definitions/billing.BillingOverview'
+      error_code:
+        type: integer
+      error_description:
+        type: string
+    type: object
+  billing.Invoice:
+    properties:
+      amount:
+        type: number
+      billing_period_end:
+        type: string
+      billing_period_start:
+        type: string
+      created_at:
+        type: string
+      currency:
+        type: string
+      due_date:
+        type: string
+      id:
+        type: string
+      invoice_number:
+        type: string
+      invoice_url:
+        type: string
+      line_items:
+        items:
+          $ref: '#/definitions/billing.InvoiceLineItem'
+        type: array
+      organization_id:
+        type: string
+      paid_at:
+        type: string
+      paypal_invoice_id:
+        type: string
+      status:
+        $ref: '#/definitions/model.InvoiceStatus'
+      subscription_id:
+        type: string
+      tax_amount:
+        type: number
+      total_amount:
+        type: number
+      updated_at:
+        type: string
+    type: object
+  billing.InvoiceLineItem:
+    properties:
+      description:
+        type: string
+      id:
+        type: string
+      quantity:
+        type: integer
+      total_price:
+        type: number
+      unit_price:
+        type: number
+    type: object
+  billing.InvoiceListOut:
+    properties:
+      error_code:
+        type: integer
+      error_description:
+        type: string
+      list:
+        items:
+          $ref: '#/definitions/billing.Invoice'
+        type: array
+      meta:
+        $ref: '#/definitions/inout.PaginationMeta'
+    type: object
+  billing.InvoiceOut:
+    properties:
+      data:
+        $ref: '#/definitions/billing.Invoice'
+      error_code:
+        type: integer
+      error_description:
+        type: string
+    type: object
+  billing.PayInvoiceRequest:
+    properties:
+      payment_method_id:
+        type: string
+    required:
+    - payment_method_id
+    type: object
+  billing.PaymentOut:
+    properties:
+      data:
+        $ref: '#/definitions/payment.Payment'
+      error_code:
+        type: integer
+      error_description:
+        type: string
+    type: object
   inout.BaseResponse:
     properties:
       error_code:
@@ -151,6 +306,28 @@ definitions:
     - AuthProviderEmail
     - AuthProviderGmail
     - AuthProviderApple
+  model.BillingCycle:
+    enum:
+    - monthly
+    - yearly
+    type: string
+    x-enum-varnames:
+    - BillingCycleMonthly
+    - BillingCycleYearly
+  model.InvoiceStatus:
+    enum:
+    - draft
+    - sent
+    - paid
+    - cancelled
+    - refunded
+    type: string
+    x-enum-varnames:
+    - InvoiceStatusDraft
+    - InvoiceStatusSent
+    - InvoiceStatusPaid
+    - InvoiceStatusCancelled
+    - InvoiceStatusRefunded
   model.OrganizationStatus:
     enum:
     - active
@@ -161,6 +338,32 @@ definitions:
     - OrganizationStatusActive
     - OrganizationStatusSuspended
     - OrganizationStatusCancelled
+  model.PaymentMethodEnum:
+    enum:
+    - paypal
+    type: string
+    x-enum-varnames:
+    - PaymentMethodEnumPayPal
+  model.PaymentMethodType:
+    enum:
+    - paypal
+    type: string
+    x-enum-varnames:
+    - PaymentMethodTypePayPal
+  model.PaymentStatus:
+    enum:
+    - pending
+    - completed
+    - failed
+    - cancelled
+    - refunded
+    type: string
+    x-enum-varnames:
+    - PaymentStatusPending
+    - PaymentStatusCompleted
+    - PaymentStatusFailed
+    - PaymentStatusCancelled
+    - PaymentStatusRefunded
   model.PlanType:
     enum:
     - free
@@ -173,6 +376,20 @@ definitions:
     - PlanTypeStarter
     - PlanTypeProfessional
     - PlanTypeEnterprise
+  model.SubscriptionStatus:
+    enum:
+    - active
+    - cancelled
+    - suspended
+    - expired
+    - pending
+    type: string
+    x-enum-varnames:
+    - SubscriptionStatusActive
+    - SubscriptionStatusCancelled
+    - SubscriptionStatusSuspended
+    - SubscriptionStatusExpired
+    - SubscriptionStatusPending
   model.UserStatus:
     enum:
     - active
@@ -367,6 +584,281 @@ definitions:
         type: string
       plan_type:
         $ref: '#/definitions/model.PlanType'
+    type: object
+  payment.CreatePaymentMethodRequest:
+    properties:
+      is_default:
+        type: boolean
+      payment_method_type:
+        $ref: '#/definitions/model.PaymentMethodType'
+      paypal_email:
+        type: string
+      paypal_payer_id:
+        type: string
+    required:
+    - paypal_email
+    type: object
+  payment.Payment:
+    properties:
+      amount:
+        type: number
+      created_at:
+        type: string
+      currency:
+        type: string
+      failure_reason:
+        type: string
+      id:
+        type: string
+      invoice_id:
+        type: string
+      organization_id:
+        type: string
+      payment_method:
+        $ref: '#/definitions/model.PaymentMethodEnum'
+      paypal_payer_id:
+        type: string
+      paypal_payment_id:
+        type: string
+      processed_at:
+        type: string
+      status:
+        $ref: '#/definitions/model.PaymentStatus'
+      subscription_id:
+        type: string
+      updated_at:
+        type: string
+    type: object
+  payment.PaymentMethod:
+    properties:
+      created_at:
+        type: string
+      created_by:
+        type: string
+      id:
+        type: string
+      is_active:
+        type: boolean
+      is_default:
+        type: boolean
+      organization_id:
+        type: string
+      payment_method_type:
+        $ref: '#/definitions/model.PaymentMethodType'
+      paypal_email:
+        type: string
+      paypal_payer_id:
+        type: string
+      updated_at:
+        type: string
+    type: object
+  payment.PaymentMethodListOut:
+    properties:
+      data:
+        items:
+          $ref: '#/definitions/payment.PaymentMethod'
+        type: array
+      error_code:
+        type: integer
+      error_description:
+        type: string
+    type: object
+  payment.PaymentMethodOut:
+    properties:
+      data:
+        $ref: '#/definitions/payment.PaymentMethod'
+      error_code:
+        type: integer
+      error_description:
+        type: string
+    type: object
+  payment.UpdatePaymentMethodRequest:
+    properties:
+      is_default:
+        type: boolean
+      paypal_email:
+        type: string
+      paypal_payer_id:
+        type: string
+    type: object
+  plan.Plan:
+    properties:
+      created_at:
+        type: string
+      description:
+        type: string
+      features:
+        items:
+          type: string
+        type: array
+      id:
+        type: string
+      is_active:
+        type: boolean
+      max_environments:
+        type: integer
+      max_projects:
+        type: integer
+      max_schemas:
+        type: integer
+      max_test_records_per_schema:
+        type: integer
+      max_users:
+        type: integer
+      name:
+        type: string
+      price_monthly:
+        type: number
+      price_yearly:
+        type: number
+      slug:
+        type: string
+      updated_at:
+        type: string
+    type: object
+  plan.PlanComparison:
+    properties:
+      plans:
+        items:
+          $ref: '#/definitions/plan.Plan'
+        type: array
+    type: object
+  plan.PlanComparisonOut:
+    properties:
+      data:
+        $ref: '#/definitions/plan.PlanComparison'
+      error_code:
+        type: integer
+      error_description:
+        type: string
+    type: object
+  plan.PlanListOut:
+    properties:
+      error_code:
+        type: integer
+      error_description:
+        type: string
+      list:
+        items:
+          $ref: '#/definitions/plan.Plan'
+        type: array
+    type: object
+  plan.PlanOut:
+    properties:
+      data:
+        $ref: '#/definitions/plan.Plan'
+      error_code:
+        type: integer
+      error_description:
+        type: string
+    type: object
+  subscription.ChangePlanRequest:
+    properties:
+      billing_cycle:
+        $ref: '#/definitions/model.BillingCycle'
+      new_plan_id:
+        type: string
+    required:
+    - billing_cycle
+    - new_plan_id
+    type: object
+  subscription.CreateSubscriptionRequest:
+    properties:
+      billing_cycle:
+        $ref: '#/definitions/model.BillingCycle'
+      plan_id:
+        type: string
+    required:
+    - billing_cycle
+    - plan_id
+    type: object
+  subscription.PlanLimits:
+    properties:
+      max_environments:
+        type: integer
+      max_projects:
+        type: integer
+      max_schemas:
+        type: integer
+      max_test_records_per_schema:
+        type: integer
+      max_users:
+        type: integer
+    type: object
+  subscription.Subscription:
+    properties:
+      billing_cycle:
+        $ref: '#/definitions/model.BillingCycle'
+      cancel_at_period_end:
+        type: boolean
+      cancelled_at:
+        type: string
+      created_at:
+        type: string
+      created_by:
+        type: string
+      current_period_end:
+        type: string
+      current_period_start:
+        type: string
+      id:
+        type: string
+      organization_id:
+        type: string
+      paypal_subscription_id:
+        type: string
+      plan_id:
+        type: string
+      status:
+        $ref: '#/definitions/model.SubscriptionStatus'
+      trial_end:
+        type: string
+      updated_at:
+        type: string
+    type: object
+  subscription.SubscriptionOut:
+    properties:
+      data:
+        $ref: '#/definitions/subscription.Subscription'
+      error_code:
+        type: integer
+      error_description:
+        type: string
+    type: object
+  subscription.SubscriptionUsageOut:
+    properties:
+      data:
+        $ref: '#/definitions/subscription.UsageData'
+      error_code:
+        type: integer
+      error_description:
+        type: string
+    type: object
+  subscription.UsageData:
+    properties:
+      current_usage:
+        $ref: '#/definitions/subscription.UsageMetrics'
+      period_end:
+        type: string
+      period_start:
+        type: string
+      plan_limits:
+        $ref: '#/definitions/subscription.PlanLimits'
+    type: object
+  subscription.UsageMetrics:
+    properties:
+      api_requests_count:
+        type: integer
+      environments_count:
+        type: integer
+      projects_count:
+        type: integer
+      schemas_count:
+        type: integer
+      test_records_count:
+        type: integer
+      users_count:
+        type: integer
     type: object
   user.AcceptInviteOut:
     properties:
@@ -707,12 +1199,6 @@ paths:
         required: true
         schema:
           $ref: '#/definitions/auth.SignUpRequest'
-      - description: Bearer token
-        format: Bearer {token}
-        in: header
-        name: Authorization
-        required: true
-        type: string
       produces:
       - application/json
       responses:
@@ -748,6 +1234,145 @@ paths:
       summary: Verify email address
       tags:
       - Authentication
+  /api/v1/invoices/{id}:
+    get:
+      consumes:
+      - application/json
+      description: Get a specific invoice by ID
+      parameters:
+      - description: Bearer token
+        format: Bearer {token}
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      - description: Invoice ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/billing.InvoiceOut'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/inout.BaseResponse'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/inout.BaseResponse'
+        "403":
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/inout.BaseResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/inout.BaseResponse'
+      security:
+      - BearerAuth: []
+      summary: Get invoice
+      tags:
+      - Billing
+  /api/v1/invoices/{id}/download:
+    get:
+      consumes:
+      - application/json
+      description: Download a specific invoice
+      parameters:
+      - description: Bearer token
+        format: Bearer {token}
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      - description: Invoice ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "302":
+          description: Redirect to invoice PDF
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/inout.BaseResponse'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/inout.BaseResponse'
+        "403":
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/inout.BaseResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/inout.BaseResponse'
+      security:
+      - BearerAuth: []
+      summary: Download invoice
+      tags:
+      - Billing
+  /api/v1/invoices/{id}/pay:
+    post:
+      consumes:
+      - application/json
+      description: Process payment for an invoice
+      parameters:
+      - description: Bearer token
+        format: Bearer {token}
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      - description: Invoice ID
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: Payment data
+        in: body
+        name: payment
+        required: true
+        schema:
+          $ref: '#/definitions/billing.PayInvoiceRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/billing.PaymentOut'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/inout.BaseResponse'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/inout.BaseResponse'
+        "403":
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/inout.BaseResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/inout.BaseResponse'
+      security:
+      - BearerAuth: []
+      summary: Pay invoice
+      tags:
+      - Billing
   /api/v1/organizations:
     get:
       consumes:
@@ -956,6 +1581,92 @@ paths:
       summary: Update organization
       tags:
       - Organization Management
+  /api/v1/organizations/{id}/billing/history:
+    get:
+      consumes:
+      - application/json
+      description: Get billing history for an organization
+      parameters:
+      - description: Bearer token
+        format: Bearer {token}
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      - description: Organization ID
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: Page number
+        in: query
+        name: page
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/billing.BillingHistoryOut'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/inout.BaseResponse'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/inout.BaseResponse'
+        "403":
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/inout.BaseResponse'
+      security:
+      - BearerAuth: []
+      summary: Get billing history
+      tags:
+      - Billing
+  /api/v1/organizations/{id}/billing/overview:
+    get:
+      consumes:
+      - application/json
+      description: Get billing overview for an organization
+      parameters:
+      - description: Bearer token
+        format: Bearer {token}
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      - description: Organization ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/billing.BillingOverviewOut'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/inout.BaseResponse'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/inout.BaseResponse'
+        "403":
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/inout.BaseResponse'
+      security:
+      - BearerAuth: []
+      summary: Get billing overview
+      tags:
+      - Billing
   /api/v1/organizations/{id}/invite:
     post:
       consumes:
@@ -1052,6 +1763,51 @@ paths:
       summary: Get pending invites
       tags:
       - Organization Management
+  /api/v1/organizations/{id}/invoices:
+    get:
+      consumes:
+      - application/json
+      description: Get invoices for an organization
+      parameters:
+      - description: Bearer token
+        format: Bearer {token}
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      - description: Organization ID
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: Page number
+        in: query
+        name: page
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/billing.InvoiceListOut'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/inout.BaseResponse'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/inout.BaseResponse'
+        "403":
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/inout.BaseResponse'
+      security:
+      - BearerAuth: []
+      summary: Get invoices
+      tags:
+      - Billing
   /api/v1/organizations/{id}/members:
     get:
       consumes:
@@ -1203,6 +1959,589 @@ paths:
       summary: Update member role
       tags:
       - Organization Management
+  /api/v1/organizations/{id}/payment-methods:
+    get:
+      consumes:
+      - application/json
+      description: Get all payment methods for an organization
+      parameters:
+      - description: Bearer token
+        format: Bearer {token}
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      - description: Organization ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/payment.PaymentMethodListOut'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/inout.BaseResponse'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/inout.BaseResponse'
+        "403":
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/inout.BaseResponse'
+      security:
+      - BearerAuth: []
+      summary: Get payment methods
+      tags:
+      - Payment Methods
+    post:
+      consumes:
+      - application/json
+      description: Create a new payment method for an organization
+      parameters:
+      - description: Bearer token
+        format: Bearer {token}
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      - description: Organization ID
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: Payment method data
+        in: body
+        name: paymentMethod
+        required: true
+        schema:
+          $ref: '#/definitions/payment.CreatePaymentMethodRequest'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/payment.PaymentMethodOut'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/inout.BaseResponse'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/inout.BaseResponse'
+        "403":
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/inout.BaseResponse'
+      security:
+      - BearerAuth: []
+      summary: Create payment method
+      tags:
+      - Payment Methods
+  /api/v1/organizations/{id}/payment-methods/{pmId}:
+    delete:
+      consumes:
+      - application/json
+      description: Delete a payment method
+      parameters:
+      - description: Bearer token
+        format: Bearer {token}
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      - description: Organization ID
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: Payment Method ID
+        in: path
+        name: pmId
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/inout.BaseResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/inout.BaseResponse'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/inout.BaseResponse'
+        "403":
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/inout.BaseResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/inout.BaseResponse'
+      security:
+      - BearerAuth: []
+      summary: Delete payment method
+      tags:
+      - Payment Methods
+    put:
+      consumes:
+      - application/json
+      description: Update an existing payment method
+      parameters:
+      - description: Bearer token
+        format: Bearer {token}
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      - description: Organization ID
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: Payment Method ID
+        in: path
+        name: pmId
+        required: true
+        type: string
+      - description: Payment method data
+        in: body
+        name: paymentMethod
+        required: true
+        schema:
+          $ref: '#/definitions/payment.UpdatePaymentMethodRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/payment.PaymentMethodOut'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/inout.BaseResponse'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/inout.BaseResponse'
+        "403":
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/inout.BaseResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/inout.BaseResponse'
+      security:
+      - BearerAuth: []
+      summary: Update payment method
+      tags:
+      - Payment Methods
+  /api/v1/organizations/{id}/payment-methods/{pmId}/set-default:
+    put:
+      consumes:
+      - application/json
+      description: Set a payment method as the default for the organization
+      parameters:
+      - description: Bearer token
+        format: Bearer {token}
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      - description: Organization ID
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: Payment Method ID
+        in: path
+        name: pmId
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/inout.BaseResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/inout.BaseResponse'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/inout.BaseResponse'
+        "403":
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/inout.BaseResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/inout.BaseResponse'
+      security:
+      - BearerAuth: []
+      summary: Set default payment method
+      tags:
+      - Payment Methods
+  /api/v1/organizations/{id}/subscription:
+    get:
+      consumes:
+      - application/json
+      description: Get current subscription for an organization
+      parameters:
+      - description: Bearer token
+        format: Bearer {token}
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      - description: Organization ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/subscription.SubscriptionOut'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/inout.BaseResponse'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/inout.BaseResponse'
+        "403":
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/inout.BaseResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/inout.BaseResponse'
+      security:
+      - BearerAuth: []
+      summary: Get organization subscription
+      tags:
+      - Subscriptions
+  /api/v1/organizations/{id}/subscription/cancel:
+    post:
+      consumes:
+      - application/json
+      description: Cancel an organization's subscription
+      parameters:
+      - description: Bearer token
+        format: Bearer {token}
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      - description: Organization ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/inout.BaseResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/inout.BaseResponse'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/inout.BaseResponse'
+        "403":
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/inout.BaseResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/inout.BaseResponse'
+      security:
+      - BearerAuth: []
+      summary: Cancel subscription
+      tags:
+      - Subscriptions
+  /api/v1/organizations/{id}/subscription/change-plan:
+    put:
+      consumes:
+      - application/json
+      description: Change the plan for an existing subscription
+      parameters:
+      - description: Bearer token
+        format: Bearer {token}
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      - description: Organization ID
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: Plan change data
+        in: body
+        name: plan
+        required: true
+        schema:
+          $ref: '#/definitions/subscription.ChangePlanRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/subscription.SubscriptionOut'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/inout.BaseResponse'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/inout.BaseResponse'
+        "403":
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/inout.BaseResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/inout.BaseResponse'
+      security:
+      - BearerAuth: []
+      summary: Change subscription plan
+      tags:
+      - Subscriptions
+  /api/v1/organizations/{id}/subscription/create:
+    post:
+      consumes:
+      - application/json
+      description: Create a new subscription for an organization
+      parameters:
+      - description: Bearer token
+        format: Bearer {token}
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      - description: Organization ID
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: Subscription data
+        in: body
+        name: subscription
+        required: true
+        schema:
+          $ref: '#/definitions/subscription.CreateSubscriptionRequest'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/subscription.SubscriptionOut'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/inout.BaseResponse'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/inout.BaseResponse'
+        "403":
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/inout.BaseResponse'
+      security:
+      - BearerAuth: []
+      summary: Create subscription
+      tags:
+      - Subscriptions
+  /api/v1/organizations/{id}/subscription/reactivate:
+    post:
+      consumes:
+      - application/json
+      description: Reactivate a cancelled subscription
+      parameters:
+      - description: Bearer token
+        format: Bearer {token}
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      - description: Organization ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/subscription.SubscriptionOut'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/inout.BaseResponse'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/inout.BaseResponse'
+        "403":
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/inout.BaseResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/inout.BaseResponse'
+      security:
+      - BearerAuth: []
+      summary: Reactivate subscription
+      tags:
+      - Subscriptions
+  /api/v1/organizations/{id}/subscription/usage:
+    get:
+      consumes:
+      - application/json
+      description: Get current usage metrics for an organization's subscription
+      parameters:
+      - description: Bearer token
+        format: Bearer {token}
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      - description: Organization ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/subscription.SubscriptionUsageOut'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/inout.BaseResponse'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/inout.BaseResponse'
+        "403":
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/inout.BaseResponse'
+      security:
+      - BearerAuth: []
+      summary: Get subscription usage
+      tags:
+      - Subscriptions
+  /api/v1/plans:
+    get:
+      consumes:
+      - application/json
+      description: Get all available subscription plans
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/plan.PlanListOut'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/inout.BaseResponse'
+      summary: Get all plans
+      tags:
+      - Plans
+  /api/v1/plans/{id}:
+    get:
+      consumes:
+      - application/json
+      description: Get specific plan information by ID
+      parameters:
+      - description: Plan ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/plan.PlanOut'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/inout.BaseResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/inout.BaseResponse'
+      summary: Get plan by ID
+      tags:
+      - Plans
+  /api/v1/plans/compare:
+    get:
+      consumes:
+      - application/json
+      description: Get all plans for comparison
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/plan.PlanComparisonOut'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/inout.BaseResponse'
+      summary: Compare plans
+      tags:
+      - Plans
   /api/v1/users/account:
     delete:
       consumes:

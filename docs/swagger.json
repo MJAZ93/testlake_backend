@@ -253,14 +253,6 @@
                         "schema": {
                             "$ref": "#/definitions/auth.SignUpRequest"
                         }
-                    },
-                    {
-                        "type": "string",
-                        "format": "Bearer {token}",
-                        "description": "Bearer token",
-                        "name": "Authorization",
-                        "in": "header",
-                        "required": true
                     }
                 ],
                 "responses": {
@@ -304,6 +296,219 @@
                 "responses": {
                     "200": {
                         "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/inout.BaseResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/invoices/{id}": {
+            "get": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Get a specific invoice by ID",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Billing"
+                ],
+                "summary": "Get invoice",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "format": "Bearer {token}",
+                        "description": "Bearer token",
+                        "name": "Authorization",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "Invoice ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/billing.InvoiceOut"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/inout.BaseResponse"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "schema": {
+                            "$ref": "#/definitions/inout.BaseResponse"
+                        }
+                    },
+                    "403": {
+                        "description": "Forbidden",
+                        "schema": {
+                            "$ref": "#/definitions/inout.BaseResponse"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "$ref": "#/definitions/inout.BaseResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/invoices/{id}/download": {
+            "get": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Download a specific invoice",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Billing"
+                ],
+                "summary": "Download invoice",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "format": "Bearer {token}",
+                        "description": "Bearer token",
+                        "name": "Authorization",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "Invoice ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "302": {
+                        "description": "Redirect to invoice PDF"
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/inout.BaseResponse"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "schema": {
+                            "$ref": "#/definitions/inout.BaseResponse"
+                        }
+                    },
+                    "403": {
+                        "description": "Forbidden",
+                        "schema": {
+                            "$ref": "#/definitions/inout.BaseResponse"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "$ref": "#/definitions/inout.BaseResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/invoices/{id}/pay": {
+            "post": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Process payment for an invoice",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Billing"
+                ],
+                "summary": "Pay invoice",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "format": "Bearer {token}",
+                        "description": "Bearer token",
+                        "name": "Authorization",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "Invoice ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "description": "Payment data",
+                        "name": "payment",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/billing.PayInvoiceRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/billing.PaymentOut"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/inout.BaseResponse"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "schema": {
+                            "$ref": "#/definitions/inout.BaseResponse"
+                        }
+                    },
+                    "403": {
+                        "description": "Forbidden",
+                        "schema": {
+                            "$ref": "#/definitions/inout.BaseResponse"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
                         "schema": {
                             "$ref": "#/definitions/inout.BaseResponse"
                         }
@@ -630,6 +835,138 @@
                 }
             }
         },
+        "/api/v1/organizations/{id}/billing/history": {
+            "get": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Get billing history for an organization",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Billing"
+                ],
+                "summary": "Get billing history",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "format": "Bearer {token}",
+                        "description": "Bearer token",
+                        "name": "Authorization",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "Organization ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "type": "integer",
+                        "description": "Page number",
+                        "name": "page",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/billing.BillingHistoryOut"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/inout.BaseResponse"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "schema": {
+                            "$ref": "#/definitions/inout.BaseResponse"
+                        }
+                    },
+                    "403": {
+                        "description": "Forbidden",
+                        "schema": {
+                            "$ref": "#/definitions/inout.BaseResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/organizations/{id}/billing/overview": {
+            "get": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Get billing overview for an organization",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Billing"
+                ],
+                "summary": "Get billing overview",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "format": "Bearer {token}",
+                        "description": "Bearer token",
+                        "name": "Authorization",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "Organization ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/billing.BillingOverviewOut"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/inout.BaseResponse"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "schema": {
+                            "$ref": "#/definitions/inout.BaseResponse"
+                        }
+                    },
+                    "403": {
+                        "description": "Forbidden",
+                        "schema": {
+                            "$ref": "#/definitions/inout.BaseResponse"
+                        }
+                    }
+                }
+            }
+        },
         "/api/v1/organizations/{id}/invite": {
             "post": {
                 "security": [
@@ -770,6 +1107,75 @@
                     },
                     "404": {
                         "description": "Not Found",
+                        "schema": {
+                            "$ref": "#/definitions/inout.BaseResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/organizations/{id}/invoices": {
+            "get": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Get invoices for an organization",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Billing"
+                ],
+                "summary": "Get invoices",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "format": "Bearer {token}",
+                        "description": "Bearer token",
+                        "name": "Authorization",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "Organization ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "type": "integer",
+                        "description": "Page number",
+                        "name": "page",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/billing.InvoiceListOut"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/inout.BaseResponse"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "schema": {
+                            "$ref": "#/definitions/inout.BaseResponse"
+                        }
+                    },
+                    "403": {
+                        "description": "Forbidden",
                         "schema": {
                             "$ref": "#/definitions/inout.BaseResponse"
                         }
@@ -994,6 +1400,896 @@
                     },
                     "403": {
                         "description": "Forbidden",
+                        "schema": {
+                            "$ref": "#/definitions/inout.BaseResponse"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "$ref": "#/definitions/inout.BaseResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/organizations/{id}/payment-methods": {
+            "get": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Get all payment methods for an organization",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Payment Methods"
+                ],
+                "summary": "Get payment methods",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "format": "Bearer {token}",
+                        "description": "Bearer token",
+                        "name": "Authorization",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "Organization ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/payment.PaymentMethodListOut"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/inout.BaseResponse"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "schema": {
+                            "$ref": "#/definitions/inout.BaseResponse"
+                        }
+                    },
+                    "403": {
+                        "description": "Forbidden",
+                        "schema": {
+                            "$ref": "#/definitions/inout.BaseResponse"
+                        }
+                    }
+                }
+            },
+            "post": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Create a new payment method for an organization",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Payment Methods"
+                ],
+                "summary": "Create payment method",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "format": "Bearer {token}",
+                        "description": "Bearer token",
+                        "name": "Authorization",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "Organization ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "description": "Payment method data",
+                        "name": "paymentMethod",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/payment.CreatePaymentMethodRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Created",
+                        "schema": {
+                            "$ref": "#/definitions/payment.PaymentMethodOut"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/inout.BaseResponse"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "schema": {
+                            "$ref": "#/definitions/inout.BaseResponse"
+                        }
+                    },
+                    "403": {
+                        "description": "Forbidden",
+                        "schema": {
+                            "$ref": "#/definitions/inout.BaseResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/organizations/{id}/payment-methods/{pmId}": {
+            "put": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Update an existing payment method",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Payment Methods"
+                ],
+                "summary": "Update payment method",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "format": "Bearer {token}",
+                        "description": "Bearer token",
+                        "name": "Authorization",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "Organization ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "Payment Method ID",
+                        "name": "pmId",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "description": "Payment method data",
+                        "name": "paymentMethod",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/payment.UpdatePaymentMethodRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/payment.PaymentMethodOut"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/inout.BaseResponse"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "schema": {
+                            "$ref": "#/definitions/inout.BaseResponse"
+                        }
+                    },
+                    "403": {
+                        "description": "Forbidden",
+                        "schema": {
+                            "$ref": "#/definitions/inout.BaseResponse"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "$ref": "#/definitions/inout.BaseResponse"
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Delete a payment method",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Payment Methods"
+                ],
+                "summary": "Delete payment method",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "format": "Bearer {token}",
+                        "description": "Bearer token",
+                        "name": "Authorization",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "Organization ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "Payment Method ID",
+                        "name": "pmId",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/inout.BaseResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/inout.BaseResponse"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "schema": {
+                            "$ref": "#/definitions/inout.BaseResponse"
+                        }
+                    },
+                    "403": {
+                        "description": "Forbidden",
+                        "schema": {
+                            "$ref": "#/definitions/inout.BaseResponse"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "$ref": "#/definitions/inout.BaseResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/organizations/{id}/payment-methods/{pmId}/set-default": {
+            "put": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Set a payment method as the default for the organization",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Payment Methods"
+                ],
+                "summary": "Set default payment method",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "format": "Bearer {token}",
+                        "description": "Bearer token",
+                        "name": "Authorization",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "Organization ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "Payment Method ID",
+                        "name": "pmId",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/inout.BaseResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/inout.BaseResponse"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "schema": {
+                            "$ref": "#/definitions/inout.BaseResponse"
+                        }
+                    },
+                    "403": {
+                        "description": "Forbidden",
+                        "schema": {
+                            "$ref": "#/definitions/inout.BaseResponse"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "$ref": "#/definitions/inout.BaseResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/organizations/{id}/subscription": {
+            "get": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Get current subscription for an organization",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Subscriptions"
+                ],
+                "summary": "Get organization subscription",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "format": "Bearer {token}",
+                        "description": "Bearer token",
+                        "name": "Authorization",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "Organization ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/subscription.SubscriptionOut"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/inout.BaseResponse"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "schema": {
+                            "$ref": "#/definitions/inout.BaseResponse"
+                        }
+                    },
+                    "403": {
+                        "description": "Forbidden",
+                        "schema": {
+                            "$ref": "#/definitions/inout.BaseResponse"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "$ref": "#/definitions/inout.BaseResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/organizations/{id}/subscription/cancel": {
+            "post": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Cancel an organization's subscription",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Subscriptions"
+                ],
+                "summary": "Cancel subscription",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "format": "Bearer {token}",
+                        "description": "Bearer token",
+                        "name": "Authorization",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "Organization ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/inout.BaseResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/inout.BaseResponse"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "schema": {
+                            "$ref": "#/definitions/inout.BaseResponse"
+                        }
+                    },
+                    "403": {
+                        "description": "Forbidden",
+                        "schema": {
+                            "$ref": "#/definitions/inout.BaseResponse"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "$ref": "#/definitions/inout.BaseResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/organizations/{id}/subscription/change-plan": {
+            "put": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Change the plan for an existing subscription",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Subscriptions"
+                ],
+                "summary": "Change subscription plan",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "format": "Bearer {token}",
+                        "description": "Bearer token",
+                        "name": "Authorization",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "Organization ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "description": "Plan change data",
+                        "name": "plan",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/subscription.ChangePlanRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/subscription.SubscriptionOut"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/inout.BaseResponse"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "schema": {
+                            "$ref": "#/definitions/inout.BaseResponse"
+                        }
+                    },
+                    "403": {
+                        "description": "Forbidden",
+                        "schema": {
+                            "$ref": "#/definitions/inout.BaseResponse"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "$ref": "#/definitions/inout.BaseResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/organizations/{id}/subscription/create": {
+            "post": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Create a new subscription for an organization",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Subscriptions"
+                ],
+                "summary": "Create subscription",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "format": "Bearer {token}",
+                        "description": "Bearer token",
+                        "name": "Authorization",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "Organization ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "description": "Subscription data",
+                        "name": "subscription",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/subscription.CreateSubscriptionRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Created",
+                        "schema": {
+                            "$ref": "#/definitions/subscription.SubscriptionOut"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/inout.BaseResponse"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "schema": {
+                            "$ref": "#/definitions/inout.BaseResponse"
+                        }
+                    },
+                    "403": {
+                        "description": "Forbidden",
+                        "schema": {
+                            "$ref": "#/definitions/inout.BaseResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/organizations/{id}/subscription/reactivate": {
+            "post": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Reactivate a cancelled subscription",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Subscriptions"
+                ],
+                "summary": "Reactivate subscription",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "format": "Bearer {token}",
+                        "description": "Bearer token",
+                        "name": "Authorization",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "Organization ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/subscription.SubscriptionOut"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/inout.BaseResponse"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "schema": {
+                            "$ref": "#/definitions/inout.BaseResponse"
+                        }
+                    },
+                    "403": {
+                        "description": "Forbidden",
+                        "schema": {
+                            "$ref": "#/definitions/inout.BaseResponse"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "$ref": "#/definitions/inout.BaseResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/organizations/{id}/subscription/usage": {
+            "get": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Get current usage metrics for an organization's subscription",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Subscriptions"
+                ],
+                "summary": "Get subscription usage",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "format": "Bearer {token}",
+                        "description": "Bearer token",
+                        "name": "Authorization",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "Organization ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/subscription.SubscriptionUsageOut"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/inout.BaseResponse"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "schema": {
+                            "$ref": "#/definitions/inout.BaseResponse"
+                        }
+                    },
+                    "403": {
+                        "description": "Forbidden",
+                        "schema": {
+                            "$ref": "#/definitions/inout.BaseResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/plans": {
+            "get": {
+                "description": "Get all available subscription plans",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Plans"
+                ],
+                "summary": "Get all plans",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/plan.PlanListOut"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/inout.BaseResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/plans/compare": {
+            "get": {
+                "description": "Get all plans for comparison",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Plans"
+                ],
+                "summary": "Compare plans",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/plan.PlanComparisonOut"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/inout.BaseResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/plans/{id}": {
+            "get": {
+                "description": "Get specific plan information by ID",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Plans"
+                ],
+                "summary": "Get plan by ID",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Plan ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/plan.PlanOut"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
                         "schema": {
                             "$ref": "#/definitions/inout.BaseResponse"
                         }
@@ -1656,6 +2952,243 @@
                 }
             }
         },
+        "billing.BillingHistoryItem": {
+            "type": "object",
+            "properties": {
+                "amount": {
+                    "type": "number"
+                },
+                "currency": {
+                    "type": "string"
+                },
+                "date": {
+                    "type": "string"
+                },
+                "description": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "string"
+                },
+                "status": {
+                    "type": "string"
+                },
+                "type": {
+                    "description": "\"invoice\" or \"payment\"",
+                    "type": "string"
+                }
+            }
+        },
+        "billing.BillingHistoryOut": {
+            "type": "object",
+            "properties": {
+                "error_code": {
+                    "type": "integer"
+                },
+                "error_description": {
+                    "type": "string"
+                },
+                "list": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/billing.BillingHistoryItem"
+                    }
+                },
+                "meta": {
+                    "$ref": "#/definitions/inout.PaginationMeta"
+                }
+            }
+        },
+        "billing.BillingOverview": {
+            "type": "object",
+            "properties": {
+                "current_plan": {
+                    "$ref": "#/definitions/plan.Plan"
+                },
+                "current_subscription": {
+                    "$ref": "#/definitions/subscription.Subscription"
+                },
+                "current_usage": {
+                    "$ref": "#/definitions/subscription.UsageMetrics"
+                },
+                "next_billing_amount": {
+                    "type": "number"
+                },
+                "next_billing_date": {
+                    "type": "string"
+                },
+                "plan_limits": {
+                    "$ref": "#/definitions/subscription.PlanLimits"
+                },
+                "recent_payments": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/payment.Payment"
+                    }
+                },
+                "unpaid_invoices": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/billing.Invoice"
+                    }
+                }
+            }
+        },
+        "billing.BillingOverviewOut": {
+            "type": "object",
+            "properties": {
+                "data": {
+                    "$ref": "#/definitions/billing.BillingOverview"
+                },
+                "error_code": {
+                    "type": "integer"
+                },
+                "error_description": {
+                    "type": "string"
+                }
+            }
+        },
+        "billing.Invoice": {
+            "type": "object",
+            "properties": {
+                "amount": {
+                    "type": "number"
+                },
+                "billing_period_end": {
+                    "type": "string"
+                },
+                "billing_period_start": {
+                    "type": "string"
+                },
+                "created_at": {
+                    "type": "string"
+                },
+                "currency": {
+                    "type": "string"
+                },
+                "due_date": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "string"
+                },
+                "invoice_number": {
+                    "type": "string"
+                },
+                "invoice_url": {
+                    "type": "string"
+                },
+                "line_items": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/billing.InvoiceLineItem"
+                    }
+                },
+                "organization_id": {
+                    "type": "string"
+                },
+                "paid_at": {
+                    "type": "string"
+                },
+                "paypal_invoice_id": {
+                    "type": "string"
+                },
+                "status": {
+                    "$ref": "#/definitions/model.InvoiceStatus"
+                },
+                "subscription_id": {
+                    "type": "string"
+                },
+                "tax_amount": {
+                    "type": "number"
+                },
+                "total_amount": {
+                    "type": "number"
+                },
+                "updated_at": {
+                    "type": "string"
+                }
+            }
+        },
+        "billing.InvoiceLineItem": {
+            "type": "object",
+            "properties": {
+                "description": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "string"
+                },
+                "quantity": {
+                    "type": "integer"
+                },
+                "total_price": {
+                    "type": "number"
+                },
+                "unit_price": {
+                    "type": "number"
+                }
+            }
+        },
+        "billing.InvoiceListOut": {
+            "type": "object",
+            "properties": {
+                "error_code": {
+                    "type": "integer"
+                },
+                "error_description": {
+                    "type": "string"
+                },
+                "list": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/billing.Invoice"
+                    }
+                },
+                "meta": {
+                    "$ref": "#/definitions/inout.PaginationMeta"
+                }
+            }
+        },
+        "billing.InvoiceOut": {
+            "type": "object",
+            "properties": {
+                "data": {
+                    "$ref": "#/definitions/billing.Invoice"
+                },
+                "error_code": {
+                    "type": "integer"
+                },
+                "error_description": {
+                    "type": "string"
+                }
+            }
+        },
+        "billing.PayInvoiceRequest": {
+            "type": "object",
+            "required": [
+                "payment_method_id"
+            ],
+            "properties": {
+                "payment_method_id": {
+                    "type": "string"
+                }
+            }
+        },
+        "billing.PaymentOut": {
+            "type": "object",
+            "properties": {
+                "data": {
+                    "$ref": "#/definitions/payment.Payment"
+                },
+                "error_code": {
+                    "type": "integer"
+                },
+                "error_description": {
+                    "type": "string"
+                }
+            }
+        },
         "inout.BaseResponse": {
             "type": "object",
             "properties": {
@@ -1697,6 +3230,34 @@
                 "AuthProviderApple"
             ]
         },
+        "model.BillingCycle": {
+            "type": "string",
+            "enum": [
+                "monthly",
+                "yearly"
+            ],
+            "x-enum-varnames": [
+                "BillingCycleMonthly",
+                "BillingCycleYearly"
+            ]
+        },
+        "model.InvoiceStatus": {
+            "type": "string",
+            "enum": [
+                "draft",
+                "sent",
+                "paid",
+                "cancelled",
+                "refunded"
+            ],
+            "x-enum-varnames": [
+                "InvoiceStatusDraft",
+                "InvoiceStatusSent",
+                "InvoiceStatusPaid",
+                "InvoiceStatusCancelled",
+                "InvoiceStatusRefunded"
+            ]
+        },
         "model.OrganizationStatus": {
             "type": "string",
             "enum": [
@@ -1708,6 +3269,41 @@
                 "OrganizationStatusActive",
                 "OrganizationStatusSuspended",
                 "OrganizationStatusCancelled"
+            ]
+        },
+        "model.PaymentMethodEnum": {
+            "type": "string",
+            "enum": [
+                "paypal"
+            ],
+            "x-enum-varnames": [
+                "PaymentMethodEnumPayPal"
+            ]
+        },
+        "model.PaymentMethodType": {
+            "type": "string",
+            "enum": [
+                "paypal"
+            ],
+            "x-enum-varnames": [
+                "PaymentMethodTypePayPal"
+            ]
+        },
+        "model.PaymentStatus": {
+            "type": "string",
+            "enum": [
+                "pending",
+                "completed",
+                "failed",
+                "cancelled",
+                "refunded"
+            ],
+            "x-enum-varnames": [
+                "PaymentStatusPending",
+                "PaymentStatusCompleted",
+                "PaymentStatusFailed",
+                "PaymentStatusCancelled",
+                "PaymentStatusRefunded"
             ]
         },
         "model.PlanType": {
@@ -1723,6 +3319,23 @@
                 "PlanTypeStarter",
                 "PlanTypeProfessional",
                 "PlanTypeEnterprise"
+            ]
+        },
+        "model.SubscriptionStatus": {
+            "type": "string",
+            "enum": [
+                "active",
+                "cancelled",
+                "suspended",
+                "expired",
+                "pending"
+            ],
+            "x-enum-varnames": [
+                "SubscriptionStatusActive",
+                "SubscriptionStatusCancelled",
+                "SubscriptionStatusSuspended",
+                "SubscriptionStatusExpired",
+                "SubscriptionStatusPending"
             ]
         },
         "model.UserStatus": {
@@ -2013,6 +3626,427 @@
                 },
                 "plan_type": {
                     "$ref": "#/definitions/model.PlanType"
+                }
+            }
+        },
+        "payment.CreatePaymentMethodRequest": {
+            "type": "object",
+            "required": [
+                "paypal_email"
+            ],
+            "properties": {
+                "is_default": {
+                    "type": "boolean"
+                },
+                "payment_method_type": {
+                    "$ref": "#/definitions/model.PaymentMethodType"
+                },
+                "paypal_email": {
+                    "type": "string"
+                },
+                "paypal_payer_id": {
+                    "type": "string"
+                }
+            }
+        },
+        "payment.Payment": {
+            "type": "object",
+            "properties": {
+                "amount": {
+                    "type": "number"
+                },
+                "created_at": {
+                    "type": "string"
+                },
+                "currency": {
+                    "type": "string"
+                },
+                "failure_reason": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "string"
+                },
+                "invoice_id": {
+                    "type": "string"
+                },
+                "organization_id": {
+                    "type": "string"
+                },
+                "payment_method": {
+                    "$ref": "#/definitions/model.PaymentMethodEnum"
+                },
+                "paypal_payer_id": {
+                    "type": "string"
+                },
+                "paypal_payment_id": {
+                    "type": "string"
+                },
+                "processed_at": {
+                    "type": "string"
+                },
+                "status": {
+                    "$ref": "#/definitions/model.PaymentStatus"
+                },
+                "subscription_id": {
+                    "type": "string"
+                },
+                "updated_at": {
+                    "type": "string"
+                }
+            }
+        },
+        "payment.PaymentMethod": {
+            "type": "object",
+            "properties": {
+                "created_at": {
+                    "type": "string"
+                },
+                "created_by": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "string"
+                },
+                "is_active": {
+                    "type": "boolean"
+                },
+                "is_default": {
+                    "type": "boolean"
+                },
+                "organization_id": {
+                    "type": "string"
+                },
+                "payment_method_type": {
+                    "$ref": "#/definitions/model.PaymentMethodType"
+                },
+                "paypal_email": {
+                    "type": "string"
+                },
+                "paypal_payer_id": {
+                    "type": "string"
+                },
+                "updated_at": {
+                    "type": "string"
+                }
+            }
+        },
+        "payment.PaymentMethodListOut": {
+            "type": "object",
+            "properties": {
+                "data": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/payment.PaymentMethod"
+                    }
+                },
+                "error_code": {
+                    "type": "integer"
+                },
+                "error_description": {
+                    "type": "string"
+                }
+            }
+        },
+        "payment.PaymentMethodOut": {
+            "type": "object",
+            "properties": {
+                "data": {
+                    "$ref": "#/definitions/payment.PaymentMethod"
+                },
+                "error_code": {
+                    "type": "integer"
+                },
+                "error_description": {
+                    "type": "string"
+                }
+            }
+        },
+        "payment.UpdatePaymentMethodRequest": {
+            "type": "object",
+            "properties": {
+                "is_default": {
+                    "type": "boolean"
+                },
+                "paypal_email": {
+                    "type": "string"
+                },
+                "paypal_payer_id": {
+                    "type": "string"
+                }
+            }
+        },
+        "plan.Plan": {
+            "type": "object",
+            "properties": {
+                "created_at": {
+                    "type": "string"
+                },
+                "description": {
+                    "type": "string"
+                },
+                "features": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "id": {
+                    "type": "string"
+                },
+                "is_active": {
+                    "type": "boolean"
+                },
+                "max_environments": {
+                    "type": "integer"
+                },
+                "max_projects": {
+                    "type": "integer"
+                },
+                "max_schemas": {
+                    "type": "integer"
+                },
+                "max_test_records_per_schema": {
+                    "type": "integer"
+                },
+                "max_users": {
+                    "type": "integer"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "price_monthly": {
+                    "type": "number"
+                },
+                "price_yearly": {
+                    "type": "number"
+                },
+                "slug": {
+                    "type": "string"
+                },
+                "updated_at": {
+                    "type": "string"
+                }
+            }
+        },
+        "plan.PlanComparison": {
+            "type": "object",
+            "properties": {
+                "plans": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/plan.Plan"
+                    }
+                }
+            }
+        },
+        "plan.PlanComparisonOut": {
+            "type": "object",
+            "properties": {
+                "data": {
+                    "$ref": "#/definitions/plan.PlanComparison"
+                },
+                "error_code": {
+                    "type": "integer"
+                },
+                "error_description": {
+                    "type": "string"
+                }
+            }
+        },
+        "plan.PlanListOut": {
+            "type": "object",
+            "properties": {
+                "error_code": {
+                    "type": "integer"
+                },
+                "error_description": {
+                    "type": "string"
+                },
+                "list": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/plan.Plan"
+                    }
+                }
+            }
+        },
+        "plan.PlanOut": {
+            "type": "object",
+            "properties": {
+                "data": {
+                    "$ref": "#/definitions/plan.Plan"
+                },
+                "error_code": {
+                    "type": "integer"
+                },
+                "error_description": {
+                    "type": "string"
+                }
+            }
+        },
+        "subscription.ChangePlanRequest": {
+            "type": "object",
+            "required": [
+                "billing_cycle",
+                "new_plan_id"
+            ],
+            "properties": {
+                "billing_cycle": {
+                    "$ref": "#/definitions/model.BillingCycle"
+                },
+                "new_plan_id": {
+                    "type": "string"
+                }
+            }
+        },
+        "subscription.CreateSubscriptionRequest": {
+            "type": "object",
+            "required": [
+                "billing_cycle",
+                "plan_id"
+            ],
+            "properties": {
+                "billing_cycle": {
+                    "$ref": "#/definitions/model.BillingCycle"
+                },
+                "plan_id": {
+                    "type": "string"
+                }
+            }
+        },
+        "subscription.PlanLimits": {
+            "type": "object",
+            "properties": {
+                "max_environments": {
+                    "type": "integer"
+                },
+                "max_projects": {
+                    "type": "integer"
+                },
+                "max_schemas": {
+                    "type": "integer"
+                },
+                "max_test_records_per_schema": {
+                    "type": "integer"
+                },
+                "max_users": {
+                    "type": "integer"
+                }
+            }
+        },
+        "subscription.Subscription": {
+            "type": "object",
+            "properties": {
+                "billing_cycle": {
+                    "$ref": "#/definitions/model.BillingCycle"
+                },
+                "cancel_at_period_end": {
+                    "type": "boolean"
+                },
+                "cancelled_at": {
+                    "type": "string"
+                },
+                "created_at": {
+                    "type": "string"
+                },
+                "created_by": {
+                    "type": "string"
+                },
+                "current_period_end": {
+                    "type": "string"
+                },
+                "current_period_start": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "string"
+                },
+                "organization_id": {
+                    "type": "string"
+                },
+                "paypal_subscription_id": {
+                    "type": "string"
+                },
+                "plan_id": {
+                    "type": "string"
+                },
+                "status": {
+                    "$ref": "#/definitions/model.SubscriptionStatus"
+                },
+                "trial_end": {
+                    "type": "string"
+                },
+                "updated_at": {
+                    "type": "string"
+                }
+            }
+        },
+        "subscription.SubscriptionOut": {
+            "type": "object",
+            "properties": {
+                "data": {
+                    "$ref": "#/definitions/subscription.Subscription"
+                },
+                "error_code": {
+                    "type": "integer"
+                },
+                "error_description": {
+                    "type": "string"
+                }
+            }
+        },
+        "subscription.SubscriptionUsageOut": {
+            "type": "object",
+            "properties": {
+                "data": {
+                    "$ref": "#/definitions/subscription.UsageData"
+                },
+                "error_code": {
+                    "type": "integer"
+                },
+                "error_description": {
+                    "type": "string"
+                }
+            }
+        },
+        "subscription.UsageData": {
+            "type": "object",
+            "properties": {
+                "current_usage": {
+                    "$ref": "#/definitions/subscription.UsageMetrics"
+                },
+                "period_end": {
+                    "type": "string"
+                },
+                "period_start": {
+                    "type": "string"
+                },
+                "plan_limits": {
+                    "$ref": "#/definitions/subscription.PlanLimits"
+                }
+            }
+        },
+        "subscription.UsageMetrics": {
+            "type": "object",
+            "properties": {
+                "api_requests_count": {
+                    "type": "integer"
+                },
+                "environments_count": {
+                    "type": "integer"
+                },
+                "projects_count": {
+                    "type": "integer"
+                },
+                "schemas_count": {
+                    "type": "integer"
+                },
+                "test_records_count": {
+                    "type": "integer"
+                },
+                "users_count": {
+                    "type": "integer"
                 }
             }
         },
