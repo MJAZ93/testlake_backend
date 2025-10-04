@@ -122,7 +122,7 @@ func (controller BillingController) GetBillingOverview(context *gin.Context) {
 
 // GetInvoices returns invoices for an organization
 func (controller BillingController) GetInvoices(context *gin.Context) {
-	orgIDParam := context.Param("orgId")
+	orgIDParam := context.Param("id")
 	organizationID, err := uuid.Parse(orgIDParam)
 	if err != nil {
 		utils.ReportBadRequest(context, "Invalid organization ID")

@@ -28,6 +28,7 @@ type OrganizationSubscriptionStatus string
 
 const (
 	OrganizationSubscriptionStatusActive    OrganizationSubscriptionStatus = "active"
+	OrganizationSubscriptionStatusPending   OrganizationSubscriptionStatus = "pending"
 	OrganizationSubscriptionStatusPastDue   OrganizationSubscriptionStatus = "past_due"
 	OrganizationSubscriptionStatusCancelled OrganizationSubscriptionStatus = "cancelled"
 	OrganizationSubscriptionStatusSuspended OrganizationSubscriptionStatus = "suspended"

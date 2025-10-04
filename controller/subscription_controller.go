@@ -2,6 +2,7 @@ package controller
 
 import (
 	"errors"
+	"fmt"
 	"net/http"
 	"testlake/dao"
 	"testlake/inout"
@@ -131,7 +132,14 @@ func (controller SubscriptionController) CreateSubscription(context *gin.Context
 		return
 	}
 
-	// Update organization plan information
+	// Create invoice for the subscription
+	err = controller.createInvoiceForSubscription(newSubscription, plan)
+	if err != nil {
+		utils.ReportInternalServerError(context, "Failed to create invoice")
+		return
+	}
+
+	// Update organization plan information (but keep subscription status as pending until invoice is paid)
 	orgDao := dao.NewOrganizationDao()
 	org, err := orgDao.GetByID(organizationID)
 	if err != nil {
@@ -141,7 +149,7 @@ func (controller SubscriptionController) CreateSubscription(context *gin.Context
 
 	org.PlanID = &plan.ID
 	org.BillingCycle = request.BillingCycle
-	org.SubscriptionStatus = model.OrganizationSubscriptionStatusActive
+	org.SubscriptionStatus = model.OrganizationSubscriptionStatusPending
 	org.NextBillingDate = &periodEnd
 	err = orgDao.Update(org)
 	if err != nil {
@@ -425,6 +433,53 @@ func (controller SubscriptionController) GetSubscriptionUsage(context *gin.Conte
 	}
 
 	context.JSON(http.StatusOK, response)
+}
+
+// Helper method to create invoice for subscription
+func (controller SubscriptionController) createInvoiceForSubscription(subscription *model.Subscription, plan *model.Plan) error {
+	invoiceDao := dao.NewInvoiceDao()
+
+	// Generate invoice number
+	invoiceNumber, err := invoiceDao.GenerateInvoiceNumber()
+	if err != nil {
+		return err
+	}
+
+	// Calculate amount based on billing cycle
+	var amount float64
+	if subscription.BillingCycle == model.BillingCycleMonthly {
+		amount = plan.PriceMonthly
+	} else {
+		amount = plan.PriceYearly
+	}
+
+	// Calculate due date (e.g., 30 days from now)
+	dueDate := time.Now().AddDate(0, 0, 30)
+
+	// Create invoice
+	invoice := &model.Invoice{
+		OrganizationID:     subscription.OrganizationID,
+		SubscriptionID:     &subscription.ID,
+		InvoiceNumber:      invoiceNumber,
+		Amount:             amount,
+		TaxAmount:          0, // Tax calculation can be added later
+		TotalAmount:        amount,
+		Currency:           "USD",
+		Status:             model.InvoiceStatusSent,
+		BillingPeriodStart: &subscription.CurrentPeriodStart,
+		BillingPeriodEnd:   &subscription.CurrentPeriodEnd,
+		DueDate:            &dueDate,
+	}
+
+	// Create line item
+	lineItem := model.InvoiceLineItem{
+		Description: fmt.Sprintf("%s Plan - %s", plan.Name, string(subscription.BillingCycle)),
+		Quantity:    1,
+		UnitPrice:   amount,
+		TotalPrice:  amount,
+	}
+
+	return invoiceDao.CreateWithLineItems(invoice, []model.InvoiceLineItem{lineItem})
 }
 
 // Helper method to verify organization access

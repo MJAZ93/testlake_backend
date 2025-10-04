@@ -1,0 +1,3 @@
+2025/08/15 18:53:08 [ERROR] Failed to load email confirmation template | Email: signup1755276788317076000@example.com | Error: failed to parse template email_confirmation.html: open templates/email_confirmation.html: no such file or directory
+2025/08/15 18:53:09 [ERROR] Failed to load email confirmation template | Email: tokenuser1755276789010007000@example.com | Error: failed to parse template email_confirmation.html: open templates/email_confirmation.html: no such file or directory
+2025/08/15 18:53:09 [ERROR] Failed to load email confirmation template | Email: testcontroller1755276789577408000@example.com | Error: failed to parse template email_confirmation.html: open templates/email_confirmation.html: no such file or directory

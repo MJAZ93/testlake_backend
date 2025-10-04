@@ -55,6 +55,7 @@ func Connect() {
 		&model.EmailVerificationToken{},
 		&model.PaymentMethod{},
 		&model.Subscription{},
+		&model.Invoice{},
 	)
 	if err != nil {
 		log.Fatal("Failed to run database migrations:", err)
